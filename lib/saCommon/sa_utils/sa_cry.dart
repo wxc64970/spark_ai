@@ -10,8 +10,8 @@ class SACryptoUtil {
   }
 
   // AES 密钥和 IV
-  static final _key = Key.fromUtf8('fg263q3gq0jm1i42');
-  static final _iv = IV.fromUtf8('ock2IEymV51AOPNC');
+  static final _key = Key.fromUtf8('MvnB6A0kVzLY3CnF');
+  static final _iv = IV.fromUtf8('VAsuFScd6f9UBhwE');
 
   /// 加密（输出 Hex）
   static String encrypt(String content) {
