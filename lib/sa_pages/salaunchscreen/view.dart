@@ -13,14 +13,18 @@ class SalaunchscreenPage extends GetView<SalaunchscreenController> {
   Widget _buildView() {
     return Stack(
       children: [
-        // Image.asset("assets/images/strat_bg@2x.png", width: Get.width, height: Get.height, fit: BoxFit.cover),
+        SizedBox(width: Get.width, height: Get.height),
+        Image.asset("assets/images/sa_01.png", width: Get.width, height: 600.w, fit: BoxFit.contain),
         Positioned.fill(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // Image.asset("assets/images/logo@2x.png", width: 232.w, fit: BoxFit.contain),
+              SizedBox(height: 360.w),
+              Image.asset("assets/images/sa_60.png", width: 200.w, fit: BoxFit.contain),
+              SizedBox(height: 32.w),
+              Image.asset("assets/images/sa_61.png", width: 226.w, fit: BoxFit.contain),
               SizedBox(height: 60.w),
-              Center(child: LoadingAnimationWidget.dotsTriangle(color: SAAppColors.primaryColor, size: 30)),
+              Center(child: LoadingAnimationWidget.halfTriangleDot(color: SAAppColors.primaryColor, size: 30)),
               const SizedBox(height: 50),
             ],
           ),

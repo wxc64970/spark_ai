@@ -85,7 +85,7 @@ class SamaskController extends GetxController {
       }
       print(state.maskList.length);
       //  state.maskList.clear();
-      state.emptyType.value = state.maskList.isEmpty ? EmptyType.noSearch : null;
+      state.emptyType.value = state.maskList.isEmpty ? EmptyType.noData : null;
       print(state.emptyType.value);
     } catch (e) {
       state.emptyType.value = state.maskList.isEmpty ? EmptyType.noNetwork : null;
