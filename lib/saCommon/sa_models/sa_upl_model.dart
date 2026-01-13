@@ -10,9 +10,9 @@ class SAImgUpModle {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SAImgUpModle.fromJson(Map<String, dynamic> json) => SAImgUpModle(estimatedTime: json['estimated_time'], uid: json['uid']);
+  factory SAImgUpModle.fromJson(Map<String, dynamic> json) => SAImgUpModle(estimatedTime: json['tcnbnr'], uid: json['maeowl']);
 
-  Map<String, dynamic> toJson() => {'estimated_time': estimatedTime, 'uid': uid};
+  Map<String, dynamic> toJson() => {'tcnbnr': estimatedTime, 'maeowl': uid};
 }
 
 class ImageResultRes {
@@ -27,9 +27,9 @@ class ImageResultRes {
   String toRawJson() => json.encode(toJson());
 
   factory ImageResultRes.fromJson(Map<String, dynamic> json) =>
-      ImageResultRes(results: json['results'] == null ? [] : List<String>.from(json['results']!.map((x) => x)), status: json['status'], uid: json['uid']);
+      ImageResultRes(results: json['results'] == null ? [] : List<String>.from(json['results']!.map((x) => x)), status: json['status'], uid: json['maeowl']);
 
-  Map<String, dynamic> toJson() => {'results': results == null ? [] : List<dynamic>.from(results!.map((x) => x)), 'status': status, 'uid': uid};
+  Map<String, dynamic> toJson() => {'results': results == null ? [] : List<dynamic>.from(results!.map((x) => x)), 'status': status, 'maeowl': uid};
 }
 
 class ImageVideoResult {
@@ -57,7 +57,7 @@ class ImageVideoResItem {
 
   String toRawJson() => json.encode(toJson());
 
-  factory ImageVideoResItem.fromJson(Map<String, dynamic> json) => ImageVideoResItem(uid: json["uid"], status: json["status"], resultPath: json["result_path"]);
+  factory ImageVideoResItem.fromJson(Map<String, dynamic> json) => ImageVideoResItem(uid: json["maeowl"], status: json["status"], resultPath: json["cwctdd"]);
 
-  Map<String, dynamic> toJson() => {"uid": uid, "status": status, "result_path": resultPath};
+  Map<String, dynamic> toJson() => {"maeowl": uid, "status": status, "cwctdd": resultPath};
 }

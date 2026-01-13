@@ -37,7 +37,7 @@ class SAThirdPartyService {
     try {
       final storage = Get.find<SALocalStorage>();
       String deviceId = await storage.getDeviceId(isOrigin: true);
-      String appToken = '4ulfgemf3hq8';
+      String appToken = EnvConfig.adJustId;
       AdjustEnvironment env = AdjustEnvironment.production;
 
       AdjustConfig config = AdjustConfig(appToken, env)

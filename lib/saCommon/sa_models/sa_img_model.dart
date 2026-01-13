@@ -11,7 +11,7 @@ class SAImgStyle {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SAImgStyle.fromJson(Map<String, dynamic> json) => SAImgStyle(name: json["name"], style: json["style"], icon: json["icon"]);
+  factory SAImgStyle.fromJson(Map<String, dynamic> json) => SAImgStyle(name: json["yvosho"], style: json["dnrbes"], icon: json["icon"]);
 
-  Map<String, dynamic> toJson() => {"name": name, "style": style, "icon": icon};
+  Map<String, dynamic> toJson() => {"yvosho": name, "dnrbes": style, "icon": icon};
 }

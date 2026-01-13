@@ -16,14 +16,14 @@ class SAMaskModel {
   String toRawJson() => json.encode(toJson());
 
   factory SAMaskModel.fromJson(Map<String, dynamic> json) => SAMaskModel(
-    id: json["id"],
-    userId: json["user_id"],
+    id: json["vhxdej"],
+    userId: json["lnoypv"],
     profileName: json["profile_name"],
-    gender: json["gender"],
-    age: json["age"],
+    gender: json["wldzbd"],
+    age: json["htqcfm"],
     description: json["description"],
     otherInfo: json["other_info"],
   );
 
-  Map<String, dynamic> toJson() => {"id": id, "user_id": userId, "profile_name": profileName, "gender": gender, "age": age, "description": description, "other_info": otherInfo};
+  Map<String, dynamic> toJson() => {"vhxdej": id, "lnoypv": userId, "profile_name": profileName, "wldzbd": gender, "htqcfm": age, "description": description, "other_info": otherInfo};
 }

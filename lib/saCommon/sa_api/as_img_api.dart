@@ -20,7 +20,7 @@ class ImageAPI {
     try {
       const path = SAApiUrl.aiGetHistroy;
       final baseRes = await api.post(path, data: {"character_id": characterId});
-      final resp = baseRes.data["records"];
+      final resp = baseRes.data["goiscj"];
       return resp == null
           ? []
           : (resp as List).map((e) {

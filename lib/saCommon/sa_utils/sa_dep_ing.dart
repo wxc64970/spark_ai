@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spark_ai/main.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 /// 依赖注入配置类
@@ -95,7 +96,9 @@ class SADependencyInjection {
 
     // 获取设备ID
     final deviceId = await storage.getDeviceId();
-    // final encryptedDeviceId = SACryptoUtil.encrypt(deviceId);
+    final encryptedDeviceId = SACryptoUtil.encrypt(deviceId);
+    log.d("[DI]: Device ID: $deviceId");
+    log.d("[DI]: Encrypted Device ID: $encryptedDeviceId");
 
     // 获取应用版本
     final version = await SAInfoUtils.version();
@@ -107,14 +110,7 @@ class SADependencyInjection {
     final platform = EnvConfig.platform;
 
     // 批量设置全局请求头
-    SADioClient.instance.setHeaders({
-      // 'FyDXhtibFxTDOP0Hp': platform,
-      // 'FyDXhtibFxTDOP0H': encryptedDeviceId,
-      "Platform": platform,
-      "device-id": deviceId,
-      'version': version,
-      'lang': lang,
-    });
+    SADioClient.instance.setHeaders({'pppdgb7roqqonqzcp': platform, 'pppdgb7roqqonqzc': encryptedDeviceId, 'version': version, 'lang': lang});
   }
 
   /// 初始化第三方服务

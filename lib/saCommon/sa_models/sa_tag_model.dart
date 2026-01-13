@@ -11,9 +11,9 @@ class SATagsModel {
   String toRawJson() => json.encode(toJson());
 
   factory SATagsModel.fromJson(Map<String, dynamic> json) =>
-      SATagsModel(labelType: json["label_type"], tags: json["tags"] == null ? [] : List<TagModel>.from(json["tags"]!.map((x) => TagModel.fromJson(x))));
+      SATagsModel(labelType: json["label_type"], tags: json["jskdne"] == null ? [] : List<TagModel>.from(json["jskdne"]!.map((x) => TagModel.fromJson(x))));
 
-  Map<String, dynamic> toJson() => {"label_type": labelType, "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x.toJson()))};
+  Map<String, dynamic> toJson() => {"label_type": labelType, "jskdne": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x.toJson()))};
 }
 
 class TagModel {
@@ -28,7 +28,7 @@ class TagModel {
 
   String toRawJson() => json.encode(toJson());
 
-  factory TagModel.fromJson(Map<String, dynamic> json) => TagModel(id: json["id"], name: json["name"], labelType: json["label_type"]);
+  factory TagModel.fromJson(Map<String, dynamic> json) => TagModel(id: json["vhxdej"], name: json["yvosho"], labelType: json["label_type"]);
 
-  Map<String, dynamic> toJson() => {"id": id, "name": name, "label_type": labelType};
+  Map<String, dynamic> toJson() => {"vhxdej": id, "yvosho": name, "label_type": labelType};
 }
