@@ -41,7 +41,7 @@ class SaapplicationController extends GetxController with WidgetsBindingObserver
         SA.audio.stopAll();
         break;
       case AppLifecycleState.resumed:
-        SAAppLogEvent().logSessionEvent();
+        // SAAppLogEvent().logSessionEvent();
         break;
       default:
         break;
