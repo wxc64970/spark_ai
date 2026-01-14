@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:spark_ai/saCommon/sa_values/sa_colors.dart';
 import 'package:spark_ai/sa_pages/index.dart';
 
 class SaapplicationPage extends GetView<SaapplicationController> {
@@ -28,7 +29,7 @@ class SaapplicationPage extends GetView<SaapplicationController> {
   Widget _buildBottomNavigationBar() {
     return Obx(
       () => Container(
-        padding: EdgeInsets.fromLTRB(32.w, 0, 32.w, 84.w),
+        padding: EdgeInsets.fromLTRB(32.w, 0, 32.w, 60.w),
         color: Colors.transparent,
         child: Container(
           height: 100.w,
@@ -38,11 +39,23 @@ class SaapplicationPage extends GetView<SaapplicationController> {
             children: [
               ...List.generate(controller.bottomTabs.length, (index) {
                 var item = controller.bottomTabs[index];
-                return IconButton(
-                  icon: controller.state.page == index ? item['activeIcon'] : item['icon'],
-                  padding: EdgeInsets.zero, // 移除默认内边距
-                  constraints: const BoxConstraints(), // 解除点击区域限制
-                  onPressed: () => controller.handleNavBarTap(index),
+                return Column(
+                  children: [
+                    IconButton(
+                      icon: controller.state.page == index ? item['activeIcon'] : item['icon'],
+                      padding: EdgeInsets.zero, // 移除默认内边距
+                      constraints: const BoxConstraints(), // 解除点击区域限制
+                      onPressed: () => controller.handleNavBarTap(index),
+                    ),
+                    Container(
+                      width: 6.w,
+                      height: 6.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                        color: SAAppColors.primaryColor.withValues(alpha: controller.state.page == index ? 1 : 0),
+                      ),
+                    ),
+                  ],
                 );
               }),
             ],

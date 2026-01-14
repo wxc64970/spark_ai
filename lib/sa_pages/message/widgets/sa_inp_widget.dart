@@ -172,7 +172,7 @@ class _InputBarState extends State<SAInpBar> {
                             highlightColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             child: Center(
-                              child: Image.asset('assets/images/sa_22.png', width: 64.w, fit: BoxFit.contain, color: isSend ? SAAppColors.primaryColor : null),
+                              child: Image.asset(isSend ? 'assets/images/sa_62.png' : 'assets/images/sa_22.png', width: 64.w, fit: BoxFit.contain),
                             ),
                           ),
                           SizedBox(width: 16.w),

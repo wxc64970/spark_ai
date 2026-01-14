@@ -41,7 +41,7 @@ class PolicyWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 48.w),
             child: Text(
               SATextData.subscriptionAutoRenew,
-              style: TextStyle(color: Color(0xFFCCCCCC), fontSize: 20.sp, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Color(0xffFFFFFF).withValues(alpha: 0.5), fontSize: 20.sp, fontWeight: FontWeight.w400),
               textAlign: TextAlign.center,
             ),
           ),
@@ -74,7 +74,14 @@ class PolicyWidget extends StatelessWidget {
       child: Text(
         title,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 24.sp, color: Color(0xFFA5A5B9), fontWeight: FontWeight.w400, decoration: TextDecoration.underline, decorationColor: Color(0xFFA5A5B9), decorationThickness: 1.0),
+        style: TextStyle(
+          fontSize: 24.sp,
+          color: Color(0xffFFFFFF).withValues(alpha: 0.7),
+          fontWeight: FontWeight.w400,
+          decoration: TextDecoration.underline,
+          decorationColor: Color(0xFFA5A5B9),
+          decorationThickness: 1.0,
+        ),
       ),
     );
   }

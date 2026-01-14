@@ -177,7 +177,7 @@ class SAContentWidget extends GetView<SalanguageController> {
             child: Center(
               child: Text(
                 SATextData.language,
-                style: TextStyle(fontSize: 36.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 32.sp, color: Colors.black, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -188,7 +188,7 @@ class SAContentWidget extends GetView<SalanguageController> {
               onTap: () {
                 Get.back();
               },
-              child: Image.asset("assets/images/sa_06.png", width: 64.w, fit: BoxFit.contain),
+              child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
             ),
           ),
         ],

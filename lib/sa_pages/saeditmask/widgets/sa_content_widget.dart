@@ -168,7 +168,7 @@ class SaContentWidget extends GetView<SaeditmaskController> {
             child: Center(
               child: Text(
                 SATextData.createProfileMask,
-                style: TextStyle(fontSize: 36.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 32.sp, color: Colors.black, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -179,7 +179,7 @@ class SaContentWidget extends GetView<SaeditmaskController> {
               onTap: () {
                 Get.back();
               },
-              child: Image.asset("assets/images/sa_06.png", width: 64.w, fit: BoxFit.contain),
+              child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
             ),
           ),
         ],
@@ -256,7 +256,7 @@ class SaContentWidget extends GetView<SaeditmaskController> {
           decoration: BoxDecoration(color: isSelected ? Color(0xff1A2608) : Colors.white, borderRadius: BorderRadius.circular(8.r)),
           child: Row(
             children: [
-              Image.asset(gender.icon, height: 32.w, fit: BoxFit.contain),
+              Image.asset(gender.icon, height: 32.w, fit: BoxFit.contain, color: isSelected ? null : Color(0xffB3B3B3)),
               SizedBox(height: 8.w),
               Text(
                 gender.display,

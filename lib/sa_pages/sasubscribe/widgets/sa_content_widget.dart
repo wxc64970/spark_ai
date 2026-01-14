@@ -120,7 +120,7 @@ class SaContentWidget extends GetView<SasubscribeController> {
           child: Text(
             controller.subscriptionDescription,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xffA5A5B9), fontSize: 20.sp, fontWeight: FontWeight.w400),
+            style: TextStyle(color: Color(0xffFFFFFF).withValues(alpha: 0.7), fontSize: 20.sp, fontWeight: FontWeight.w400),
           ),
         ),
       ),
