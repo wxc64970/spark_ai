@@ -96,7 +96,11 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                       if (widget.subtitle != null) Padding(padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16).copyWith(bottom: 6), child: widget.subtitle!),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(32.r)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(32.r),
+                          border: Border.all(color: Color(0xffF4F7F0), width: 2.w),
+                        ),
                         child: NotificationListener<ScrollNotification>(
                           onNotification: (notification) {
                             // 阻止滚动通知传播到父级，避免与底部表单的拖拽冲突
@@ -112,11 +116,12 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                             dragStartBehavior: DragStartBehavior.down, // 优化拖拽行为
                             style: TextStyle(
                               height: 1.5, // 增加行高
-                              color: Color(0xff6D6C6E),
+                              color: Color(0xff212121),
                               fontSize: 28.sp,
                               fontWeight: FontWeight.w500,
                             ),
                             controller: textController,
+                            cursorColor: Color(0xff212121),
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.zero, // 添加内边距
                               // hintText: LocaleKeys.please_input_custom_text.tr,

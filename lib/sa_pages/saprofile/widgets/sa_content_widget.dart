@@ -61,7 +61,9 @@ class SAContentWidget extends GetView<SaprofileController> {
                         padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 24.w),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
-                          gradient: LinearGradient(colors: [Color(0xffF77DF3), Color(0xffA67DF7)]),
+                          gradient: LinearGradient(
+                            colors: controller.state.collect ? [Color(0xff000000).withValues(alpha: 0.3), Color(0xff000000).withValues(alpha: 0.3)] : [Color(0xffF77DF3), Color(0xffA67DF7)],
+                          ),
                         ),
                         child: Row(
                           children: [

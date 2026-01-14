@@ -61,8 +61,9 @@ class SAContentWidget extends GetView<MessageController> {
                                     DialogWidget.showChatLevel();
                                   },
                                   child: Container(
+                                    width: 48.w,
+                                    height: 48.w,
                                     // margin: EdgeInsets.only(left: 24.w),
-                                    padding: EdgeInsets.all(7.w),
                                     decoration: BoxDecoration(color: Color(0xff999999).withValues(alpha: 0.2), borderRadius: BorderRadius.circular(100.r)),
                                     child: Center(
                                       child: Obx(() {

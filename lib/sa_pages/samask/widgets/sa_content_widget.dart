@@ -59,7 +59,7 @@ class SAContentWidget extends GetView<SamaskController> {
                 constraints: BoxConstraints(maxWidth: 500.w),
                 child: Text(
                   SATextData.selectProfileMask,
-                  style: TextStyle(fontSize: 36.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 32.sp, color: Colors.black, fontWeight: FontWeight.w600),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -73,7 +73,7 @@ class SAContentWidget extends GetView<SamaskController> {
               onTap: () {
                 Get.back();
               },
-              child: Image.asset("assets/images/sa_06.png", width: 64.w, fit: BoxFit.contain),
+              child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
             ),
           ),
           Positioned(
