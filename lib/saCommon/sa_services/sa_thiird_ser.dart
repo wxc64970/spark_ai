@@ -90,8 +90,8 @@ class SAThirdPartyService {
       await remoteConfig.fetchAndActivate();
 
       // 获取配置值
-      maxFreeChatCount = _getConfigValue('Jkl012', remoteConfig.getInt, 50);
-      showClothingCount = _getConfigValue('Mno345', remoteConfig.getInt, 5);
+      maxFreeChatCount = _getConfigValue('Xj7bP3t', remoteConfig.getInt, 50);
+      showClothingCount = _getConfigValue('Tm4gW9n', remoteConfig.getInt, 5);
     } catch (e) {
       log.e('[Firebase]: Remote Config 错误: $e');
       // 使用默认值，不影响应用启动

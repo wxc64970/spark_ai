@@ -23,8 +23,8 @@ class SAFBUtils {
   /// 从远程配置获取Facebook SDK配置
   static Future<Map<String, String>?> _getConfigFromRemote() async {
     try {
-      final String facebookAppIdKey = Platform.isAndroid ? 'Vwx234' : 'Pqr678';
-      final String facebookClientTokenKey = Platform.isAndroid ? 'YzA567' : 'Stu901';
+      final String facebookAppIdKey = Platform.isAndroid ? 'Sd8mK1j' : 'Hn6qY2v';
+      final String facebookClientTokenKey = Platform.isAndroid ? 'Rp2tF6h' : 'Lx3rV5z';
 
       final remoteConfig = FirebaseRemoteConfig.instance;
 
