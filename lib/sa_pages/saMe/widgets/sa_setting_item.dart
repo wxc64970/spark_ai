@@ -41,9 +41,14 @@ class SettingItem extends GetView<SameController> {
                 if (subtitle != null)
                   Padding(
                     padding: EdgeInsets.only(right: 16.w),
-                    child: Text(
-                      subtitle!,
-                      style: TextStyle(fontSize: 28.sp, color: Color(0xffB3B3B3), fontWeight: FontWeight.w500),
+                    child: Container(
+                      constraints: BoxConstraints(maxWidth: 350.w),
+                      child: Text(
+                        subtitle!,
+                        style: TextStyle(fontSize: 28.sp, color: Color(0xffB3B3B3), fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 Image.asset("assets/images/sa_51.png", width: 40.w, fit: BoxFit.contain),

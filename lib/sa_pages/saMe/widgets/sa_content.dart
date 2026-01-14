@@ -45,7 +45,7 @@ class ContentWidget extends GetView<SameController> {
                         onTap: () {
                           controller.pushChooseLang();
                         },
-                        top: 24,
+                        top: 32,
                       );
                     }),
                     SettingItem(title: SATextData.feedback, onTap: controller.feedback, top: 32),
