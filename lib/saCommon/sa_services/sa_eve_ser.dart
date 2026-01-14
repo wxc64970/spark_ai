@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart' show Box, Hive;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:spark_ai/saCommon/index.dart';
-import 'package:uuid/v4.dart';
+import 'package:uuid/v7.dart';
 
 import '../../main.dart';
 
@@ -133,6 +133,7 @@ class SAAppLogEvent {
   Timer? _uploadTimer;
   Timer? _retryTimer;
   bool _isProcessingUpload = false;
+  final uuid = const UuidV7();
 
   final connectTimeout = const Duration(seconds: 20);
   final receiveTimeout = const Duration(seconds: 20);
@@ -185,11 +186,6 @@ class SAAppLogEvent {
     ),
   );
 
-  String uuid() {
-    String uuid = const UuidV4().generate();
-    return uuid;
-  }
-
   // 获取通用参数
   Future<Map<String, dynamic>?> _getCommonParams() async {
     try {
@@ -209,7 +205,7 @@ class SAAppLogEvent {
         return {"isocline": androidId, "trw": gaid, "piraeus": deviceId};
       }
 
-      final logId = uuid();
+      final logId = uuid.generate();
 
       return {
         "fugue": "com.chatj.joyc",

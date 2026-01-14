@@ -76,7 +76,7 @@ class SAVListWidget extends GetView<SasubscribeController> {
             child: Container(
               width: Get.width,
               // margin: EdgeInsets.only(bottom: 16.w),
-              padding: EdgeInsets.symmetric(vertical: 40.w, horizontal: 32.w),
+              padding: EdgeInsets.symmetric(vertical: 32.w, horizontal: 32.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24.r),
                 border: Border.all(width: 2.w, color: isSelected ? Color(0xffDF9A44) : Color(0xffFFFFFF).withValues(alpha: 0.15)),

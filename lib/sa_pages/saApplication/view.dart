@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 import 'package:spark_ai/saCommon/sa_values/sa_colors.dart';
 import 'package:spark_ai/sa_pages/index.dart';
 
@@ -41,11 +42,12 @@ class SaapplicationPage extends GetView<SaapplicationController> {
                 var item = controller.bottomTabs[index];
                 return Column(
                   children: [
-                    IconButton(
-                      icon: controller.state.page == index ? item['activeIcon'] : item['icon'],
-                      padding: EdgeInsets.zero, // 移除默认内边距
-                      constraints: const BoxConstraints(), // 解除点击区域限制
-                      onPressed: () => controller.handleNavBarTap(index),
+                    InkWell(
+                      onTap: () => controller.handleNavBarTap(index),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 24.w, left: 40.w, right: 40.w),
+                        child: controller.state.page == index ? item['activeIcon'] : item['icon'],
+                      ),
                     ),
                     Container(
                       width: 6.w,
