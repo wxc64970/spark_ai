@@ -30,9 +30,9 @@ class PolicyWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildButton(SATextData.privacyPolicy, () => launchUrl(Uri.parse(EnvConfig.privacy))),
+            _buildButton(SATextData.privacyPolicy, Color(0xffFFFFFF).withValues(alpha: 0.7), () => launchUrl(Uri.parse(EnvConfig.privacy))),
             _buildSeparator(),
-            _buildButton(SATextData.termsOfUse, () => launchUrl(Uri.parse(EnvConfig.terms))),
+            _buildButton(SATextData.termsOfUse, Color(0xffFFFFFF).withValues(alpha: 0.7), () => launchUrl(Uri.parse(EnvConfig.terms))),
           ],
         ),
         if (showSubscriptionText) ...[
@@ -54,11 +54,11 @@ class PolicyWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildButton(SATextData.termsOfUse, () => launchUrl(Uri.parse(EnvConfig.terms))),
+        _buildButton(SATextData.termsOfUse, Color(0xffCCCCCC), () => launchUrl(Uri.parse(EnvConfig.terms))),
         SizedBox(width: 16.w),
         _buildSeparator(),
         SizedBox(width: 16.w),
-        _buildButton(SATextData.privacyPolicy, () => launchUrl(Uri.parse(EnvConfig.privacy))),
+        _buildButton(SATextData.privacyPolicy, Color(0xffCCCCCC), () => launchUrl(Uri.parse(EnvConfig.privacy))),
       ],
     );
   }
@@ -68,7 +68,7 @@ class PolicyWidget extends StatelessWidget {
     return Container(width: 1, height: 12, margin: const EdgeInsets.symmetric(horizontal: 8), color: const Color(0xFFCCCCCC));
   }
 
-  Widget _buildButton(String title, VoidCallback onTap) {
+  Widget _buildButton(String title, Color? color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Text(
@@ -76,10 +76,10 @@ class PolicyWidget extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 24.sp,
-          color: Color(0xffFFFFFF).withValues(alpha: 0.7),
+          color: color ?? Color(0xffCCCCCC),
           fontWeight: FontWeight.w400,
           decoration: TextDecoration.underline,
-          decorationColor: Color(0xFFA5A5B9),
+          decorationColor: color ?? Color(0xffCCCCCC),
           decorationThickness: 1.0,
         ),
       ),
