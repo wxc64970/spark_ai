@@ -52,7 +52,7 @@ class SAOtherBlock {
     }
 
     //判断是否有sim卡
-    var hasSim = await SASimBook.cjHasSimCard();
+    var hasSim = await SASimBook.saHasSimCard();
     _log('hasSim status: $hasSim');
     if (!hasSim) {
       return (false, 'no_sim_card');

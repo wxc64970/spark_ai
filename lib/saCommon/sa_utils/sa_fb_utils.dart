@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SAFBUtils {
-  static const MethodChannel _channel = MethodChannel('chatjoyPlugin_face_channel');
+  static const MethodChannel _channel = MethodChannel('sparkPlugin_face_channel');
 
   /// 统一的日志输出方法
   static void _log(String message) {
@@ -68,7 +68,7 @@ class SAFBUtils {
   /// 检查Facebook SDK是否已初始化（原生端状态）
   static Future<bool> checkNativeInitializationStatus() async {
     try {
-      final result = await _channel.invokeMethod('isinitChatJoyFaceSDK');
+      final result = await _channel.invokeMethod('isinitSparkFaceSDK');
       return result as bool? ?? false;
     } catch (e) {
       _log('检查Facebook SDK初始化状态失败: $e');
@@ -90,7 +90,7 @@ class SAFBUtils {
         throw PlatformException(code: 'INVALID_ARGUMENTS', message: 'App ID and Client Token cannot be empty');
       }
 
-      final result = await _channel.invokeMethod('initChatJoyFaceSDK', {'appId': appId, 'clientToken': clientToken});
+      final result = await _channel.invokeMethod('initSparkFaceSDK', {'appId': appId, 'clientToken': clientToken});
       _log('Facebook SDK初始化 result: $result');
     } on PlatformException catch (e) {
       _log('Facebook SDK初始化失败: ${e.message}');
