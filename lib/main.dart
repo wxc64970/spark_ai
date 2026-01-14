@@ -25,11 +25,11 @@ void main() async {
   PaintingBinding.instance.imageCache.maximumSizeBytes = 50 << 20;
 
   try {
-    final isFirstLaunch = SA.storage.isRestart == false;
-    if (isFirstLaunch) {
-      SAAppLogEvent().logInstallEvent();
-    }
-    SAAppLogEvent().logSessionEvent();
+    // final isFirstLaunch = SA.storage.isRestart == false;
+    // if (isFirstLaunch) {
+    //   SAAppLogEvent().logInstallEvent();
+    // }
+    // SAAppLogEvent().logSessionEvent();
   } catch (e, s) {
     log.e('===> main error: $e\n$s');
   }
