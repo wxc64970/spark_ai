@@ -37,10 +37,10 @@
 		<key>NSLocalNetworkUsageDescription</key>
 		<string>Grant local network access.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Upload a photo from your library to set as your chat wallpaper.</string>
+		<string>Upload an image from your gallery to use as your chat background.</string>
 		<key>NSUserTrackingUsageDescription</key>
-		<string>Used to recommend more relevant matches and show you personalized content, like
-			suggesting chat partners you might connect with.</string>
+		<string>Used to recommend better matches and show personalized content, including possible
+			chat partners.</string>
 		<!-- <key>NSMicrophoneUsageDescription</key>
 		<string>We require microphone access to enable speech recognition functionality during your
 			calls.</string>
