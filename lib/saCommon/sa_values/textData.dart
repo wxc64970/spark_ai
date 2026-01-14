@@ -1,305 +1,324 @@
+import 'dart:convert';
+
 class SATextData {
+  static String _decrypt(String encrypted) {
+    return utf8.decode(base64Decode(encrypted));
+  }
+
   // 动态拼接文本（保留方法格式，因包含参数）
   static String deadline(String date) {
-    return 'Deadline: $date';
+    return _decrypt('RGVhZGxpbmU6IA==') + date;
   }
 
   // 动态拼接文本
   static String levelUpValue(String level) {
-    return 'Level $level Reward';
+    return _decrypt('TGV2ZWwg') + level + _decrypt('IFJld2FyZA==');
   }
 
   // 动态拼接文本
   static String diamondPerEdit(String num) {
-    return '$num diamond/edit';
+    return num + _decrypt('IGRpYW1vbmQvZWRpdA==');
   }
 
   // 动态拼接文本
   static String subscriptionInfo(String price, String unit) {
-    return 'You will be charged $price immediately, then $price/$unit thereafter. Your subscription automatically renews unless canceled at least 24 hours before the end of the current period.';
+    return _decrypt(
+      'WW91IHdpbGwgYmUgY2hhcmdlZCAkcHJpY2UgaW1tZWRpYXRlbHksIHRoZW4gJHByaWNlLyR1bml0IHRoZXJlYWZ0ZXIuIFlvdXIgc3Vic2NyaXB0aW9uIGF1dG9tYXRpY2FsbHkgcmVuZXdzIHVubGVzcyBjYW5jZWxlZCBhdCBsZWFzdCAyNCBob3VycyBiZWZvcmUgdGhlIGVuZCBvZiB0aGUgY3VycmVudCBwZXJpb2Qu',
+    );
   }
 
   // 动态拼接文本
   static String vipPriceLtDesc(String price) {
-    return 'You will be charged $price immediately for lifetime access.';
+    return _decrypt('WW91IHdpbGwgYmUgY2hhcmdlZCAkcHJpY2UgaW1tZWRpYXRlbHkgZm9yIGxpZmV0aW1lIGFjY2Vzcy4=');
   }
 
   // 动态拼接文本
   static String vipGet2(String diamond) {
-    return '{{icon}}😄 Call your AI Girlfriend\n{{icon}}🥰 Spicy Photo, Video & Audio\n{{icon}}💎 One-time gift of $diamond diamond\n{{icon}}👏🏻 Unlimited messages & NSFW chats\n{{icon}}🔥 All access to premium features\n{{icon}}❤️ No ads';
+    return _decrypt(
+      'e2ljb2598J+RqOKKk+CfmqggQ2FsbCB5b3VyIEFJIEdpcmxmcmllbmQK7Y+RqOKKk+CfmqggwqDCo8K7IFNwZWN5IFBob3RvLCBWaWRlbyAmIEF1ZGlvCgrvh5Go4oqT4J+aqCBPbmUtdGltZSBnaWZ0IG9mICRkZWFtb25kIGRpYW1vbmQKe2ljb2598J+RqOKKk+CfmqggVW5saW1pdGVkIG1lc3NhZ2VzICYgTlNGVyBjaGF0cwrCoMKjwrvCoMK7IEFsbCBhY2Nlc3MgdG8gcHJlbWl1bSBmZWF0dXJlcwrCoMKjwrvCoMK7IE5vIGFkcw==',
+    );
   }
 
   // 动态拼接文本
   static String ageYearsOlds(String age) {
-    return '$age years old';
+    return age + _decrypt('IHllYXJzIG9sZA==');
   }
 
-  static const String positiveReviewTitle = 'Do You Like Us?';
+  static String get positiveReviewTitle => _decrypt('RG8gWW91IExpa2UgVXM/');
 
   // 动态拼接文本
   static String oneTimePurchaseNote(String price) {
-    return 'Please note that a one-time purchase will result in a one-time charge of $price to you.';
+    return _decrypt('UGxlYXNlIG5vdGUgdGhhdCBhIG9uZS10aW1lIHB1cmNoYXNlIHdpbGwgcmVzdWx0IGluIGEgb25lLXRpbWUgY2hhcmdlIG9mICRwcmljZSB0byB5b3Uu');
   }
 
   // 动态拼接文本
   static String saveNum(String num) {
-    return 'Save $num%';
+    return _decrypt('U2F2ZSAkbnVtJQ==');
   }
 
-  static String get ai_upload_steps => '1.Two steps: Upload a photo, then click generate.\n2.No support for photos of minors.\n3.Upload a front-facing photo.';
-  static String get bestOffer => 'BEST OFFER';
-  static String get editChooseMask => 'This chat already has a mask loaded.You can restart a chat to use another mask.After restarting, the history will lose.';
-  static String get gifts => 'Gifts';
-  static String get introTitle => 'Intro';
-  static String get ai_prompt_examples_img => 'e.g: bikini,lingerie';
-  static String get deleteMaskConfirmation => 'Deleting this mask will restore default chat settings. Confirm?';
-  static String get ai_most_popular => 'Most Popular';
-  static String get legal => 'Legal';
-  static String get searchSirens => 'Type a Name to find Sirens';
-  static String get seach => 'Search';
+  static String get ai_upload_steps =>
+      _decrypt('MS5Ud28gc3RlcHM6IFVwbG9hZCBhIHBob3RvLCB0aGVuIGNsaWNrIGdlbmVyYXRlLgoyLk5vIHN1cHBvcnQgZm9yIHBob3RvcyBvZiBtaW5vcnMuCjMuVXBsb2FkIGEgZnJvbnQtZmFjaW5nIHBob3RvLg==');
+  static String get bestOffer => _decrypt('QkVTVCBPRkZFUg==');
+  static String get editChooseMask =>
+      _decrypt('VGhpcyBjaGF0IGFscmVhZHkgaGFzIGEgbWFzayBsb2FkZWQuWW91IGNhbiByZXN0YXJ0IGEgY2hhdCB0byB1c2UgYW5vdGhlciBtYXNrLkFmdGVyIHJlc3RhcnRpbmcsIHRoZSBoaXN0b3J5IHdpbGwgbG9zZS4=');
+  static String get gifts => _decrypt('R2lmdHM=');
+  static String get introTitle => _decrypt('SW50cm8=');
+  static String get ai_prompt_examples_img => _decrypt('ZS5nOiBiaWtpbmksbGluZ2VyaWU=');
+  static String get deleteMaskConfirmation => _decrypt('RGVsZXRpbmcgdGhpcyBtYXNrIHdpbGwgcmVzdG9yZSBkZWZhdWx0IGNoYXQgc2V0dGluZ3MuIENvbmZpcm0/');
+  static String get ai_most_popular => _decrypt('TW9zdCBQb3B1bGFy');
+  static String get legal => _decrypt('TGVnYWw=');
+  static String get searchSirens => _decrypt('VHlwZSBhIE5hbWUgdG8gZmluZCBTaXJlbnM=');
+  static String get seach => _decrypt('U2VhcmNo');
 
-  static String get vipGet1 => '{{icon}} Endless chatting\n{{icon}} Unlock all filters\n{{icon}} Advanced mode & long memory\n{{icon}} Ad-free';
-  static String get tapToSeeMessages => '*****Tap to see the messages *****';
-  static String get textMessageCallCost => '1 text message: 2 diamond\\nCall AI characters: 10 diamond/min';
-  static String get textMessageCost => '1 text message: 2 diamond\\n1 audio message: 4 diamond\\nCall AI characters: 10 diamond/min';
-  static String get moansForYou => 'Moans for you';
-  static String get ageHint => 'Please input your age';
-  static String get yes => 'Yes';
-  static String get sendAGiftAndGetAPicture => 'Send a gift and get a picture';
-  static String get otherInfoHint => 'Your relationship with the character or important events.';
-  static String get violence => 'Violence';
-  static String get ai_styles => 'Styles:';
-  static String get ai_custom_prompt => 'Custom Prompt:';
-  static String get microphonePermissionRequired => 'Microphone permission is required to make a call.';
-  static String get profileMaskDescription => 'Create a mask profile to interact with the character better. Modifying the mask doesn\'t affect the loaded mask\'s effect.';
-  static String get unlockRoleDescription => 'Become a premium to unlock hot roles and get unlimited chats.';
+  static String get vipGet1 => _decrypt('e2ljb259IEVuZGxlc3MgY2hhdHRpbmcKe2ljb259IFVubG9jayBhbGwgZmlsdGVycwrCoMK7IEFkdmFuY2VkIG1vZGUgJiBsb25nIG1lbW9yeQrCoMK7IEFkLWZyZWU=');
+  static String get tapToSeeMessages => _decrypt('KioqKioqIFRhcCB0byBzZWUgdGhlIG1lc3NhZ2VzICoqKioqKg==');
+  static String get textMessageCallCost => _decrypt('MSB0ZXh0IG1lc3NhZ2U6IDIgZGlhbW9uZFxuQ2FsbCBBSSBjaGFyYWN0ZXJzOiAxMCBkaWFtb25kL21pbg==');
+  static String get textMessageCost => _decrypt('MSB0ZXh0IG1lc3NhZ2U6IDIgZGlhbW9uZFxuMSBhdWRpbyBtZXNzYWdlOiA0IGRpYW1vbmRcbkNhbGwgQUkgY2hhcmFjdGVyczogMTAgZGlhbW9uZC9taW4=');
+  static String get moansForYou => _decrypt('TW9hbnMgZm9yIHlvdQ==');
+  static String get ageHint => _decrypt('UGxlYXNlIGlucHV0IHlvdXIgYWdl');
+  static String get yes => _decrypt('WWVz');
+  static String get sendAGiftAndGetAPicture => _decrypt('U2VuZCBhIGdpZnQgYW5kIGdldCBhIHBpY3R1cmU=');
+  static String get otherInfoHint => _decrypt('WW91ciByZWxhdGlvbnNoaXAgd2l0aCB0aGUgY2hhcmFjdGVyIG9yIGltcG9ydGFudCBldmVudHMu');
+  static String get violence => _decrypt('VmlvbGVuY2U=');
+  static String get ai_styles => _decrypt('U3R5bGVzOg==');
+  static String get ai_custom_prompt => _decrypt('Q3VzdG9tIFByb21wdDo=');
+  static String get microphonePermissionRequired => _decrypt('TWljcm9waG9uZSBwZXJtaXNzaW9uIGlzIHJlcXVpcmVkIHRvIG1ha2UgYSBjYWxsLg==');
+  static String get profileMaskDescription =>
+      _decrypt('Q3JlYXRlIGEgbWFzayBwcm9maWxlIHRvIGludGVyYWN0IHdpdGggdGhlIGNoYXJhY3RlciBiZXR0ZXIuIE1vZGlmeWluZyB0aGUgbWFzayBkb2Vzbid0IGFmZmVjdCB0aGUgbG9hZGVkIG1hc2sncyBlZmZlY3Qu');
+  static String get unlockRoleDescription => _decrypt('QmVjb21lIGEgcHJlbWl1bSB0byB1bmxvY2sgaG90IHJvbGVzIGFuZCBnZXQgdW5saW1pdGVkIGNoYXRzLg==');
 
-  static String get enticingPicture => 'Enticing picture';
-  static String get chatted => 'Chatted';
-  static String get all => 'All';
-  static String get gotToPro => 'Go to Pro';
-  static String get wait30Seconds => 'It may take up to 30 seconds.Please do not close or leave the app';
-  static String get unlockRole => 'Unlock Hot Roles!';
-  static String get chatList => 'Chat list';
-  static String get waitForResponse => 'Please wait for the response';
-  static String get hotVideo => 'Hot Video';
-  static String get saraReceivedYourGift => 'Sara received your gift 🎁';
-  static String get create => 'Create';
-  static String get ai_bonus => 'Bonus';
-  static String get networkError => 'Please check the network connection';
-  static String get unselectAll => 'Unselect All';
-  static String get levelUpIntimacy => 'Level up Intimacy';
-  static String get yourNickname => 'Your nickname';
-  static String get ai_language => 'AI‘s language is';
-  static String get clickSaveToConfirm => 'Click the "Save" button to confirm that it takes effect';
+  static String get enticingPicture => _decrypt('RW50aWNpbmcgcGljdHVyZQ==');
+  static String get chatted => _decrypt('Q2hhdHRlZA==');
+  static String get all => _decrypt('QWxs');
+  static String get gotToPro => _decrypt('R28gdG8gUHJv');
+  static String get wait30Seconds => _decrypt('SXQgbWF5IHRha2UgdXAgdG8gMzAgc2Vjb25kcy5QbGVhc2UgZG8gbm90IGNsb3NlIG9yIGxlYXZlIHRoZSBhcHA=');
+  static String get unlockRole => _decrypt('VW5sb2NrIEhvdCBSb2xlcyE=');
+  static String get chatList => _decrypt('Q2hhdCBsaXN0');
+  static String get waitForResponse => _decrypt('UGxlYXNlIHdhaXQgZm9yIHRoZSByZXNwb25zZQ==');
+  static String get hotVideo => _decrypt('SG90IFZpZGVv');
+  static String get saraReceivedYourGift => _decrypt('U2FyYSByZWNlaXZlZCB5b3VyIGdpZnQg8J+Rjw==');
+  static String get create => _decrypt('Q3JlYXRl');
+  static String get ai_bonus => _decrypt('Qm9udXM=');
+  static String get networkError => _decrypt('UGxlYXNlIGNoZWNrIHRoZSBuZXR3b3JrIGNvbm5lY3Rpb24=');
+  static String get unselectAll => _decrypt('VW5zZWxlY3QgQWxs');
+  static String get levelUpIntimacy => _decrypt('TGV2ZWwgdXAgSW50aW1hY3k=');
+  static String get yourNickname => _decrypt('WW91ciBuaWNrbmFtZQ==');
+  static String get ai_language => _decrypt('QUkncyBsYW5ndWFnZSBpcw==');
+  static String get clickSaveToConfirm => _decrypt('Q2xpY2sgdGhlICJTYXZlIiBidXR0b24gdG8gY29uZmlybSB0aGF0IGl0IHRha2VzIGVmZmVjdA==');
 
-  static String get noSubscriptionAvailable => 'No subscription available';
-  static String get save => 'Save';
-  static String get maxInputLength => 'Maximum input length: 500 characters';
-  static String get feedback => 'Feedback';
-  static String get unlockTextReply => 'Unlock Text Reply';
-  static String get clearHistoryFailed => 'Clear history messages failed!';
-  static String get reportSuccessful => 'Report successful';
-  static String get unlock => 'Unlock';
-  static String get listening => 'Listening...';
-  static String get home => 'Home';
-  static String get hotPhoto => 'Hot photo';
-  static String get createOrderError => 'Create order error';
-  static String get easterEggUnlock => 'Congrats on unlocking the Easter egg feature! You can now upload images to explore the undress function. Give it a shot!';
-  static String get vipMember => 'VIP Member';
-  static String get clothing => 'Clothing';
-  static String get msgTips => 'Replies are generated by Al and fetional';
-  static String get realistic => 'Realistic';
-  static String get dislike => 'Not satisfied, needs improvement.';
-  static String get ai_most_popular_new => 'Most Popular';
-  static String get anime => 'Anime';
-  static String get toCreate => 'To create';
-  static String get yourAge => 'Your Age';
-  static String get notEnough => 'Insufficient balance, please recharge';
-  static String get personalDetails => 'Personal details';
-  static String get message => 'message';
-  static String get ai_photo_label => 'Photo';
-  static String get subFeedback => 'Submit a feedback';
-  static String get dailyReward => 'Daily reward';
-  static String get weekly => 'Weekly';
-  static String get ai_art_consumes_power => 'Great art consumes computational power and time. Every second you wait is transforming into pixels of wonder.';
-  static String get upgradeTochat => 'Upgrade to chat';
-  static String get ai_purchase_balance => 'Purchase Balance';
-  static String get unlockNow => 'Unlock Now';
-  static String get otherInfo => 'Other info';
-  static String get lifetime => 'Lifetime';
-  static String get clearHistoryConfirmation => 'Are you sure to clear all history messages?';
-  static String get longReply => 'Long Reply: like story';
-  static String get vipUpgrade => 'Upgrade to VIP';
+  static String get noSubscriptionAvailable => _decrypt('Tm8gc3Vic2NyaXB0aW9uIGF2YWlsYWJsZQ==');
+  static String get save => _decrypt('U2F2ZQ==');
+  static String get maxInputLength => _decrypt('TWF4aW11bSBpbnB1dCBsZW5ndGg6IDUwMCBjaGFyYWN0ZXJz');
+  static String get feedback => _decrypt('RmVlZGJhY2s=');
+  static String get unlockTextReply => _decrypt('VW5sb2NrIFRleHQgUmVwbHk=');
+  static String get clearHistoryFailed => _decrypt('Q2xlYXIgaGlzdG9yeSBtZXNzYWdlcyBmYWlsZWQh');
+  static String get reportSuccessful => _decrypt('UmVwb3J0IHN1Y2Nlc3NmdWw=');
+  static String get unlock => _decrypt('VW5sb2Nr');
+  static String get listening => _decrypt('TGlzdGVuaW5nLi4u');
+  static String get home => _decrypt('SG9tZQ==');
+  static String get hotPhoto => _decrypt('SG90IHBob3Rv');
+  static String get createOrderError => _decrypt('Q3JlYXRlIG9yZGVyIGVycm9y');
+  static String get easterEggUnlock =>
+      _decrypt('Q29uZ3JhdHMgb24gdW5sb2NraW5nIHRoZSBFYXN0ZXIgZWdnIGZlYXR1cmUhIFlvdSBjYW4gbm93IHVwbG9hZCBpbWFnZXMgdG8gZXhwbG9yZSB0aGUgdW5kcmVzcyBmdW5jdGlvbi4gR2l2ZSBpdCBhIHNob3Qh');
+  static String get vipMember => _decrypt('VklQIE1lbWJlcg==');
+  static String get clothing => _decrypt('Q2xvdGhpbmc=');
+  static String get msgTips => _decrypt('UmVwbGllcyBhcmUgZ2VuZXJhdGVkIGJ5IEFsIGFuZCBmZXRpb25hbA==');
+  static String get realistic => _decrypt('UmVhbGlzdGlj');
+  static String get dislike => _decrypt('Tm90IHNhdGlzZmllZCwgbmVlZHMgaW1wcm92ZW1lbnQu');
+  static String get ai_most_popular_new => _decrypt('TW9zdCBQb3B1bGFy');
+  static String get anime => _decrypt('QW5pbWU=');
+  static String get toCreate => _decrypt('VG8gY3JlYXRl');
+  static String get yourAge => _decrypt('WW91ciBBZ2U=');
+  static String get notEnough => _decrypt('SW5zdWZmaWNpZW50IGJhbGFuY2UsIHBsZWFzZSByZWNoYXJnZQ==');
+  static String get personalDetails => _decrypt('UGVyc29uYWwgZGV0YWlscw==');
+  static String get message => _decrypt('bWVzc2FnZQ==');
+  static String get ai_photo_label => _decrypt('UGhvdG8=');
+  static String get subFeedback => _decrypt('U3VibWl0IGEgZmVlZGJhY2s=');
+  static String get dailyReward => _decrypt('RGFpbHkgcmV3YXJk');
+  static String get weekly => _decrypt('V2Vla2x5');
+  static String get ai_art_consumes_power =>
+      _decrypt('R3JlYXQgYXJ0IGNvbnN1bWVzIGNvbXB1dGF0aW9uYWwgcG93ZXIgYW5kIHRpbWUuIEV2ZXJ5IHNlY29uZCB5b3Ugd2FpdCBpcyB0cmFuc2Zvcm1pbmcgaW50byBwaXhlbHMgb2Ygd29uZGVyLg==');
+  static String get upgradeTochat => _decrypt('VXBncmFkZSB0byBjaGF0');
+  static String get ai_purchase_balance => _decrypt('UHVyY2hhc2UgQmFsYW5jZQ==');
+  static String get unlockNow => _decrypt('VW5sb2NrIE5vdw==');
+  static String get otherInfo => _decrypt('T3RoZXIgaW5mbw==');
+  static String get lifetime => _decrypt('TGlmZXRpbWU=');
+  static String get clearHistoryConfirmation => _decrypt('QXJlIHlvdSBzdXJlIHRvIGNsZWFyIGFsbCBoaXN0b3J5IG1lc3NhZ2VzPw==');
+  static String get longReply => _decrypt('TG9uZyBSZXBseTogbGlrZSBzdG9yeQ==');
+  static String get vipUpgrade => _decrypt('VXBncmFkZSB0byBWSVA=');
 
-  static String get aotoTrans => 'Enable automatic translation?';
-  static String get resetChatBackground => 'Rest chat background';
-  static String get ai_please_enter_custom_prompt => 'Please enter a custom prompt';
-  static String get yourName => 'Your Name';
-  static String get yourGender => 'Your Gender';
-  static String get pleaseInput => 'Please enter content';
-  static String get aiPhoto => 'AI Photo';
-  static String get nice => 'Nice';
-  static String get typeHere => 'Type here...';
-  static String get notEnoughCoins => 'Not enough Coins, call ended.';
-  static String get buyGemsOpenChats => 'Buy Gems to open chats.';
-  static String get illegalDrugs => 'Illegal drugs';
-  static String get report => 'Report';
-  static String get chooseYourTags => 'Choose your tags';
-  static String get expirationTime => 'Expiration time: ';
-  static String get dressUp => 'Dress Up';
-  static String get subscribe => 'Subscribe';
-  static String get yearly => 'Yearly';
-  static String get shortReply => 'Short Reply: like sms';
-  static String get appVersion => 'App version';
-  static String get setChatBackground => 'Custom Chat Background';
-  static String get micPermission => 'Microphone permission is required to make a call.';
-  static String get ai_generate_another => 'Generate another one';
-  static String get male => 'Male';
-  static String get btnContinue => 'Continue';
-  static String get send => 'Send';
-  static String get liked => 'Liked';
-  static String get subscriptionAutoRenew =>
-      'You will be charged immediately, then the same amount every month thereafter. Your subscription automatically renews unless canceled at least 24 hours before the end of the current period. You can manage your subscription and turn off auto-renewal in your account settings after purchase.';
-  static String get selectProfileMask => 'Select Your Profile Mask';
-  static String get uploadAPhoto => 'Upload a photo';
-  static String get description => 'Description';
-  static String get setting => 'Setting';
-  static String get explore => 'Explore';
-  static String get vipGet => '{{icon}}😃 Endless chatting\n{{icon}}🥳 Unlock all filters\n{{icon}}💎 Advanced mode & long memory\n{{icon}}👏Ad-free';
-  static String get backUpdatedSucc => 'Background updated successfully!';
-  static String get upToVip => 'Upgrade to VIP';
-  static String get ai_undress_sweetheart => 'Undress Your Sweetheart Now !!';
-  static String get privacyPolicy => 'Privacy policy';
-  static String get ai_photos => 'photos';
-  static String get openSettings => 'Open settings';
-  static String get termsOfUse => 'Terms of use';
-  static String get intro => 'Intro';
-  static String get deleteChat => 'Delete chat';
+  static String get aotoTrans => _decrypt('RW5hYmxlIGF1dG9tYXRpYyB0cmFuc2xhdGlvbj8=');
+  static String get resetChatBackground => _decrypt('UmVzZXQgY2hhdCBiYWNrZ3JvdW5k');
+  static String get ai_please_enter_custom_prompt => _decrypt('UGxlYXNlIGVudGVyIGEgY3VzdG9tIHByb21wdA==');
+  static String get yourName => _decrypt('WW91ciBOYW1l');
+  static String get yourGender => _decrypt('WW91ciBHZW5kZXI=');
+  static String get pleaseInput => _decrypt('UGxlYXNlIGVudGVyIGNvbnRlbnQ=');
+  static String get aiPhoto => _decrypt('QUkgUGhvdG8=');
+  static String get nice => _decrypt('TmljZQ==');
+  static String get typeHere => _decrypt('VHlwZSBoZXJlLi4u');
+  static String get notEnoughCoins => _decrypt('Tm90IGVub3VnaCBDb2lucywgY2FsbCBlbmRlZC4=');
+  static String get buyGemsOpenChats => _decrypt('QnV5IEdlbXMgdG8gb3BlbiBjaGF0cy4=');
+  static String get illegalDrugs => _decrypt('SWxsZWdhbCBkcnVncw==');
+  static String get report => _decrypt('UmVwb3J0');
+  static String get chooseYourTags => _decrypt('Q2hvb3NlIHlvdXIgdGFncw==');
+  static String get expirationTime => _decrypt('RXhwaXJhdGlvbiB0aW1lOiA=');
+  static String get dressUp => _decrypt('RHJlc3MgVXA=');
+  static String get subscribe => _decrypt('U3Vic2NyaWJl');
+  static String get yearly => _decrypt('WWVhcmx5');
+  static String get shortReply => _decrypt('U2hvcnQgUmVwbHk6IGxpa2Ugc21z');
+  static String get appVersion => _decrypt('QXBwIHZlcnNpb24=');
+  static String get setChatBackground => _decrypt('Q3VzdG9tIENoYXQgQmFja2dyb3VuZA==');
+  static String get micPermission => _decrypt('TWljcm9waG9uZSBwZXJtaXNzaW9uIGlzIHJlcXVpcmVkIHRvIG1ha2UgYSBjYWxsLg==');
+  static String get ai_generate_another => _decrypt('R2VuZXJhdGUgYW5vdGhlciBvbmU=');
+  static String get male => _decrypt('TWFsZQ==');
+  static String get btnContinue => _decrypt('Q29udGludWU=');
+  static String get send => _decrypt('U2VuZA==');
+  static String get liked => _decrypt('TGlrZWQ=');
+  static String get subscriptionAutoRenew => _decrypt(
+    'WW91IHdpbGwgYmUgY2hhcmdlZCBpbW1lZGlhdGVseSwgdGhlbiB0aGUgc2FtZSBhbW91bnQgbW9udGhseSB0aGVyZWFmdGVyLiBZb3VyIHN1YnNjcmlwdGlvbiBhdXRvbWF0aWNhbGx5IHJlbmV3cyB1bmxlc3MgY2FuY2VsZWQgYXQgbGVhc3QgMjQgaG91cnMgYmVmb3JlIHRoZSBlbmQgb2YgdGhlIGN1cnJlbnQgcGVyaW9kLiBZb3UgY2FuIG1hbmFnZSB5b3VyIHN1YnNjcmlwdGlvbiBhbmQgdHVybiBvZmYgYXV0by1yZW5ld2FsIGluIHlvdXIgYWNjb3VudCBzZXR0aW5ncyBhZnRlciBwdXJjaGFzZS4=',
+  );
+  static String get selectProfileMask => _decrypt('U2VsZWN0IFlvdXIgUHJvZmlsZSBNYXNr');
+  static String get uploadAPhoto => _decrypt('VXBsb2FkIGEgcGhvdG8=');
+  static String get description => _decrypt('RGVzY3JpcHRpb24=');
+  static String get setting => _decrypt('U2V0dGluZw==');
+  static String get explore => _decrypt('RXhwbG9yZQ==');
+  static String get vipGet => _decrypt('e2ljb2598J+RqOKKk+CfmqggRW5kbGVzcyBjaGF0dGluZwrCoMK7wqDCo8K7IEFkdmFuY2VkIG1vZGUgJiBsb25nIG1lbW9yeQrCoMK7wqDCo8K7IEFkLWZyZWU=');
+  static String get backUpdatedSucc => _decrypt('QmFja2dyb3VuZCB1cGRhdGVkIHN1Y2Nlc3NmdWxseSE=');
+  static String get upToVip => _decrypt('VXBncmFkZSB0byBWSVA=');
+  static String get ai_undress_sweetheart => _decrypt('VW5kcmVzcyBZb3VyIFN3ZWV0aGVhcnQgTm93ICEh');
+  static String get privacyPolicy => _decrypt('UHJpdmFjeSBwb2xpY3k=');
+  static String get ai_photos => _decrypt('cGhvdG9z');
+  static String get openSettings => _decrypt('T3BlbiBzZXR0aW5ncw==');
+  static String get termsOfUse => _decrypt('VGVybXMgb2YgdXNl');
+  static String get intro => _decrypt('SW50cm8=');
+  static String get deleteChat => _decrypt('RGVsZXRlIGNoYXQ=');
 
-  static String get howToCallYou => 'How do you want your AI girlfriend to call you?';
-  static String get SALoading => 'Loading';
-  static String get ai_video_label => 'Video';
-  static String get ai_prompt_examples_video => 'e.g: A woman takes off her clothes, exposing her breasts and nipples, naked, undressed, nude';
-  static String get restore => 'Restore';
-  static String get giveHerAMoment => 'Give her a moment to enjoy it and take a picture for you 📷';
-  static String get bestChatExperience => 'Enjoy The Best Chat Experience';
-  static String get selectAll => 'Select All';
+  static String get howToCallYou => _decrypt('SG93IGRvIHlvdSB3YW50IHlvdXIgQUkgZ2lybGZyaWVuZCB0byBjYWxsIHlvdT8=');
+  static String get SALoading => _decrypt('TG9hZGluZw==');
+  static String get ai_video_label => _decrypt('VmlkZW8=');
+  static String get ai_prompt_examples_video => _decrypt('ZS5nOiBBIHdvbWFuIHRha2VzIG9mZiBoZXIgY2xvdGhlcywgZXhwb3NpbmcgaGVyIGJyZWFzdHMgYW5kIG5pcHBsZXMsIG5ha2VkLCB1bmRyZXNzZWQsIG51ZGU=');
+  static String get restore => _decrypt('UmVzdG9yZQ==');
+  static String get giveHerAMoment => _decrypt('R2l2ZSBoZXIgYSBtb21lbnQgdG8gZW5qb3kgaXQgYW5kIHRha2UgYSBwaWN0dXJlIGZvciB5b3Ug8J+Rjw==');
+  static String get bestChatExperience => _decrypt('RW5qb3kgVGhlIEJlc3QgQ2hhdCBFeHBlcmllbmNl');
+  static String get selectAll => _decrypt('U2VsZWN0IEFsbA==');
 
-  static String get buy => 'Buy';
-  static String get fillRequiredInfo => 'Please fill in the required information';
-  static String get notSupport => 'Not support';
-  static String get spam => 'Spam';
-  static String get collect => 'Collect';
-  static String get tagsTitle => 'Tags';
-  static String get info => 'Info';
-  static String get female => 'Female';
-  static String get reload => 'Reload';
-  static String get descriptionHint => 'Like: What are your hobbies? islike: what is your dislike? What topics do you like to talk about?';
-  static String get childAbuse => 'Child abuse';
-  static String get speechRecognitionNotSupported => 'Speech recognition not supported on this device.';
-  static String get toys => 'Toys';
-  static String get ai_generation_failed => 'Generation failed.You can try again for free!';
-  static String get confirm => 'Confirm';
-  static String get ai_under_character => 'Under the character';
-  static String get love => 'Great! I\'m loving it.';
-  static String get like => 'Like';
+  static String get buy => _decrypt('QnV5');
+  static String get fillRequiredInfo => _decrypt('UGxlYXNlIGZpbGwgaW4gdGhlIHJlcXVpcmVkIGluZm9ybWF0aW9u');
+  static String get notSupport => _decrypt('Tm90IHN1cHBvcnQ=');
+  static String get spam => _decrypt('U3BhbQ==');
+  static String get collect => _decrypt('Q29sbGVjdA==');
+  static String get tagsTitle => _decrypt('VGFncw==');
+  static String get info => _decrypt('SW5mbw==');
+  static String get female => _decrypt('RmVtYWxl');
+  static String get reload => _decrypt('UmVsb2Fk');
+  static String get descriptionHint => _decrypt('TGlrZTogV2hhdCBhcmUgeW91ciBob2JiaWVzPyBpc2xpa2U6IHdoYXQgaXMgeW91ciBkaXNsaWtlPyBXaGF0IHRvcGljcyBkbyB5b3UgbGlrZSB0byB0YWxrIGFib3V0Pw==');
+  static String get childAbuse => _decrypt('Q2hpbGQgYWJ1c2U=');
+  static String get speechRecognitionNotSupported => _decrypt('U3BlZWNoIHJlY29nbml0aW9uIG5vdCBzdXBwb3J0ZWQgb24gdGhpcyBkZXZpY2Uu');
+  static String get toys => _decrypt('VG95cw==');
+  static String get ai_generation_failed => _decrypt('R2VuZXJhdGlvbiBmYWlsZWQuWW91IGNhbiB0cnkgYWdhaW4gZm9yIGZyZWUh');
+  static String get confirm => _decrypt('Q29uZmlybQ==');
+  static String get ai_under_character => _decrypt('VW5kZXIgdGhlIGNoYXJhY3Rlcg==');
+  static String get love => _decrypt('R3JlYXQhIEknbSBsb3ZpbmcgaXQu');
+  static String get like => _decrypt('TGlrZQ==');
 
-  static String get diamond => 'Diamond';
+  static String get diamond => _decrypt('RGlhbW9uZA==');
 
-  static String get scenarioRestartWarning => 'To active the new scenario,the chat wil be restart and the history will lose.';
-  static String get popular => 'Popular';
-  static String get monthly => 'Monthly';
-  static String get useAvatar => 'Use Al characters\' cover';
-  static String get inputYourNickname => 'Enter your nickname';
-  static String get year => 'year';
-  static String get nonBinary => 'Non-binary';
-  static String get createMaskProfileDescription => 'Create a mask profile to interact with the character better';
-  static String get createProfileMask => 'Create Your Profile Mask';
-  static String get maskAlreadyLoaded => 'This chat already has a mask loaded. You can restart a chat to use another mask. After restarting, the history will lose.';
-  static String get ai_generate => 'Generate';
-  static String get everyDay => '/day';
-  static String get video => 'Video';
-  static String get close => 'Close';
-  static String get activateBenefits => 'Activate Benefits';
-  static String get copyright => 'Copyright';
-  static String get day => 'day';
-  static String get replyMode => 'Reply mode';
-  static String get ai_view_nude => 'View the character\'s nude';
-  static String get optionTitle => 'Option';
-  static String get more => 'More';
-  static String get ai_videos => 'videos';
-  static String get ai_generating_masterpiece => 'Generating your digital masterpiece...';
-  static String get deleteChatConfirmation => 'Are you sure to delete this chat?';
-  static String get ai_make_photo_animated => 'Make your photo animated (NSFW)';
-  static String get ai_generating => 'AI Generating...';
-  static String get noNetwork => 'No network connection';
-  static String get month => 'month';
-  static String get freeChatUsed => 'You\'ve used up your free chat credits. To continue enjoying our service, please consider upgrading to our premium plan.';
-  static String get pickIt => 'Pick it';
-  static String get pleaseInputCustomText => 'Please input your custom text here...';
-  static String get inputNickname => 'Input your nickname';
-  static String get ai_balance => 'Balance:';
-  static String get ai_max_input_length => 'Maximum input length: 500 characters';
-  static String get nickname => 'Your nickname';
-  static String get support => 'Support';
-  static String get clearHistorySuccess => 'Clear history messages success!';
-  static String get someErrorTryAgain => 'Hmm… we lost connection for a bit. Please try again!';
-  static String get language => 'Al’s language';
-  static String get iapNotSupport => 'IAP not supported';
-  static String get maskApplied => 'The mask has been put on for you! Modifying the mask doesn\'t affect the loaded mask\'s effect.';
-  static String get getAiInteractiveVideoChat => 'Get an AI interactive video chat experience';
-  static String get waitingResponse => 'Waiting response…';
+  static String get scenarioRestartWarning => _decrypt('VG8gYWN0aXZlIHRoZSBuZXcgc2NlbmFyaW8sdGhlIGNoYXQgd2lsIGJlIHJlc3RhcnQgYW5kIHRoZSBoaXN0b3J5IHdpbGwgbG9zZS4=');
+  static String get popular => _decrypt('UG9wdWxhcg==');
+  static String get monthly => _decrypt('TW9udGhseQ==');
+  static String get useAvatar => _decrypt('VXNlIEFsIGNoYXJhY3RlcnMnIGNvdmVy');
+  static String get inputYourNickname => _decrypt('RW50ZXIgeW91ciBuaWNrbmFtZQ==');
+  static String get year => _decrypt('eWVhcg==');
+  static String get nonBinary => _decrypt('Tm9uLWJpbmFyeQ==');
+  static String get createMaskProfileDescription => _decrypt('Q3JlYXRlIGEgbWFzayBwcm9maWxlIHRvIGludGVyYWN0IHdpdGggdGhlIGNoYXJhY3RlciBiZXR0ZXI=');
+  static String get createProfileMask => _decrypt('Q3JlYXRlIFlvdXIgUHJvZmlsZSBNYXNr');
+  static String get maskAlreadyLoaded =>
+      _decrypt('VGhpcyBjaGF0IGFscmVhZHkgaGFzIGEgbWFzayBsb2FkZWQuIFlvdSBjYW4gcmVzdGFydCBhIGNoYXQgdG8gdXNlIGFub3RoZXIgbWFzay4gQWZ0ZXIgcmVzdGFydGluZywgdGhlIGhpc3Rvcnktd2lsbCBsb3NlLg==');
+  static String get ai_generate => _decrypt('R2VuZXJhdGU=');
+  static String get everyDay => _decrypt('L2RheQ==');
+  static String get video => _decrypt('VmlkZW8=');
+  static String get close => _decrypt('Q2xvc2U=');
+  static String get activateBenefits => _decrypt('QWN0aXZhdGUgQmVuZWZpdHM=');
+  static String get copyright => _decrypt('Q29weXJpZ2h0');
+  static String get day => _decrypt('ZGF5');
+  static String get replyMode => _decrypt('UmVwbHkgbW9kZQ==');
+  static String get ai_view_nude => _decrypt('VmlldyB0aGUgY2hhcmFjdGVyJ3MgbnVkZQ==');
+  static String get optionTitle => _decrypt('T3B0aW9u');
+  static String get more => _decrypt('TW9yZQ==');
+  static String get ai_videos => _decrypt('dmlkZW9z');
+  static String get ai_generating_masterpiece => _decrypt('R2VuZXJhdGluZyB5b3VyIGRpZ2l0YWwgbWFzdGVycGllY2UuLi4=');
+  static String get deleteChatConfirmation => _decrypt('QXJlIHlvdSBzdXJlIHRvIGRlbGV0ZSB0aGlzIGNoYXQ/');
+  static String get ai_make_photo_animated => _decrypt('TWFrZSB5b3VyIHBob3RvIGFuaW1hdGVkIChOU0ZXKQ==');
+  static String get ai_generating => _decrypt('QUkgR2VuZXJhdGluZy4uLg==');
+  static String get noNetwork => _decrypt('Tm8gbmV0d29yayBjb25uZWN0aW9u');
+  static String get month => _decrypt('bW9udGg=');
+  static String get freeChatUsed =>
+      _decrypt('WW91J3ZlIHVzZWQgdXAgdm91ciBmcmVlIGNoYXQgY3JlZGl0cy4gVG8gY29udGludWUgZW5qb3lpbmcgb3VyIHNlcnZpY2UsIHBsZWFzZSBjb25zaWRlciB1cGdhdGluZyB0byBvdXIgcHJlbWl1bSBwbGFuLg==');
+  static String get pickIt => _decrypt('UGlja0l0');
+  static String get pleaseInputCustomText => _decrypt('UGxlYXNlIGlucHV0IHlvdXIgY3VzdG9tIHRleHQgaGVyZS4uLg==');
+  static String get inputNickname => _decrypt('SW5wdXQgeW91ciBuaWNrbmFtZQ==');
+  static String get ai_balance => _decrypt('QmFsYW5jZTo=');
+  static String get ai_max_input_length => _decrypt('TWF4aW11bSBpbnB1dCBsZW5ndGg6IDUwMCBjaGFyYWN0ZXJz');
+  static String get nickname => _decrypt('WW91ciBuaWNrbmFtZQ==');
+  static String get support => _decrypt('U3VwcG9ydA==');
+  static String get clearHistorySuccess => _decrypt('Q2xlYXIgaGlzdG9yeSBtZXNzYWdlcyBzdWNjZXNzIQ==');
+  static String get someErrorTryAgain => _decrypt('SG1t4oCmIHdlIGxvc3QgY29ubmVjdGlvbiBmb3IgYSBiaXQuIFBsZWFzZSB0cnkgYWdhaW4h');
+  static String get language => _decrypt('QWzigJlzIGxhbmd1YWdl');
+  static String get iapNotSupport => _decrypt('SUFQIG5vdCBzdXBwb3J0ZWQ=');
+  static String get maskApplied => _decrypt('VGhlIG1hc2sgaGFzIGJlZW4gcHV0IG9uIGZvciB5b3UhIE1vZGlmeWluZyB0aGUgbWFzayBkb2Vzbid0IGFmZmVjdCB0aGUgbG9hZGVkIG1hc2sncyBlZmZlY3Qu');
+  static String get getAiInteractiveVideoChat => _decrypt('R2V0IGFuIEFJIGludGVyYWN0aXZlIHZpZGVvIGNoYXQgZXhwZXJpZW5jZQ==');
+  static String get waitingResponse => _decrypt('V2FpdGluZyByZXNwb25zZcKu');
 
-  static String get bestChoice => 'Best choice';
-  static String get invitesYouToVideoCall => 'Invites you to video call…';
-  static String get submit => 'Submit';
-  static String get ai_generate_nude => 'Generate a nude';
-  static String get ai_best_value => 'Best Value';
-  static String get week => 'week';
-  static String get scenario => 'Scenario';
-  static String get ai_upload_steps_extra =>
-      '1.Two steps: Upload a photo, then click generate.\n2.No support for photos of minors.\n3.Upload a front-facing photo.\n4.Does not support multiple people photos.';
-  static String get edit => 'Edit';
-  static String get ai_image_to_video => 'Image to Video';
-  static String get nameHint => 'The name that you want bots to call you';
-  static String get clearHistory => 'Clear history';
-  static String get editScenario => 'Edit scenario';
-  static String get tips => 'Tips';
-  static String get accept => 'It\'s okay, could be better.';
-  static String get restart => 'Restart';
-  static String get chat => 'Chat';
-  static String get autoTrans => 'Automatic Translation';
-  static String get cancel => 'Cancel';
-  static String get noData => 'No data';
-  static String get openChatsUnlock => 'Open chats and Unlock Hot photo, Porn Video, Moans, Generate Images & Videos, Call Girls!';
-  static String get ai_ai_photo => 'AI Photo';
-  static String get undrMessage => 'Undress anyone anytime! Look what\'s under her clothes!';
-  static String get tryNow => 'Try Now!';
-  static String get Moments => 'Moments';
-  static String get undress => 'Undress';
-  static String get tease => 'Tease';
-  static String get mask => 'Mask';
+  static String get bestChoice => _decrypt('QmVzdCBjaG9pY2U=');
+  static String get invitesYouToVideoCall => _decrypt('SW52aXRlcyB5b3UgdG8gdmlkZW8gY2FsbOKu');
+  static String get submit => _decrypt('U3VibWl0');
+  static String get ai_generate_nude => _decrypt('R2VuZXJhdGUgYSBudWRl');
+  static String get ai_best_value => _decrypt('QmVzdCBWYWx1ZQ==');
+  static String get week => _decrypt('d2Vlaw==');
+  static String get scenario => _decrypt('U2NlbmFyaW8=');
+  static String get ai_upload_steps_extra => _decrypt(
+    'MS5Ud28gc3RlcHM6IFVwbG9hZCBhIHBob3RvLCB0aGVuIGNsaWNrIGdlbmVyYXRlLgoyLk5vIHN1cHBvcnQgZm9yIHBob3RvcyBvZiBtaW5vcnMuCjMuVXBsb2FkIGEgZnJvbnQtZmFjaW5nIHBob3RvLgo0LkRvZXMgbm90IHN1cHBvcnQgbXVsdGlwbGUgcGVvcGxlIHBob3Rvcy4=',
+  );
+  static String get edit => _decrypt('RWRpdA==');
+  static String get ai_image_to_video => _decrypt('SW1hZ2UgdG8gVmlkZW8=');
+  static String get nameHint => _decrypt('VGhlIG5hbWUgdGhhdCB5b3Ugd2FudCBib3RzIHRvIGNhbGwgeW91');
+  static String get clearHistory => _decrypt('Q2xlYXIgaGlzdG9yeQ==');
+  static String get editScenario => _decrypt('RWRpdCBzY2VuYXJpbw==');
+  static String get tips => _decrypt('VGlwcw==');
+  static String get accept => _decrypt('SXQncyBva2F5LCBjb3VsZCBiZSBiZXR0ZXIu');
+  static String get restart => _decrypt('UmVzdGFydA==');
+  static String get chat => _decrypt('Q2hhdA==');
+  static String get autoTrans => _decrypt('QXV0b21hdGljIFRyYW5zbGF0aW9u');
+  static String get cancel => _decrypt('Q2FuY2Vs');
+  static String get noData => _decrypt('Tm8gZGF0YQ==');
+  static String get openChatsUnlock => _decrypt('T3BlbiBjaGF0cyBhbmQgVW5sb2NrIEhvdCBwaG90bywgUG9ybiBWaWRlbywgTW9hbnMsIEdlbmVyYXRlIEltYWdlcyAmIFZpZGVvcywgQ2FsbCBHaXJscyE=');
+  static String get ai_ai_photo => _decrypt('QUkgUGhvdG8=');
+  static String get undrMessage => _decrypt('VW5kcmVzcyBhbnlvbmUgYW55dGltZSEgTG9vayB3aGF0J3MgdW5kZXIgaGVyIGNsb3RoZXMh');
+  static String get tryNow => _decrypt('VHJ5IE5vdw==');
+  static String get Moments => _decrypt('TW9tZW50cw==');
+  static String get undress => _decrypt('VW5kcmVzcw==');
+  static String get tease => _decrypt('VGVhc2U=');
+  static String get mask => _decrypt('TWFzaw==');
   static List<String> get inputTagsTest => [
-    "What’s the most cherished intimate memory you’ve ever made with another person?",
-    "How much hands-on experience do you have with romantic and physical relationships?",
-    "Have you ever been in a relationship with someone who once dated your friend?",
-    "Where did your first romantic and intimate encounter take place?",
-    "If you could pick any location for an intensely romantic moment, where would you select?",
-    "Is there a particular style or way of approaching physical intimacy that you favor?",
-    "Would you be willing to explore new things when it comes to intimate experiences?",
-    "Do you find a curvy physique or a sculpted, toned body more appealing?",
-    "Can you create a romantic moment that someone will hold in their memory forever?",
-    "What time of day or situation makes you long for a romantic connection the most?",
-    "Would you be comfortable sharing something personal or private about yourself with me?",
-    "Would you be interested in sending and receiving romantic or intimate photos?",
-    "Could you share a picture of yourself with me?",
-    "What’s the most profound romantic bond you’ve ever shared with someone?",
-    "Have you ever had a romantic experience that felt completely enchanting or magical?",
-    "Would you be open to exchanging personal photos from your romantic moments?",
-    "Would you mind if I asked to see a picture of you?",
-    "Have you ever had an intimate moment that altered your perspective on romance?",
-    "What’s your typical way of showing intimacy in a romantic relationship?",
-  ];
-  static String get answer => 'Tips: You can use the "Undress" button to show your undressing style to your partner.';
+    "V2hhdOKAmXMgdGhlIG1vc3QgY2hlcmlzaGVkIGludGltYXRlIG1lbW9yeSB5b3XigJkgZXZlciBtYWRlIHdpdGggYW5vdGhlciBwZXJzb24/",
+    "SG93IG11Y2ggaGFuZHMtb24gZXhwZXJpZW5jZSBkbyB5b3UgaGF2ZSB3aXRoIHJvbWFudGljIGFuZCBwaHlzaWNhbCByZWxhdGlvbnNoaXBz/",
+    "SGF2ZSB5b3UgZXZlciBiZWVuIGluIGEgcmVsYXRpb25zaGlwIHdpdGggc29tZW9uZSB3aG8gb25jZSBkYXRlZCB5b3VyIGZyaWVuZC/",
+    "V2hlcmUgZGlkIHlvdXIgZmlyc3Qgcm9tYW50aWMgYW5kIGludGltYXRlIGVuY291bnRlciB0YWtlIHBsYWNl/",
+    "SWYgeW91IGNvdWxkIHBpY2sgYW55IGxvY2F0aW9uIGZvciBhbiBpbnRlbnNlbHkgcm9tYW50aWMgbW9tZW50LCB3aGVyZSB3b3VsZCB5b3Ugc2VsZWN0/",
+    "SXMgdGhlcmUgYSBwYXJ0aWN1bGFyIHN0eWxlIG9yIHdheSBvZiBhcHByb2FjaGluZyBwaHlzaWNhbCBpbnRpbWFjeSB0aGF0IHlvdSBmYXZvcj8/",
+    "V291bGQgeW91IGJlIHdpbGxpbmcgdG8gZXhwbG9yZSBuZXcgdGhpbmdzIHdoZW4gaXQgY29tZXMgdG8gaW50aW1hdGUgZXhwZXJpZW5jZXM/",
+    "RG8geW91IGZpbmQgYSBjdXJ2eSBwaHlzaXF1ZSBvciBhIHNjdWxwdGVkLCB0b25lZCBib2R5IG1vcmUgYXBwZWFsaW5n/",
+    "Q2FuIHlvdSBjcmVhdGUgYSByb21hbnRpYyBtb21lbnQgdGhhdCBzb21lb25lIHdpbGwgaG9sZCBpbiB0aGVpciBtZW1vcnkgZm9yZXZlcj8/",
+    "V2hhdCB0aW1lIG9mIGRheSBvciBzaXR1YXRpb24gbWFrZXMgeW91IGxvbmcgZm9yIGEgcm9tYW50aWMgY29ubmVjdGlvbiB0aGUgbW9zdD8/",
+    "V291bGQgeW91IGJlIGNvbWZvcnRhYmxlIHNoYXJpbmcgc29tZXRoaW5nIHBlcnNvbmFsIG9yIHByaXZhdGUgYWJvdXQgeW91cnNlbGYgd2l0aCBtZT8/",
+    "V291bGQgeW91IGJlIGludGVyZXN0ZWQgaW4gc2VuZGluZyBhbmQgcmVjZWl2aW5nIHJvbWFudGljIG9yIGludGltYXRlIHBob3Rvcz8/",
+    "Q291bGQgeW91IHNoYXJlIGEgcGljdHVyZSBvZiB5b3Vyc2VsZiB3aXRoIG1l/",
+    "V2hhdOKAmXMgdGhlIG1vc3QgcHJvZm91bmQgcm9tYW50aWMgYm9uZCB5b3XigJkgZXZlciBzaGFyZWQgd2l0aCBzb21lb25l/",
+    "SGF2ZSB5b3UgZXZlciBoYWQgYSByb21hbnRpYyBleHBlcmllbmNlIHRoYXQgZmVsdCBjb21wbGV0ZWx5IGVuY2hhbnRpbmcgb3IgbWFnaWNhbD8/",
+    "V291bGQgeW91IGJlIG9wZW4gdG8gZXhjaGFuZ2luZyBwZXJzb25hbCBwaG90b3MgZnJvbSB5b3VyIHJvbWFudGljIG1vbWVudHM/",
+    "V291bGQgeW91IG1pbmQgaWYgSSBhc2tlZCB0byBzZWUgYSBwaWN0dXJlIG9mIHlvdT8/",
+    "SGF2ZSB5b3UgZXZlciBoYWQgYW4gaW50aW1hdGUgbW9tZW50IHRoYXQgYWx0ZXJlZCB5b3VyIHBlcnNwZWN0aXZlIG9uIHJvbWFuY2U/",
+    "V2hhdOKAmXMgeW91ciB0eXBpY2FsIHdheSBvZiBzaG93aW5nIGludGltYWN5IGluIGEgcm9tYW50aWMgcmVsYXRpb25zaGlw/",
+  ].map(_decrypt).toList();
+  static String get answer => _decrypt('VGlwczogWW91IGNhbiB1c2UgdGhlICJVbmRyZXNzIiBidXR0b24gdG8gc2hvdyB5b3VyIHVuZHJlc3Npbmcgc3R5bGUgdG8geW91ciBwYXJ0bmVyLg==');
 }
