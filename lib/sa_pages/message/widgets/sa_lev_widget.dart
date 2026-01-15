@@ -84,7 +84,7 @@ class SALelWidget extends GetView<MessageController> {
                       ],
                     ),
                     SizedBox(height: 19.w),
-                    SAAnimationProgress(progress: progress, height: 8.w, borderRadius: 24.w, width: Get.width),
+                    SAAnimationProgress(progress: progress, height: 8.w, borderRadius: 24.w, width: 510.w),
                   ],
                 ),
               ),
