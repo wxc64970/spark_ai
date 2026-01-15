@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
 import 'package:spark_ai/saCommon/sa_values/sa_colors.dart';
 import 'package:spark_ai/sa_pages/index.dart';
 
@@ -14,7 +13,7 @@ class SaapplicationPage extends GetView<SaapplicationController> {
       controller: controller.pageController,
       onPageChanged: controller.handlePageChanged,
 
-      children: [SachatPage(), SadiscoveryPage(), SamePage()],
+      children: [SachatPage(), SadiscoveryPage(), SaaiphotoPage(), SamomentsPage(), SamePage()],
     );
   }
 

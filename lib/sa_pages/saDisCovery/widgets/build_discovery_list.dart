@@ -109,8 +109,8 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
       ),
       itemBuilder: (context, index) {
         final data = list[index];
-        // final displayTags = data.buildDisplayTags();
-        // final shouldShowTags = displayTags.isNotEmpty && SA.storage.isSAB;
+        final displayTags = data.buildDisplayTags();
+        final shouldShowTags = displayTags.isNotEmpty && SA.storage.isSAB;
         return InkWell(
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
@@ -220,6 +220,7 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                                           ),
                                   ],
                                 ),
+                                if (shouldShowTags) ...[SizedBox(height: 8.w), _buildTags(displayTags)],
                                 SizedBox(height: 10.w),
                                 Text(
                                   data.aboutMe ?? "",
@@ -241,5 +242,28 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         );
       },
     );
+  }
+
+  Widget _buildTags(List<String> displayTags) {
+    return Wrap(
+      spacing: 8.w,
+      crossAxisAlignment: WrapCrossAlignment.start,
+      children: [
+        for (int i = 0; i < displayTags.length; i++) ...[
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 8.w),
+            decoration: BoxDecoration(color: Colors.white38, borderRadius: BorderRadius.circular(40.r)),
+            child: Text(
+              displayTags[i],
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: _getTagColor(displayTags[i])),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Color _getTagColor(String text) {
+    return const Color(0xFFFFFFFF);
   }
 }

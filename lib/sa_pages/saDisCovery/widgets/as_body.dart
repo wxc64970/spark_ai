@@ -58,6 +58,16 @@ class ASBodyWidget extends GetView<SadiscoveryController> {
                   ),
                 ),
               ),
+              if (SA.storage.isSAB)
+                Row(
+                  children: [
+                    SizedBox(width: 32.w),
+                    InkWell(
+                      onTap: () => controller.handleFilter(),
+                      child: Image.asset("assets/images/sa_02.png", width: 48.w, fit: BoxFit.contain),
+                    ),
+                  ],
+                ),
             ],
           ),
           SizedBox(height: 24.w),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 import '../index.dart';
+import 'sa_time_widget.dart';
 import 'sa_vip_list.dart';
 
 /// hello
@@ -14,7 +15,7 @@ class SaContentWidget extends GetView<SasubscribeController> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset("assets/images/sa_45.png", width: Get.width, height: Get.height, fit: BoxFit.cover),
+        Image.asset(SA.storage.isSAB ? "assets/images/sa_65.png" : "assets/images/sa_45.png", width: Get.width, height: Get.height, fit: BoxFit.cover),
         Positioned.fill(child: Container(color: Colors.black45)),
         SizedBox(
           height: Get.height,
@@ -55,10 +56,12 @@ class SaContentWidget extends GetView<SasubscribeController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 326.w),
+                        SA.storage.isSAB ? SizedBox(height: 84.w) : SizedBox(height: 326.w),
+                        if (SA.storage.isSAB) Image.asset("assets/images/sa_63.png", width: 556.w, fit: BoxFit.contain),
+                        if (SA.storage.isSAB) SizedBox(height: 32.w),
                         Stack(
                           children: [
-                            Image.asset("assets/images/sa_46.png", width: Get.width, fit: BoxFit.contain),
+                            Image.asset(SA.storage.isSAB ? "assets/images/sa_64.png" : "assets/images/sa_46.png", width: Get.width, fit: BoxFit.contain),
                             Positioned.fill(
                               child: Container(
                                 padding: EdgeInsets.only(left: 48.w),
@@ -96,7 +99,7 @@ class SaContentWidget extends GetView<SasubscribeController> {
                   ),
                 ),
                 SizedBox(height: 16.w),
-                // if (SA.storage.isSAB) const TimerWidget(),
+                if (SA.storage.isSAB) const TimerWidget(),
                 if (!SA.storage.isSAB) _buildSubscriptionInfo(),
                 SizedBox(height: 16.w),
                 _buildPurchaseButton(),
@@ -130,7 +133,7 @@ class SaContentWidget extends GetView<SasubscribeController> {
   /// 构建购买按钮
   Widget _buildPurchaseButton() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 144.w),
+      padding: EdgeInsets.symmetric(horizontal: 112.w),
       child: ButtonGradientWidget2(
         height: 88,
         width: Get.width,

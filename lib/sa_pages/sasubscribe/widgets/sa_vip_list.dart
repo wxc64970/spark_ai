@@ -140,34 +140,35 @@ class SAVListWidget extends GetView<SasubscribeController> {
           children: [
             Text(
               title,
-              style: TextStyle(fontSize: 28.sp, color: Colors.white, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 8.w),
-            Row(
-              children: [
-                Image.asset("assets/images/sa_20.png", width: 32.w, fit: BoxFit.contain),
-                SizedBox(width: 8.w),
-                Text(
-                  '+${sku.number}',
-                  style: TextStyle(fontSize: 28.sp, color: Colors.white, fontWeight: FontWeight.w500),
-                ),
-              ],
+            Text(
+              originalPrice,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white70, fontSize: 22.sp, decoration: TextDecoration.lineThrough, decorationColor: Colors.white, decorationThickness: 3.w, fontWeight: FontWeight.w400),
             ),
           ],
         ),
         Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              children: [
+                Image.asset("assets/images/sa_20.png", width: 40.w, fit: BoxFit.contain),
+                SizedBox(width: 8.w),
+                Text(
+                  '+${sku.number}',
+                  style: TextStyle(fontFamily: "Montserrat", fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                ),
+              ],
+            ),
             Text(
               price,
-              style: TextStyle(fontSize: 40.sp, color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 24.sp, color: Colors.white, fontWeight: FontWeight.w600),
             ),
+
             //  SizedBox(width: 2),
-            Text(
-              originalPrice,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.lineThrough, decorationColor: Colors.white, decorationThickness: 3.w, fontWeight: FontWeight.w400),
-            ),
           ],
         ),
       ],
@@ -197,38 +198,33 @@ class SAVListWidget extends GetView<SasubscribeController> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w500),
-            ),
-            Text(
-              price,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
         Expanded(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            spacing: 2,
             children: [
               Text(
-                originalPrice,
+                title,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 40.sp, fontWeight: FontWeight.w600),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Colors.white, fontSize: 32.sp, fontWeight: FontWeight.w600),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: FittedBox(
+            ],
+          ),
+        ),
+        Column(
+          spacing: 4.w,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Text(
+                  price,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontFamily: "Montserrat", color: Colors.white, fontSize: 40.sp, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                ),
+                FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
                     '/${SATextData.week}',
@@ -236,9 +232,14 @@ class SAVListWidget extends GetView<SasubscribeController> {
                     style: TextStyle(color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w500),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+            Text(
+              originalPrice,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w600),
+            ),
+          ],
         ),
       ],
     );

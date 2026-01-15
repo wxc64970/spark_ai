@@ -5,6 +5,7 @@ import 'package:spark_ai/main.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 import 'sa_auto_call_controller.dart';
+import 'widgets/sa_filter_widget.dart';
 
 enum HomeListCategroy { all, realistic, anime, dressUp, video }
 
@@ -268,6 +269,25 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
         }
       }
     }
+  }
+
+  handleFilter() async {
+    if (roleTags.isEmpty) {
+      SALoading.show();
+      await loadTags();
+      selectedType.value = roleTags.firstOrNull;
+      SALoading.close();
+    }
+    selectTags.assignAll(cjSelectTags);
+    Get.bottomSheet(SAFilterWidget(), isScrollControlled: true, enableDrag: false, isDismissible: false);
+  }
+
+  handleFilterSubmit() {
+    Get.back();
+    cjSelectTags.assignAll(selectTags);
+    filterEvent.value = (Set<TagModel>.from(cjSelectTags), DateTime.now().millisecondsSinceEpoch);
+    filterEvent.refresh();
+    update();
   }
 
   Future<void> recordInstallTime() async {

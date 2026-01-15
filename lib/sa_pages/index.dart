@@ -11,3 +11,5 @@ export 'sagems/index.dart';
 export 'sasubscribe/index.dart';
 export 'salanguage/index.dart';
 export 'saprofile/index.dart';
+export 'samoments/index.dart';
+export 'saaiphoto/index.dart';
