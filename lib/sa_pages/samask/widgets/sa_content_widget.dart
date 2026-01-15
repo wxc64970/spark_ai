@@ -28,14 +28,17 @@ class SAContentWidget extends GetView<SamaskController> {
 
           child: Column(
             children: [
-              ButtonGradientWidget(
-                onTap: controller.handleChangeMask,
-                height: 88,
-                borderRadius: BorderRadius.circular(100.r),
-                child: Center(
-                  child: Text(
-                    SATextData.pickIt,
-                    style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+              Obx(
+                () => ButtonGradientWidget(
+                  onTap: controller.handleChangeMask,
+                  height: 88,
+                  borderRadius: BorderRadius.circular(100.r),
+                  gradientColors: controller.state.maskList.isEmpty || controller.state.selectedMask.value == null ? [Colors.grey, Colors.grey] : [SAAppColors.primaryColor, SAAppColors.yellowColor],
+                  child: Center(
+                    child: Text(
+                      SATextData.pickIt,
+                      style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
