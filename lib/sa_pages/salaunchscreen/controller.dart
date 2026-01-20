@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spark_ai/ad/sa_my_ad.dart';
 import 'package:spark_ai/main.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
@@ -39,10 +40,27 @@ class SalaunchscreenController extends GetxController {
 
       await SA.login.fetchUserInfo();
 
+      var startTimer = DateTime.now().millisecondsSinceEpoch;
+      await _preloadAd();
+      var endTimer = DateTime.now().millisecondsSinceEpoch;
+      var adTimer = (endTimer - startTimer) / 1000;
+      log.d('启动加载广告时间：$adTimer秒');
+
       _completeSetup();
     } catch (e) {
       log.e('Splash setup error: $e');
       _completeSetup();
+    }
+  }
+
+  Future<void> _preloadAd() async {
+    try {
+      MyAd().preloadAds();
+      // _isAdLoaded = await MyAd().loadOpenAd();
+      // log.d('Ad preload _isAdLoaded: $_isAdLoaded');
+    } catch (e) {
+      // _isAdLoaded = false;
+      log.d('Ad preload error: $e');
     }
   }
 

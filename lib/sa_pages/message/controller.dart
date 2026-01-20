@@ -303,10 +303,6 @@ class MessageController extends GetxController {
           DialogWidget.showPositiveReview();
           SA.storage.setShowGoodCommentDialog2(true);
         }
-        // if (DialogWidget.rateLevel3Shoed == false) {
-        //   DialogWidget.showRateUs(SATextData.rateUsMsg);
-        //   DialogWidget.rateLevel3Shoed = true;
-        // }
       }
     } else {
       checkSendCount();

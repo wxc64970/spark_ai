@@ -73,7 +73,7 @@ class SAImgItem extends StatelessWidget {
                   alignment: Alignment.center,
                   height: double.infinity,
                   width: double.infinity,
-                  decoration: const BoxDecoration(color: Color(0x801C1C1C)),
+                  decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.1)),
                 ),
               ),
             ),

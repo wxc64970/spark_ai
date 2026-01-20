@@ -5,7 +5,10 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:spark_ai/ad/sa_my_ad.dart';
 import 'package:spark_ai/saCommon/index.dart';
+import 'package:spark_ai/saCommon/sa_values/sa_colors.dart';
 
 import '../../index.dart';
 import 'gradient_underline_tabIndicator.dart';
@@ -96,10 +99,19 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
   }
 
   Widget _buildList(ScrollPhysics physics, List<ChaterModel> list, int tabIndex) {
+    // 只在all分类下显示广告
+    controller.nativeAd ??= MyAd().nativeAd;
+    final bool showAd =
+        tabIndex + 1 == HomeListCategroy.all.index &&
+        controller.nativeAd !=
+            null //
+            &&
+        SA.login.vipStatus.value == false;
+    final itemCount = showAd ? list.length + 1 : list.length;
     return GridView.builder(
       key: PageStorageKey("tab_$tabIndex"),
       physics: physics,
-      itemCount: list.length,
+      itemCount: itemCount,
       padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // 固定 2 列
@@ -108,7 +120,19 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         childAspectRatio: 336.w / 448.w, // 子项宽高比（宽/高），控制网格项形状
       ),
       itemBuilder: (context, index) {
-        final data = list[index];
+        // 计算实际的列表索引，只在显示广告时调整索引
+        final int realIndex = showAd && index > 2 ? index - 1 : index;
+
+        // 在all分类下的第4个位置插入广告
+        if (showAd && index == 2) {
+          if (controller.nativeAd != null) {
+            return Container(
+              constraints: BoxConstraints(minWidth: 336.w, minHeight: 448.w),
+              child: Material(elevation: 0, child: AdWidget(ad: controller.nativeAd!)),
+            );
+          }
+        }
+        final data = list[realIndex];
         final displayTags = data.buildDisplayTags();
         final shouldShowTags = displayTags.isNotEmpty && SA.storage.isSAB;
         return InkWell(
@@ -245,25 +269,27 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
   }
 
   Widget _buildTags(List<String> displayTags) {
-    return Wrap(
-      spacing: 8.w,
-      crossAxisAlignment: WrapCrossAlignment.start,
-      children: [
-        for (int i = 0; i < displayTags.length; i++) ...[
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 8.w),
-            decoration: BoxDecoration(color: Colors.white38, borderRadius: BorderRadius.circular(40.r)),
+    return SizedBox(
+      width: 304.w,
+      height: 34.w,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: displayTags.length,
+        itemBuilder: (context, i) {
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 16.w),
+            decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(8.r)),
             child: Text(
               displayTags[i],
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400, color: _getTagColor(displayTags[i])),
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w400, color: _getTagColor(displayTags[i])),
             ),
-          ),
-        ],
-      ],
+          );
+        },
+      ),
     );
   }
 
   Color _getTagColor(String text) {
-    return const Color(0xFFFFFFFF);
+    return SAAppColors.primaryColor;
   }
 }

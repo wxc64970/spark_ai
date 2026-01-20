@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spark_ai/saCommon/index.dart';
+import './widgets/sa_content_widget.dart';
 
 import 'index.dart';
 
@@ -10,8 +12,7 @@ class SamomentsPage extends StatefulWidget {
   State<SamomentsPage> createState() => _SamomentsPageState();
 }
 
-class _SamomentsPageState extends State<SamomentsPage>
-    with AutomaticKeepAliveClientMixin {
+class _SamomentsPageState extends State<SamomentsPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -27,9 +28,7 @@ class _SamomentsViewGetX extends GetView<SamomentsController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("SamomentsPage"),
-    );
+    return const SaContentWidget();
   }
 
   @override
@@ -38,12 +37,7 @@ class _SamomentsViewGetX extends GetView<SamomentsController> {
       init: SamomentsController(),
       id: "samoments",
       builder: (_) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("samoments")),
-          body: SafeArea(
-            child: _buildView(),
-          ),
-        );
+        return baseScaffold(body: _buildView());
       },
     );
   }

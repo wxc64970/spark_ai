@@ -718,50 +718,74 @@ class DialogWidget {
     return DialogWidget.show(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.asset("assets/images/undr_bg.png", width: 564.w, fit: BoxFit.contain),
-
-              Container(
-                width: 564.w,
-                height: 752.w,
-                padding: EdgeInsets.symmetric(vertical: 56.w, horizontal: 52.w),
-                child: Column(
+          InkWell(
+            onTap: onCancel,
+            child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
+          ),
+          SizedBox(height: 32.w),
+          Container(
+            width: 640.w,
+            padding: EdgeInsets.symmetric(vertical: 32.w, horizontal: 52.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24.r),
+              gradient: LinearGradient(
+                begin: AlignmentDirectional.topCenter,
+                end: AlignmentDirectional.bottomCenter,
+                colors: [const Color(0xFFEBFFCC), const Color(0xFFFFFFFF)],
+                stops: const [0.0, 0.3],
+              ),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  SATextData.tips,
+                  style: TextStyle(fontSize: 40.sp, fontWeight: FontWeight.w600, color: Color(0xff000000)),
+                ),
+                SizedBox(height: 32.w),
+                Stack(
                   children: [
-                    Image.asset("assets/images/undr_img.png", width: 240.w, fit: BoxFit.contain),
-                    SizedBox(height: 40.w),
-                    Text(
-                      SATextData.tips,
-                      style: TextStyle(fontSize: 36.sp, fontWeight: FontWeight.w600, color: Color(0xff080817)),
-                    ),
-                    SizedBox(height: 16.w),
-                    Text(
-                      message ?? '',
-                      style: TextStyle(fontSize: 26.sp, color: Color(0xff6D6C6E), fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(height: 120.w),
-                    ButtonGradientWidget(
-                      height: 96,
-                      onTap: onConfirm,
+                    Image.asset("assets/images/sa_68.png", width: 198.w, fit: BoxFit.contain),
+                    Positioned(
+                      bottom: 0,
+                      width: 198.w,
                       child: Center(
-                        child: Text(
-                          confirmText ?? SATextData.confirm,
-                          style: TextStyle(color: Colors.white, fontSize: 32.sp, fontWeight: FontWeight.w600),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 16.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(26.r), bottomRight: Radius.circular(26.r)),
+                            color: Color(0xff1A2608),
+                          ),
+                          child: Text(
+                            SATextData.nice,
+                            style: TextStyle(fontFamily: "Montserrat", fontSize: 24.sp, color: SAAppColors.primaryColor, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 48.w),
-          InkWell(
-            onTap: onCancel,
-            child: Image.asset("assets/images/close@2x.png", width: 64.w, fit: BoxFit.contain),
+                SizedBox(height: 32.w),
+                Text(
+                  message ?? '',
+                  style: TextStyle(fontSize: 28.sp, color: Color(0xff4D4D4D), fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 64.w),
+                ButtonGradientWidget(
+                  height: 88,
+                  onTap: onConfirm,
+                  child: Center(
+                    child: Text(
+                      confirmText ?? SATextData.confirm,
+                      style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

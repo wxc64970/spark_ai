@@ -1,0 +1,35 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "spark_ai",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=FLUTTER_ADS_DEBUG=true"
+            ]
+        },
+        {
+            "name": "spark_ai (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "spark_ai (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "spark_ai (Flutter iPhone 17 Pro Max)",
+            "program": "lib/main.dart",
+            "deviceId": "157D7717-761A-44E9-911F-5A886EE887A0",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=FLUTTER_ADS_DEBUG=true"
+            ]
+        }
+    ]
+}

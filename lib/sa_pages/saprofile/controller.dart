@@ -17,8 +17,7 @@ class SaprofileController extends GetxController with GetSingleTickerProviderSta
   late ChaterModel role;
 
   RxList images = <RoleImage>[].obs;
-  // final List<String> tabs = [SATextData.info, SATextData.tagsTitle];
-  final List<String> tabs = [SATextData.info];
+  final List<String> tabs = SA.storage.isSAB ? [SATextData.info, SATextData.tagsTitle, SATextData.Moments] : [SATextData.info];
   late TabController tabController;
 
   void onCollect() async {

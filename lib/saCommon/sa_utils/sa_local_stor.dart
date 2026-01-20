@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:uuid/uuid.dart';
+import 'package:uuid/v4.dart';
 
 class SALocalStorage extends GetxService {
   late SharedPreferences _prefs;
@@ -111,7 +112,7 @@ class SALocalStorage extends GetxService {
   /// 生成设备ID
   Future<String> _generateDeviceId() async {
     String generateUuid() {
-      return const Uuid().v4();
+      return const UuidV4().generate();
     }
 
     try {

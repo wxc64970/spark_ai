@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spark_ai/saCommon/sa_widgets/sa_base_scaffold.dart';
 
 import 'index.dart';
+import 'widgets/sa_content_widget.dart';
 
 class SaaiphotoPage extends StatefulWidget {
   const SaaiphotoPage({Key? key}) : super(key: key);
@@ -10,8 +12,7 @@ class SaaiphotoPage extends StatefulWidget {
   State<SaaiphotoPage> createState() => _SaaiphotoPageState();
 }
 
-class _SaaiphotoPageState extends State<SaaiphotoPage>
-    with AutomaticKeepAliveClientMixin {
+class _SaaiphotoPageState extends State<SaaiphotoPage> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -27,9 +28,7 @@ class _SaaiphotoViewGetX extends GetView<SaaiphotoController> {
 
   // 主视图
   Widget _buildView() {
-    return const Center(
-      child: Text("SaaiphotoPage"),
-    );
+    return const SaContentWidget();
   }
 
   @override
@@ -38,12 +37,7 @@ class _SaaiphotoViewGetX extends GetView<SaaiphotoController> {
       init: SaaiphotoController(),
       id: "saaiphoto",
       builder: (_) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("saaiphoto")),
-          body: SafeArea(
-            child: _buildView(),
-          ),
-        );
+        return baseScaffold(body: _buildView());
       },
     );
   }

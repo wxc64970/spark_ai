@@ -51,7 +51,7 @@ class SAVItem extends StatelessWidget {
       child: Container(
         width: imageWidth,
         height: imageHeight,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color(0x801C1C1C)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color(0xFF000000).withValues(alpha: 0.1)),
         clipBehavior: Clip.antiAlias,
         child: Stack(
           alignment: Alignment.center,
@@ -65,7 +65,7 @@ class SAVItem extends StatelessWidget {
                   alignment: Alignment.center,
                   height: double.infinity,
                   width: double.infinity,
-                  decoration: const BoxDecoration(color: Color(0x801C1C1C)),
+                  decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.1)),
                 ),
               ),
             ),

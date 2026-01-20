@@ -13,6 +13,8 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		66E8B6D07B16A3119D1BBABE /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E13ECFAEFDCB0DE7BC2B592 /* Pods_RunnerTests.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
+		7FCE38F12F1F26C5002EF17F /* NativeAdFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCE38F02F1F26C5002EF17F /* NativeAdFactory.swift */; };
+		7FCE38F32F1F26DB002EF17F /* NativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCE38F22F1F26DB002EF17F /* NativeAdView.swift */; };
 		7FF6F4CB2F1764160058CE3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FF6F4C92F1764160058CE3D /* Main.storyboard */; };
 		7FF6F4CD2F17739E0058CE3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF6F4CC2F1773980058CE3D /* SceneDelegate.swift */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -57,6 +59,8 @@
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A7D0F019893CD0ED89F1B4E /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		7FCE38F02F1F26C5002EF17F /* NativeAdFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdFactory.swift; sourceTree = "<group>"; };
+		7FCE38F22F1F26DB002EF17F /* NativeAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdView.swift; sourceTree = "<group>"; };
 		7FF6F4CA2F1764160058CE3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7FF6F4CC2F1773980058CE3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
@@ -156,6 +160,8 @@
 			children = (
 				7FF6F4CC2F1773980058CE3D /* SceneDelegate.swift */,
 				7FF6F4C92F1764160058CE3D /* Main.storyboard */,
+				7FCE38F02F1F26C5002EF17F /* NativeAdFactory.swift */,
+				7FCE38F22F1F26DB002EF17F /* NativeAdView.swift */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
@@ -397,9 +403,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FCE38F12F1F26C5002EF17F /* NativeAdFactory.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				7FF6F4CD2F17739E0058CE3D /* SceneDelegate.swift in Sources */,
+				7FCE38F32F1F26DB002EF17F /* NativeAdView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,7 +510,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.sparkAi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SparkAi1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -693,7 +701,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.sparkAi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SparkAi1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -724,7 +732,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.sparkAi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SparkAi1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

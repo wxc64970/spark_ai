@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/saCommon/sa_widgets/sa_video_screen.dart';
 import 'package:spark_ai/sa_pages/index.dart';
-import 'package:spark_ai/sa_pages/saDisCovery/view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -17,11 +16,6 @@ class RoutePages {
   // 列表
   static List<GetPage> routes = [
     GetPage(name: SARouteNames.launch, page: () => const SalaunchscreenPage()),
-    GetPage(name: SARouteNames.discover, page: () => const SadiscoveryPage()),
-    GetPage(name: SARouteNames.chat, page: () => const SachatPage()),
-    GetPage(name: SARouteNames.me, page: () => const SamePage()),
-    // GetPage(name: RouteNames.samoments, page: ()=> const samomentsPage()),
-    //  GetPage(name: RouteNames.aiPhoto, page: ()=> const AllphotoPage()),
     GetPage(name: SARouteNames.application, page: () => const SaapplicationPage(), binding: SaapplicationBinding()),
     GetPage(name: SARouteNames.search, page: () => const SasearchPage(), binding: SasearchBinding()),
     GetPage(name: SARouteNames.message, page: () => const MessagePage(), binding: MessageBinding()),
@@ -30,7 +24,7 @@ class RoutePages {
     GetPage(name: SARouteNames.gems, page: () => const SagemsPage(), binding: SagemsBinding()),
     GetPage(name: SARouteNames.editMask, page: () => const SaeditmaskPage(), binding: SaeditmaskBinding()),
     GetPage(name: SARouteNames.language, page: () => const SalanguagePage(), binding: SalanguageBinding()),
-    // GetPage(name: RouteNames.undr,page: ()=> const UndrPage(),binding: UndrBinding()),
+    GetPage(name: SARouteNames.undr, page: () => const SaundrPage(), binding: SaundrBinding()),
     GetPage(name: SARouteNames.imagePreview, page: () => const ImagePreviewScreen(), transition: Transition.zoom, fullscreenDialog: true, preventDuplicates: true),
     GetPage(
       name: SARouteNames.vip,
@@ -43,33 +37,18 @@ class RoutePages {
       binding: SasubscribeBinding(),
     ),
     GetPage(name: SARouteNames.videoPreview, page: () => const SAVideoPreviewScreen(), fullscreenDialog: true, preventDuplicates: true),
-    // GetPage(
-    //   name: RouteNames.phone,
-    //   page: () => const CallPage(),
-    //   transition: Transition.downToUp,
-    //   popGesture: false,
-    //   preventDuplicates: true,
-    //   fullscreenDialog: true,
-    //   binding: CallBinding()
-    // ),
-    // GetPage(
-    //   name: RouteNames.phoneGuide,
-    //   page: () => const CallguidePage(),
-    //   transition: Transition.downToUp,
-    //   popGesture: false,
-    //   preventDuplicates: true,
-    //   fullscreenDialog: true,
-    // ),
 
-    // GetPage(
-    //   name: RouteNames.countSku,
-    //   page: () => const AiskuPage(),
-    //   transition: Transition.downToUp,
-    //   popGesture: false,
-    //   preventDuplicates: true,
-    //   fullscreenDialog: true,
-    //   binding:AiskuBinding()
-    // ),
+    GetPage(name: SARouteNames.phone, page: () => const SacallPage(), transition: Transition.downToUp, popGesture: false, preventDuplicates: true, fullscreenDialog: true, binding: SacallBinding()),
+    GetPage(name: SARouteNames.phoneGuide, page: () => const SacallguidePage(), transition: Transition.downToUp, popGesture: false, preventDuplicates: true, fullscreenDialog: true),
+    GetPage(
+      name: SARouteNames.countSku,
+      page: () => const SaaiskuPage(),
+      transition: Transition.downToUp,
+      popGesture: false,
+      preventDuplicates: true,
+      fullscreenDialog: true,
+      binding: SaaiskuBinding(),
+    ),
   ];
 
   static Future<void> pushChat(String? roleId, {bool showLoading = true}) async {

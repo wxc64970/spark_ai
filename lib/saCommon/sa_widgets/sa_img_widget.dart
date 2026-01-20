@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SAImageWidget extends StatelessWidget {
   const SAImageWidget({super.key, this.url, this.width, this.height, this.shape, this.border, this.borderRadius, this.color, this.cacheWidth, this.cacheHeight});
@@ -59,7 +60,8 @@ class SAImageWidget extends StatelessWidget {
       height: height,
       alignment: Alignment.center,
       decoration: BoxDecoration(color: const Color.fromARGB(255, 200, 200, 200), borderRadius: borderRadius, border: border),
-      child: const Icon(Icons.image_rounded, size: 26, color: Color(0xFF808080)),
+      // child: const Icon(Icons.image_rounded, size: 26, color: Color(0xFF808080)),
+      child: Image.asset("assets/images/sa_70.png", width: 52.w, fit: BoxFit.contain),
     );
   }
 }

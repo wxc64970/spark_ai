@@ -7,6 +7,9 @@ import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/sa_pages/saDisCovery/widgets/gradient_underline_tabIndicator.dart';
 
 import '../index.dart';
+import 'sa_info_widget.dart';
+import 'sa_moments_widget.dart';
+import 'sa_tag_widget.dart';
 
 /// hello
 class SAContentWidget extends GetView<SaprofileController> {
@@ -226,7 +229,7 @@ class SAContentWidget extends GetView<SaprofileController> {
                             ),
                             SizedBox(height: 40.w),
                             Expanded(
-                              child: TabBarView(controller: controller.tabController, children: [InfoWidget()]),
+                              child: TabBarView(controller: controller.tabController, children: [InfoWidget(), if (SA.storage.isSAB) TagWidget(), if (SA.storage.isSAB) MomentsWidget()]),
                             ),
                           ],
                         ),
@@ -282,25 +285,6 @@ class SAContentWidget extends GetView<SaprofileController> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget InfoWidget() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.zero,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 32.w),
-        margin: EdgeInsets.only(bottom: 32.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(46.r),
-          boxShadow: [BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 8), blurRadius: 8, spreadRadius: 0)],
-          color: Colors.white,
-        ),
-        child: Text(
-          controller.role.aboutMe ?? '',
-          style: TextStyle(fontSize: 28.sp, color: Color(0xff4D4D4D), fontWeight: FontWeight.w500),
-        ),
-      ),
     );
   }
 }

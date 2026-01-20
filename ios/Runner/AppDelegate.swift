@@ -1,6 +1,8 @@
 import Flutter
 import UIKit
+import google_mobile_ads
 import FBSDKCoreKit
+import GoogleMobileAds
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,7 +10,12 @@ import FBSDKCoreKit
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        GeneratedPluginRegistrant.register(with: self) // 移除，因为现在在SceneDelegate中注册
+        GeneratedPluginRegistrant.register(with: self)
+        
+        // Register the native ad factory
+        let nativeAdFactory = NativeAdFactory()
+        FLTGoogleMobileAdsPlugin.registerNativeAdFactory(
+            self, factoryId: "discoverNativeAd", nativeAdFactory: nativeAdFactory)
 
         // Facebook 基础初始化
         ApplicationDelegate.shared.application(

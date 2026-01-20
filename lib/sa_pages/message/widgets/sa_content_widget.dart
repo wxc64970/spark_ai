@@ -76,6 +76,42 @@ class SAContentWidget extends GetView<MessageController> {
                                     ),
                                   ),
                                 ),
+                                if (SA.storage.isSAB)
+                                  GestureDetector(
+                                    onTap: () {
+                                      SAlogEvent('c_call');
+                                      if (!SA.login.vipStatus.value) {
+                                        Get.toNamed(SARouteNames.vip, arguments: VipFrom.call);
+                                        return;
+                                      }
+
+                                      if (!SA.login.checkBalance(ConsumeFrom.call)) {
+                                        Get.toNamed(SARouteNames.gems, arguments: ConsumeFrom.call);
+                                        return;
+                                      }
+
+                                      final sessionId = controller.state.sessionId;
+                                      if (sessionId == null) {
+                                        SAToast.show('Please select a user to call.');
+                                        return;
+                                      }
+
+                                      RoutePages.pushPhone(sessionId: sessionId, role: controller.state.role, showVideo: false);
+                                    },
+                                    child: Container(
+                                      width: 56.w,
+                                      height: 56.w,
+                                      margin: EdgeInsets.only(left: 24.w),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black54,
+                                        borderRadius: BorderRadius.circular(14.r),
+                                        // border: Border.all(color: Colors.white54, width: 2.w),
+                                      ),
+                                      child: Center(
+                                        child: Image.asset("assets/images/sa_67.png", width: 48.w, fit: BoxFit.contain),
+                                      ),
+                                    ),
+                                  ),
                               ],
                             ),
                           ],

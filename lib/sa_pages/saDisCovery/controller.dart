@@ -1,6 +1,10 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:spark_ai/ad/sa_ad_type.dart';
+import 'package:spark_ai/ad/sa_my_ad.dart';
 import 'package:spark_ai/main.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
@@ -51,7 +55,7 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
 
   Rx<EmptyType?> type = Rx<EmptyType?>(null);
 
-  bool isNoMoreData = false;
+  List<bool> isNoMoreData = [];
 
   // 标签
   List<SATagsModel> roleTags = [];
@@ -75,13 +79,36 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
   //筛选
   Rx<SATagsModel?> selectedType = SATagsModel().obs;
 
+  NativeAd? nativeAd;
+
   @override
   void onInit() {
     super.onInit();
     // 初始化标签数据
     _initData();
+    //加载广告
+    _loadAd();
     Get.put(SAAutoCallController());
     WidgetsBinding.instance.addPostFrameCallback((_) {});
+    ever(SA.login.vipStatus, (_) {
+      if (SA.login.vipStatus.value) {
+        nativeAd?.dispose();
+        nativeAd = null;
+        update();
+      }
+    });
+  }
+
+  Future<void> _loadAd() async {
+    try {
+      final success = await MyAd().loadNativeAd(placement: PlacementType.homelist);
+      if (success) {
+        nativeAd = MyAd().nativeAd;
+        update();
+      }
+    } catch (e) {
+      log.e('[ad] native load error: $e');
+    }
   }
 
   // 初始化标签数据
@@ -136,6 +163,7 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
         isDataLoaded.add(false.obs);
         isLoading.add(false.obs);
         list.add(<ChaterModel>[].obs);
+        isNoMoreData.add(false);
       }
       SALoading.show();
       onRefresh(0);
@@ -170,12 +198,12 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
   Future<void> onRefresh(index) async {
     try {
       page = 1;
-      isNoMoreData = false;
+      isNoMoreData[index] = false;
       await _fetchData(index);
 
       await Future.delayed(const Duration(milliseconds: 50));
       refreshCtr.finishRefresh();
-      refreshCtr.finishLoad(isNoMoreData ? IndicatorResult.noMore : IndicatorResult.none);
+      refreshCtr.finishLoad(isNoMoreData[index] ? IndicatorResult.noMore : IndicatorResult.none);
     } finally {
       if (index == 0) {
         SALoading.close();
@@ -187,8 +215,10 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
 
   Future<void> onLoad(index) async {
     if (isLoading[index].value) return;
-    if (isNoMoreData) {
-      refreshCtr.finishLoad(IndicatorResult.noMore);
+    if (isNoMoreData[index]) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        refreshCtr.finishLoad(IndicatorResult.noMore);
+      });
       return;
     }
 
@@ -199,7 +229,7 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
       await _fetchData(index);
 
       await Future.delayed(const Duration(milliseconds: 50));
-      refreshCtr.finishLoad(isNoMoreData ? IndicatorResult.noMore : IndicatorResult.none);
+      refreshCtr.finishLoad(isNoMoreData[index] ? IndicatorResult.noMore : IndicatorResult.none);
     } catch (e) {
       page--;
       refreshCtr.finishLoad(IndicatorResult.fail);
@@ -373,7 +403,7 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
       final res = await Api.homeList(page: page, size: size, rendStyl: rendStyl, videoChat: videoChat, genImg: genImg, genVideo: genVideo, tags: tagIds, dress: changeClothing);
 
       final records = res?.records ?? [];
-      isNoMoreData = (records.length) < size;
+      isNoMoreData[index] = (records.length) < size;
 
       if (page == 1) {
         list[index].clear();
