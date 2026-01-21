@@ -10,7 +10,7 @@ class SAImageHistroy {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SAImageHistroy.fromJson(Map<String, dynamic> json) => SAImageHistroy(id: json['id'], url: json['url']);
+  factory SAImageHistroy.fromJson(Map<String, dynamic> json) => SAImageHistroy(id: json['vhxdej'], url: json['fnjbja']);
 
-  Map<String, dynamic> toJson() => {'id': id, 'url': url};
+  Map<String, dynamic> toJson() => {'vhxdej': id, 'fnjbja': url};
 }

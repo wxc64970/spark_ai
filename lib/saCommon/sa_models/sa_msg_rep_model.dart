@@ -14,9 +14,9 @@ class SAMsgReplayModel {
   String toRawJson() => json.encode(toJson());
 
   factory SAMsgReplayModel.fromJson(Map<String, dynamic> json) =>
-      SAMsgReplayModel(convId: json['conv_id'], msgId: json['msg_id'], answer: json['answer'] == null ? null : MessageAnswerModel.fromJson(json['answer']));
+      SAMsgReplayModel(convId: json['plpzei'], msgId: json['wdnsho'], answer: json['wdilno'] == null ? null : MessageAnswerModel.fromJson(json['wdilno']));
 
-  Map<String, dynamic> toJson() => {'conv_id': convId, 'msg_id': msgId, 'answer': answer?.toJson()};
+  Map<String, dynamic> toJson() => {'plpzei': convId, 'wdnsho': msgId, 'wdilno': answer?.toJson()};
 }
 
 class MessageAnswerModel {
@@ -56,33 +56,33 @@ class MessageAnswerModel {
 
   factory MessageAnswerModel.fromJson(Map<String, dynamic> json) => MessageAnswerModel(
     content: json['content'],
-    src: json['source'],
-    lockLvl: json['lock_level'],
-    lockMed: json['lock_level_media'],
-    voiceUrl: json['voice_url'],
-    voiceDur: json['voice_duration'],
+    src: json['azaobf'],
+    lockLvl: json['zoyxby'],
+    lockMed: json['ivezhk'],
+    voiceUrl: json['kddoxf'],
+    voiceDur: json['ujgsbx'],
     resUrl: json['res_url'],
-    duration: json['duration'],
-    thumbUrl: json['thumbnail_url'],
+    duration: json['xyqkkp'],
+    thumbUrl: json['wfjqwb'],
     translateContent: json['translate_content'],
-    upgrade: json['upgrade'],
-    rewards: json['rewards'],
-    appUserChatLevel: json['app_user_chat_level'] == null ? null : ChatAnserLevel.fromJson(json['app_user_chat_level']),
+    upgrade: json['qpdbps'],
+    rewards: json['wcqaou'],
+    appUserChatLevel: json['ojsnld'] == null ? null : ChatAnserLevel.fromJson(json['ojsnld']),
   );
 
   Map<String, dynamic> toJson() => {
     'content': content,
-    'source': src,
-    'lock_level': lockLvl,
-    'lock_level_media': lockMed,
-    'voice_url': voiceUrl,
-    'voice_duration': voiceDur,
+    'azaobf': src,
+    'zoyxby': lockLvl,
+    'ivezhk': lockMed,
+    'kddoxf': voiceUrl,
+    'ujgsbx': voiceDur,
     'res_url': resUrl,
-    'duration': duration,
-    'thumbnail_url': thumbUrl,
+    'xyqkkp': duration,
+    'wfjqwb': thumbUrl,
     'translate_content': translateContent,
-    'upgrade': upgrade,
-    'rewards': rewards,
-    'app_user_chat_level': appUserChatLevel,
+    'qpdbps': upgrade,
+    'wcqaou': rewards,
+    'ojsnld': appUserChatLevel,
   };
 }

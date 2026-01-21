@@ -51,7 +51,7 @@ class SADioClient {
         connectTimeout: const Duration(milliseconds: _connectTimeout),
         receiveTimeout: const Duration(milliseconds: _receiveTimeout),
         sendTimeout: const Duration(milliseconds: _sendTimeout),
-        responseType: ResponseType.json, // 关闭自动解析
+        responseType: ResponseType.plain, // 关闭自动解析
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json', ...?headers},
       ),
     );
@@ -89,7 +89,7 @@ class SADioClient {
     _dio.interceptors.add(SAHeaderInterceptor());
 
     // Add crypto interceptor
-    // _dio.interceptors.add(SACryptoInterceptor());
+    _dio.interceptors.add(SACryptoInterceptor());
 
     // Add error interceptor
     _dio.interceptors.add(ErrorInterceptor());

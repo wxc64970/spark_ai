@@ -7,7 +7,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spark_ai/saCommon/index.dart';
-import 'package:uuid/uuid.dart';
 import 'package:uuid/v4.dart';
 
 class SALocalStorage extends GetxService {

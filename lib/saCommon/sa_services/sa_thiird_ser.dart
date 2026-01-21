@@ -94,7 +94,8 @@ class SAThirdPartyService {
       // 获取配置值
       maxFreeChatCount = _getConfigValue('Xj7bP3t', remoteConfig.getInt, 50);
       showClothingCount = _getConfigValue('Tm4gW9n', remoteConfig.getInt, 5);
-      adConfig = remoteConfig.getString('ad_config');
+      // 刷新 Remote Config 后，更新广告配置
+      adConfig = remoteConfig.getString('Mg7pR5b');
       log.d('[fb] _refreshRemoteConfig ad_config: $adConfig');
     } catch (e) {
       log.e('[Firebase]: Remote Config 错误: $e');

@@ -34,11 +34,11 @@ class SAEventData extends HiveObject {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'vhxdej': id,
       'event_type': eventType,
       'data': data,
       'is_success': isSuccess ? 1 : 0,
-      'create_time': createTime,
+      'tldysq': createTime,
       'upload_time': uploadTime,
       'is_uploaded': isUploaded ? 1 : 0,
       'sequence_id': sequenceId,

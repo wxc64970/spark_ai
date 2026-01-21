@@ -175,7 +175,7 @@ class SAAppLogEvent {
   // TODO:-
   String get androidURL => EnvConfig.isDebugMode ? "" : "";
 
-  String get iosURL => EnvConfig.isDebugMode ? 'https://test-rondo.chatjoyapp.com/fraser/stallion' : 'https://rondo.chatjoyapp.com/gujarat/automat/gabble';
+  String get iosURL => EnvConfig.isDebugMode ? 'https://test-auerbach.sparkaiweb.com/ruinous/forte' : 'https://auerbach.sparkaiweb.com/goliath/dewitt';
 
   late final Dio _dio = Dio(
     BaseOptions(
@@ -202,25 +202,15 @@ class SAAppLogEvent {
       if (Platform.isAndroid) {
         final gaid = await SAInfoUtils.getGoogleAdId();
         final androidId = await SAInfoUtils.getAndroidId();
-        return {"isocline": androidId, "trw": gaid, "piraeus": deviceId};
+        return {"lavish": androidId, "criteria": gaid, "sailboat": deviceId};
       }
 
       final logId = uuid.generate();
 
       return {
-        "fugue": "com.chatj.joyc",
-        "roger": "client",
-        "mafia": version,
-        "piraeus": deviceId,
-        "gross": logId,
-        "frazzle": DateTime.now().millisecondsSinceEpoch,
-        "palliate": manufacturer,
-        "frothy": deviceModel,
-        "hangdog": osVersion,
-        "enter": "mcc",
-        "sluice": snuggly,
-        "swollen": idfa,
-        "cationic": idfv,
+        "artifice": {"bug": "com.spark.garden", "knowlton": manufacturer, "frisky": "mcc", "absurdum": snuggly},
+        "leer": {"surgeon": "needle", "system": deviceModel, "supplant": osVersion},
+        "instill": {"alveoli": version, "sailboat": deviceId, "guthrie": logId, "hit": DateTime.now().millisecondsSinceEpoch, "demitted": idfa, "twigging": idfv},
       };
     } catch (e) {
       log.e('_getCommonParams error: $e');
@@ -239,16 +229,16 @@ class SAAppLogEvent {
       if (Platform.isAndroid) {
         // TODO:-
       } else {
-        data["oily"] = "lottery";
-        data["cordon"] = "build/$build";
-        data["turban"] = agent;
-        data["skullcap"] = isLimitAdTrackingEnabled ? 'orb' : 'manse';
-        data["pivot"] = DateTime.now().millisecondsSinceEpoch;
-        data["quarry"] = DateTime.now().millisecondsSinceEpoch;
-        data["mason"] = DateTime.now().millisecondsSinceEpoch;
-        data["tablet"] = DateTime.now().millisecondsSinceEpoch;
-        data["ehrlich"] = DateTime.now().millisecondsSinceEpoch;
-        data["mannitol"] = DateTime.now().millisecondsSinceEpoch;
+        data["seeable"] = "gummy";
+        data["crown"] = "build/$build";
+        data["genii"] = agent;
+        data["lacrosse"] = isLimitAdTrackingEnabled ? 'hire' : 'cackle';
+        data["sleep"] = DateTime.now().millisecondsSinceEpoch;
+        data["lura"] = DateTime.now().millisecondsSinceEpoch;
+        data["harelip"] = DateTime.now().millisecondsSinceEpoch;
+        data["mane"] = DateTime.now().millisecondsSinceEpoch;
+        data["barstow"] = DateTime.now().millisecondsSinceEpoch;
+        data["wigwam"] = DateTime.now().millisecondsSinceEpoch;
       }
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
@@ -272,7 +262,7 @@ class SAAppLogEvent {
       if (Platform.isAndroid) {
         // TODO:-
       } else {
-        data['hilbert'] = {};
+        data['mold'] = {};
       }
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
@@ -298,10 +288,10 @@ class SAAppLogEvent {
         //   data['$key@tung'] = value;
         // });
       } else if (Platform.isIOS) {
-        data['oily'] = name;
+        data['seeable'] = name;
         // 处理自定义参数
         params.forEach((key, value) {
-          data['keenan>$key'] = value;
+          data['variant$key'] = value;
         });
       }
 
@@ -311,6 +301,22 @@ class SAAppLogEvent {
       log.d('[ad]log logCustomEvent saved to database');
     } catch (e) {
       log.e('[ad]log logCustomEvent error: $e');
+    }
+  }
+
+  Future<void> logAdEvent({required String adid, required String placement, required String adType, double? value, String? currency}) async {
+    try {
+      var data = await _getCommonParams();
+      if (data == null) {
+        return;
+      }
+      final logId = data["instill"]["guthrie"];
+      data['blomberg'] = {"right": value?.toInt() ?? 0, "limbic": currency, "shoshone": "admob", "hecate": "admob", "robotics": adid, "sorenson": placement, "our": adType};
+      final logModel = SAEventData(eventType: 'ad', data: jsonEncode(data), createTime: DateTime.now().millisecondsSinceEpoch, id: logId, sequenceId: SALogEventDBService.currentSequenceId);
+      await _adLogService.insertLog(logModel);
+      log.d('[ad]log logAdEvent saved to database');
+    } catch (e) {
+      log.e('[ad]log logEvent error: $e');
     }
   }
 
@@ -420,7 +426,7 @@ extension Clannish on Map<String, dynamic> {
     if (Platform.isAndroid) {
       return ''; //TODO:
     } else {
-      return this['gross'];
+      return this['guthrie'];
     }
   }
 }

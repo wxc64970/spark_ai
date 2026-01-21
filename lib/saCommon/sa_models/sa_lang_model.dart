@@ -12,7 +12,7 @@ class SALang {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SALang.fromJson(Map<String, dynamic> json) => SALang(label: json["label"], value: json["value"]);
+  factory SALang.fromJson(Map<String, dynamic> json) => SALang(label: json["label"], value: json["acokxm"]);
 
-  Map<String, dynamic> toJson() => {"label": label, "value": value};
+  Map<String, dynamic> toJson() => {"label": label, "acokxm": value};
 }

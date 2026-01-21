@@ -37,32 +37,32 @@ class SASkModel {
   String toRawJson() => json.encode(toJson());
 
   factory SASkModel.fromJson(Map<String, dynamic> json) => SASkModel(
-    id: json["id"],
+    id: json["vhxdej"],
     sku: json["sku"],
-    name: json["name"],
+    name: json["yvosho"],
     number: json["number"],
     defaultSku: json["default_sku"],
     lifetime: json["lifetime"],
     skuType: json["sku_type"],
-    createImg: json["create_img"],
-    createVideo: json["create_video"],
+    createImg: json["ximjsl"],
+    createVideo: json["sfuweu"],
     shelf: json["shelf"],
     tag: json["tag"],
-    orderNum: json["order_num"],
+    orderNum: json["emhjdj"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+    "vhxdej": id,
     "sku": sku,
-    "name": name,
+    "yvosho": name,
     "number": number,
     "default_sku": defaultSku,
     "lifetime": lifetime,
     "sku_type": skuType,
-    "create_img": createImg,
-    "create_video": createVideo,
+    "ximjsl": createImg,
+    "sfuweu": createVideo,
     "shelf": shelf,
     "tag": tag,
-    "order_num": orderNum,
+    "emhjdj": orderNum,
   };
 }

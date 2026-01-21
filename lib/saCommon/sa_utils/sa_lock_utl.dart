@@ -32,14 +32,14 @@ class SALockUtils {
           log.d('RometeBook: $success, reason = $reason');
           final allPass = isSAB && success;
           SA.storage.setIsSAB(allPass);
-          SAlogEvent(allPass ? "Sd1m6K_B" : "Rp5t2F_A", parameters: {"clk_status": "clk_b", "firebase_status": reason});
+          SAlogEvent(allPass ? "Yc5xL2w_B" : "Bv9gN4s_A", parameters: {"clk_status": "clk_b", "firebase_status": reason});
         } else {
           // clock a
-          SAlogEvent("Rp5t2F_A", parameters: {"clk_status": "clk_a"});
+          SAlogEvent("Bv9gN4s_A", parameters: {"clk_status": "clk_a"});
         }
       } catch (e) {
         log.e('---block---Error in requesClk: $e');
-        SAlogEvent("Rp5t2F_A", parameters: {"clk_status": "request_catch"});
+        SAlogEvent("Bv9gN4s_A", parameters: {"clk_status": "request_catch"});
       }
     }
   }
@@ -53,22 +53,22 @@ class SALockUtils {
       final idfv = await SAInfoUtils.getIdfv();
 
       final Map<String, dynamic> body = {
-        'fugue': EnvConfig.bundleId,
-        'roger': 'client',
-        'mafia': version,
-        'piraeus': deviceId,
-        'frazzle': DateTime.now().millisecondsSinceEpoch,
-        'swollen': idfa,
-        'cationic': idfv,
+        'bug': EnvConfig.bundleId,
+        'surgeon': 'needle',
+        'alveoli': version,
+        'sailboat': deviceId,
+        'hit': DateTime.now().millisecondsSinceEpoch,
+        'demitted': idfa,
+        'twigging': idfv,
       };
 
       final client = GetConnect(timeout: const Duration(seconds: 60));
 
-      final response = await client.post('https://analyst.chatjoyapp.com/vinson/makeup/rachel', body);
+      final response = await client.post('https://knuckle.sparkaiweb.com/forlorn/albumin', body);
       log.i('Response: $body\n ${response.body}');
 
       var clkStatus = false;
-      if (response.isOk && response.body == 'youthful') {
+      if (response.isOk && response.body == 'biggs') {
         clkStatus = true;
       }
       await SA.storage.setBool(SAAppConstants.keyClkStatus, clkStatus);

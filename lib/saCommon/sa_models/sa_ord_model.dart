@@ -10,7 +10,7 @@ class SAOrderModel {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SAOrderModel.fromJson(Map<String, dynamic> json) => SAOrderModel(id: json["id"], orderNo: json["order_no"]);
+  factory SAOrderModel.fromJson(Map<String, dynamic> json) => SAOrderModel(id: json["vhxdej"], orderNo: json["vhcstt"]);
 
-  Map<String, dynamic> toJson() => {"id": id, "order_no": orderNo};
+  Map<String, dynamic> toJson() => {"vhxdej": id, "vhcstt": orderNo};
 }

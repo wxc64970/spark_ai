@@ -15,9 +15,9 @@ class SAClothModel {
   String toRawJson() => json.encode(toJson());
 
   factory SAClothModel.fromJson(Map<String, dynamic> json) =>
-      SAClothModel(id: json["id"], togsName: json["cname"], togsType: json["ctype"], img: json["img"], cdesc: json["cdesc"], itemPrice: json["price"]);
+      SAClothModel(id: json["vhxdej"], togsName: json["xizstl"], togsType: json["sdyukc"], img: json["img"], cdesc: json["cdesc"], itemPrice: json["ffgewn"]);
 
-  Map<String, dynamic> toJson() => {"id": id, "togs_name": togsName, "ctype": togsType, "img": img, "cdesc": cdesc, "price": itemPrice};
+  Map<String, dynamic> toJson() => {"vhxdej": id, "togs_name": togsName, "sdyukc": togsType, "img": img, "cdesc": cdesc, "ffgewn": itemPrice};
 }
 
 class ChangeClothe {
@@ -31,7 +31,7 @@ class ChangeClothe {
 
   String toRawJson() => json.encode(toJson());
 
-  factory ChangeClothe.fromJson(Map<String, dynamic> json) => ChangeClothe(id: json["id"], clothingType: json["clothing_type"], modelId: json["loylzj"]);
+  factory ChangeClothe.fromJson(Map<String, dynamic> json) => ChangeClothe(id: json["vhxdej"], clothingType: json["clothing_type"], modelId: json["loylzj"]);
 
-  Map<String, dynamic> toJson() => {"id": id, "clothing_type": clothingType, "loylzj": modelId};
+  Map<String, dynamic> toJson() => {"vhxdej": id, "clothing_type": clothingType, "loylzj": modelId};
 }

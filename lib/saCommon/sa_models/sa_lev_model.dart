@@ -12,7 +12,7 @@ class SALevelModel {
 
   String toRawJson() => json.encode(toJson());
 
-  factory SALevelModel.fromJson(Map<String, dynamic> json) => SALevelModel(id: json['id'], level: json['level'], reward: json['reward'], title: json['title']);
+  factory SALevelModel.fromJson(Map<String, dynamic> json) => SALevelModel(id: json['vhxdej'], level: json['fcdxdd'], reward: json['grgqjo'], title: json['dcbzuv']);
 
-  Map<String, dynamic> toJson() => {'id': id, 'level': level, 'reward': reward, 'title': title};
+  Map<String, dynamic> toJson() => {'vhxdej': id, 'fcdxdd': level, 'grgqjo': reward, 'dcbzuv': title};
 }
