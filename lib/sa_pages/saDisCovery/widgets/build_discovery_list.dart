@@ -115,9 +115,9 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
       padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // 固定 2 列
-        crossAxisSpacing: 14.w, // 列之间的间距
-        mainAxisSpacing: 14.w, // 行之间的间距
-        childAspectRatio: 336.w / 448.w,
+        crossAxisSpacing: 8.w, // 列之间的间距
+        mainAxisSpacing: 8.w, // 行之间的间距
+        childAspectRatio: 310.w / 450.w,
         // childAspectRatio: 335 / 370, // 子项宽高比（宽/高），控制网格项形状
       ),
       itemBuilder: (context, index) {
@@ -134,9 +134,12 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                 children: [
                   Material(elevation: 0, child: AdWidget(ad: controller.nativeAd!)),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 16.w),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), color: SAAppColors.primaryColor),
-                    child: Text('AD'),
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: SAAppColors.pinkColor),
+                    child: Text(
+                      'Ad',
+                      style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ],
               ),
@@ -172,7 +175,7 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                 child: Stack(
                   children: [
                     // 背景图片
-                    SAImageWidget(url: data.avatar, width: 336.w, height: 448.w, cacheWidth: 1080, cacheHeight: 1080, borderRadius: BorderRadius.circular(16.r), shape: BoxShape.rectangle),
+                    SAImageWidget(url: data.avatar, width: 360.w, height: 500.w, cacheWidth: 1080, cacheHeight: 1080, borderRadius: BorderRadius.circular(16.r), shape: BoxShape.rectangle),
                     Positioned(
                       left: 0,
                       bottom: 0,
