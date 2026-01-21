@@ -15,7 +15,7 @@ import GoogleMobileAds
         // Register the native ad factory
         let nativeAdFactory = NativeAdFactory()
         FLTGoogleMobileAdsPlugin.registerNativeAdFactory(
-            self, factoryId: "discoverNativeAd", nativeAdFactory: nativeAdFactory)
+            self, factoryId: "SAdiscoverNativeAd", nativeAdFactory: nativeAdFactory)
 
         // Facebook 基础初始化
         ApplicationDelegate.shared.application(

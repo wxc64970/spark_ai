@@ -115,9 +115,9 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
       padding: EdgeInsets.zero,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // 固定 2 列
-        crossAxisSpacing: 8.w, // 列之间的间距
-        mainAxisSpacing: 8.w, // 行之间的间距
-        childAspectRatio: 310.w / 450.w,
+        crossAxisSpacing: 14.w, // 列之间的间距
+        mainAxisSpacing: 14.w, // 行之间的间距
+        childAspectRatio: 280.w / 400.w,
         // childAspectRatio: 335 / 370, // 子项宽高比（宽/高），控制网格项形状
       ),
       itemBuilder: (context, index) {
@@ -128,8 +128,12 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         if (showAd && index == 2) {
           if (controller.nativeAd != null) {
             return Container(
-              color: Colors.red,
-              constraints: BoxConstraints(minWidth: 335, minHeight: 370),
+              constraints: BoxConstraints(
+                minWidth: 320, // minimum recommended width
+                minHeight: 320, // minimum recommended height
+                maxWidth: 400,
+                maxHeight: 400,
+              ),
               child: Stack(
                 children: [
                   Material(elevation: 0, child: AdWidget(ad: controller.nativeAd!)),

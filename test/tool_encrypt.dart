@@ -52,7 +52,7 @@ void main() {
   }
 
   // Write back
-  final outputFile = File('/Users/wangchao/Documents/work/spark_ai/lib/saCommon/sa_values/textData_encrypted.dart');
+  final outputFile = File('/Users/wangchao/Documents/work/spark_ai/lib/saCommon/sa_values/textData.dart');
   outputFile.writeAsStringSync(newLines.join('\n'));
   print('Done. Check ${outputFile.path}');
 }
