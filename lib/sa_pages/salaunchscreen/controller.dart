@@ -13,6 +13,7 @@ class SalaunchscreenController extends GetxController {
   double _progressValue = 0.0;
   Timer? _progressTimer;
   bool _isProgressComplete = false;
+  bool isAdLoaded = false;
 
   _initData() {
     EasyRefresh.defaultHeaderBuilder = () => const MaterialHeader(color: SAAppColors.primaryColor);
@@ -40,8 +41,15 @@ class SalaunchscreenController extends GetxController {
 
       await SA.login.fetchUserInfo();
 
+      await MyAd().initAdConfig();
+
       var startTimer = DateTime.now().millisecondsSinceEpoch;
-      await _preloadAd();
+      await _preloadAd().timeout(
+        const Duration(seconds: 7),
+        onTimeout: () {
+          log.d('Ad preload timeout');
+        },
+      );
       var endTimer = DateTime.now().millisecondsSinceEpoch;
       var adTimer = (endTimer - startTimer) / 1000;
       log.d('启动加载广告时间：$adTimer秒');
@@ -56,10 +64,10 @@ class SalaunchscreenController extends GetxController {
   Future<void> _preloadAd() async {
     try {
       MyAd().preloadAds();
-      // _isAdLoaded = await MyAd().loadOpenAd();
+      isAdLoaded = await MyAd().loadOpenAd();
       // log.d('Ad preload _isAdLoaded: $_isAdLoaded');
     } catch (e) {
-      // _isAdLoaded = false;
+      isAdLoaded = false;
       log.d('Ad preload error: $e');
     }
   }
@@ -72,6 +80,26 @@ class SalaunchscreenController extends GetxController {
   }
 
   Future<void> _navigateToMain() async {
+    // 设置最多重试 20 次（每次间隔 500ms，总共约 10 秒）
+    int maxRetries = 20;
+    int retryCount = 0;
+
+    // 持续尝试加载广告直到成功或达到重试限制
+    while (!isAdLoaded && retryCount < maxRetries) {
+      isAdLoaded = await MyAd().loadOpenAd();
+      if (isAdLoaded) {
+        log.d('广告加载成功，跳转主页');
+        break;
+      }
+      retryCount++;
+      if (retryCount < maxRetries) {
+        // 等待 500ms 后重试
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
+    }
+
+    // 无论广告是否加载成功，都跳转到主页
+    log.d('广告加载完成 (成功: $isAdLoaded)，跳转到主页');
     Get.offAllNamed(SARouteNames.application);
   }
 

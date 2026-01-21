@@ -17,6 +17,8 @@ class SAThirdPartyService {
   static int maxFreeChatCount = 50;
   static int showClothingCount = 5;
 
+  static String? adConfig;
+
   /// 初始化所有第三方服务
   static Future<void> init() async {
     // 使用 Future.wait 但不让任何一个服务的失败影响整体启动
@@ -92,6 +94,8 @@ class SAThirdPartyService {
       // 获取配置值
       maxFreeChatCount = _getConfigValue('Xj7bP3t', remoteConfig.getInt, 50);
       showClothingCount = _getConfigValue('Tm4gW9n', remoteConfig.getInt, 5);
+      adConfig = remoteConfig.getString('ad_config');
+      log.d('[fb] _refreshRemoteConfig ad_config: $adConfig');
     } catch (e) {
       log.e('[Firebase]: Remote Config 错误: $e');
       // 使用默认值，不影响应用启动

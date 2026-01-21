@@ -359,51 +359,51 @@ class SAAppLogEvent {
     }
   }
 
-  Future<void> _retryFailedLogs() async {
-    try {
-      final failedLogs = await _adLogService.getFailedLogs().timeout(
-        const Duration(seconds: 5),
-        onTimeout: () {
-          log.w('[ad]log getFailedLogs timeout, returning empty list');
-          return <SAEventData>[];
-        },
-      );
+  // Future<void> _retryFailedLogs() async {
+  //   try {
+  //     final failedLogs = await _adLogService.getFailedLogs().timeout(
+  //       const Duration(seconds: 5),
+  //       onTimeout: () {
+  //         log.w('[ad]log getFailedLogs timeout, returning empty list');
+  //         return <SAEventData>[];
+  //       },
+  //     );
 
-      if (failedLogs.isEmpty) return;
+  //     if (failedLogs.isEmpty) return;
 
-      final List<dynamic> dataList = failedLogs.map((log) => jsonDecode(log.data)).toList();
+  //     final List<dynamic> dataList = failedLogs.map((log) => jsonDecode(log.data)).toList();
 
-      // 添加超时控制，避免网络请求卡住应用
-      final res = await _dio
-          .post('', data: dataList)
-          .timeout(
-            const Duration(seconds: 15),
-            onTimeout: () {
-              log.w('[ad]log Retry request timeout');
-              throw TimeoutException('Retry request timeout', const Duration(seconds: 15));
-            },
-          );
+  //     // 添加超时控制，避免网络请求卡住应用
+  //     final res = await _dio
+  //         .post('', data: dataList)
+  //         .timeout(
+  //           const Duration(seconds: 15),
+  //           onTimeout: () {
+  //             log.w('[ad]log Retry request timeout');
+  //             throw TimeoutException('Retry request timeout', const Duration(seconds: 15));
+  //           },
+  //         );
 
-      if (res.statusCode == 200) {
-        await _adLogService
-            .markLogsAsSuccess(failedLogs)
-            .timeout(
-              const Duration(seconds: 5),
-              onTimeout: () {
-                log.w('[ad]log markLogsAsSuccess timeout in retry');
-                throw TimeoutException('markLogsAsSuccess timeout', const Duration(seconds: 5));
-              },
-            );
-        log.d('[ad]log Retry success for: ${failedLogs.length}');
-      } else {
-        final ids = failedLogs.map((e) => e.id).toList();
-        log.e('[ad]log Retry failed for: $ids');
-      }
-    } catch (e) {
-      log.e('[ad]log Retry failed catch: $e');
-      // 重试失败不应影响应用正常运行，仅记录日志
-    }
-  }
+  //     if (res.statusCode == 200) {
+  //       await _adLogService
+  //           .markLogsAsSuccess(failedLogs)
+  //           .timeout(
+  //             const Duration(seconds: 5),
+  //             onTimeout: () {
+  //               log.w('[ad]log markLogsAsSuccess timeout in retry');
+  //               throw TimeoutException('markLogsAsSuccess timeout', const Duration(seconds: 5));
+  //             },
+  //           );
+  //       log.d('[ad]log Retry success for: ${failedLogs.length}');
+  //     } else {
+  //       final ids = failedLogs.map((e) => e.id).toList();
+  //       log.e('[ad]log Retry failed for: $ids');
+  //     }
+  //   } catch (e) {
+  //     log.e('[ad]log Retry failed catch: $e');
+  //     // 重试失败不应影响应用正常运行，仅记录日志
+  //   }
+  // }
 
   /// 停止所有定时器，用于应用退出时清理资源
   void dispose() {

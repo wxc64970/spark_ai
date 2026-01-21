@@ -1,4 +1,6 @@
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'dart:convert';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:spark_ai/ad/cache/sa_ad_native.dart';
 import 'package:spark_ai/ad/sa_ad_type.dart';
@@ -94,44 +96,50 @@ class MyAd {
   /// 广告配置
   AdConfig? adConfig;
 
-  // Future<void> initAdConfig() async {
-  //   String? adConfigStr = ConstUtil().adConfig;
+  Future<void> initAdConfig() async {
+    String? adConfigStr = SAThirdPartyService.adConfig;
 
-  //   Map<String, dynamic> jsonMap = {};
+    Map<String, dynamic> jsonMap = {};
 
-  //   if (adConfigStr != null && adConfigStr.isNotEmpty) {
-  //     jsonMap = jsonDecode(adConfigStr);
-  //   } else {
-  //     var filePath = EnvConfig.isDebugMode ? 'assets/json/ad_dev.json' : 'assets/json/ad_release.json';
-  //     final contents = await rootBundle.loadString(filePath);
-  //     jsonMap = jsonDecode(contents);
-  //   }
+    if (adConfigStr != null && adConfigStr.isNotEmpty) {
+      jsonMap = jsonDecode(adConfigStr);
+    } else {
+      jsonMap = EnvConfig.isDebugMode
+          ? {
+              "interval": 15,
+              "homelist": [
+                {"source": "admob", "level": 0, "type": "native", "id": "ca-app-pub-3940256099942544/3986624511"},
+              ],
+            }
+          : {
+              "interval": 15,
+              "homelist": [
+                {"source": "admob", "level": 0, "type": "native", "id": "ca-app-pub-2215944226039228/3818295153"},
+              ],
+            };
+      ;
+    }
 
-  //   adConfig = AdConfig.fromJson(jsonMap);
-  //   var interval = adConfig?.interval;
-  //   if (interval != null && interval > 0) {
-  //     minDisplayTime = interval * 1000;
-  //   }
-  // }
+    adConfig = AdConfig.fromJson(jsonMap);
+    var interval = adConfig?.interval;
+    if (interval != null && interval > 0) {
+      minDisplayTime = interval * 1000;
+    }
+  }
 
-  // 开屏广告
-  // Future<bool> loadOpenAd() async {
-  //   if (isVip) {
-  //     return false;
-  //   }
-  //   final isFirstLaunch = SA.storage.isRestart == false;
-  //   if (!isFirstLaunch) {
-  //     return false;
-  //   }
-  //   if (adConfig == null) {
-  //     await initAdConfig();
-  //   }
-  //   if (adConfig?.open == null || adConfig?.open?.isEmpty == true) {
-  //     log.d('[ad] AdConfig: 开屏广告配置为空');
-  //     return false;
-  //   }
-  //   return await _openAd.loadAd();
-  // }
+  Future<bool> loadOpenAd() async {
+    if (isVip) {
+      return false;
+    }
+    if (adConfig == null) {
+      await initAdConfig();
+    }
+    if (adConfig?.homelist == null || adConfig?.homelist?.isEmpty == true) {
+      log.d('[ad] AdConfig: 原生广告配置为空');
+      return false;
+    }
+    return await _nativeAd.loadAd(placement: PlacementType.open);
+  }
 
   // Future<bool> showOpenAd() async {
   //   if (isVip) {

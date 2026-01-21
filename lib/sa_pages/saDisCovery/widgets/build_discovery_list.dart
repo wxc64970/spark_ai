@@ -102,7 +102,7 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
     // 只在all分类下显示广告
     controller.nativeAd ??= MyAd().nativeAd;
     final bool showAd =
-        tabIndex + 1 == HomeListCategroy.all.index &&
+        tabIndex == HomeListCategroy.all.index &&
         controller.nativeAd !=
             null //
             &&
@@ -117,7 +117,8 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         crossAxisCount: 2, // 固定 2 列
         crossAxisSpacing: 14.w, // 列之间的间距
         mainAxisSpacing: 14.w, // 行之间的间距
-        childAspectRatio: 336.w / 448.w, // 子项宽高比（宽/高），控制网格项形状
+        childAspectRatio: 336.w / 448.w,
+        // childAspectRatio: 335 / 370, // 子项宽高比（宽/高），控制网格项形状
       ),
       itemBuilder: (context, index) {
         // 计算实际的列表索引，只在显示广告时调整索引
@@ -127,8 +128,18 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         if (showAd && index == 2) {
           if (controller.nativeAd != null) {
             return Container(
-              constraints: BoxConstraints(minWidth: 336.w, minHeight: 448.w),
-              child: Material(elevation: 0, child: AdWidget(ad: controller.nativeAd!)),
+              color: Colors.red,
+              constraints: BoxConstraints(minWidth: 335, minHeight: 370),
+              child: Stack(
+                children: [
+                  Material(elevation: 0, child: AdWidget(ad: controller.nativeAd!)),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 16.w),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), color: SAAppColors.primaryColor),
+                    child: Text('AD'),
+                  ),
+                ],
+              ),
             );
           }
         }
