@@ -6,7 +6,6 @@ import 'package:spark_ai/saCommon/index.dart';
 import 'models/sa_ad_config.dart';
 import 'models/sa_ad_load_result.dart';
 import 'sa_ad_type.dart';
-import 'services/sa_ad_log_event.dart';
 
 class AdLoader {
   static const Duration timeout = Duration(seconds: 30);
@@ -70,7 +69,7 @@ class AdLoader {
 
     var ad = NativeAd(
       adUnitId: adUnitId,
-      factoryId: 'discoverNativeAd',
+      factoryId: 'SAdiscoverNativeAd',
       request: const AdRequest(),
       listener: NativeAdListener(
         onAdLoaded: (ad) {
@@ -95,7 +94,7 @@ class AdLoader {
         },
         onPaidEvent: (ad, valueMicros, precision, currencyCode) {
           log.d('[ad] native: 广告收入: $valueMicros $currencyCode');
-          SAAdLogEvent().logAdEvent(adid: ad.adUnitId, placement: PlacementType.homelist.name, adType: AdType.native.name, value: valueMicros, currency: currencyCode);
+          SAAppLogEvent().logAdEvent(adid: ad.adUnitId, placement: PlacementType.homelist.name, adType: AdType.native.name, value: valueMicros, currency: currencyCode);
         },
       ),
     );

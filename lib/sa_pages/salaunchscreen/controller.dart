@@ -80,8 +80,8 @@ class SalaunchscreenController extends GetxController {
   }
 
   Future<void> _navigateToMain() async {
-    // 设置最多重试 20 次（每次间隔 500ms，总共约 10 秒）
-    int maxRetries = 20;
+    // 设置最多重试 20 次（每次间隔 800ms，总共约 8 秒）
+    int maxRetries = 10;
     int retryCount = 0;
 
     // 持续尝试加载广告直到成功或达到重试限制
@@ -93,8 +93,7 @@ class SalaunchscreenController extends GetxController {
       }
       retryCount++;
       if (retryCount < maxRetries) {
-        // 等待 500ms 后重试
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 800));
       }
     }
 

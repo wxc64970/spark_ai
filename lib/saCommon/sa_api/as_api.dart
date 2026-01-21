@@ -418,7 +418,21 @@ class Api {
       }
 
       data['source_language'] = 'en';
-      data['target_language'] = Get.deviceLocale?.languageCode;
+      if (lang != null) {
+        SA.storage.setLocale(lang);
+      } else {
+        String localeLang = SA.storage.locale;
+        if (localeLang.isEmpty) {
+          String? userLang = SA.login.currentUser?.targetLanguage;
+          if (userLang != null) {
+            data['target_language'] = userLang;
+          } else {
+            data['target_language'] = Get.deviceLocale?.languageCode;
+          }
+        } else {
+          data['target_language'] = localeLang;
+        }
+      }
 
       if (lang != null) {
         data['target_language'] = lang;

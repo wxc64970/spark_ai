@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 // import 'package:spark_ai/ad/sa_my_ad.dart';
 import 'package:spark_ai/main.dart';
-import 'services/sa_ad_log_event.dart';
+import 'package:spark_ai/saCommon/index.dart';
 
 class AppLifecycleReactor {
   bool _isShowingAd = false;
@@ -14,7 +14,7 @@ class AppLifecycleReactor {
       log.d('AppLifecycleReactor: AppState changed to $state');
       if (state == AppState.foreground) {
         _showAdIfAvailable();
-        SAAdLogEvent().logSessionEvent();
+        SAAppLogEvent().logSessionEvent();
       }
     });
   }
