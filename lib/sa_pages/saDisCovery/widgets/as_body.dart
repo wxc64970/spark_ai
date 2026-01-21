@@ -14,7 +14,7 @@ class ASBodyWidget extends GetView<SadiscoveryController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32.w),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
