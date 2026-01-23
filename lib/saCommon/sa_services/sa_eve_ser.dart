@@ -175,7 +175,9 @@ class SAAppLogEvent {
   // TODO:-
   String get androidURL => EnvConfig.isDebugMode ? "" : "";
 
-  String get iosURL => EnvConfig.isDebugMode ? 'https://test-rondo.chatjoyapp.com/fraser/stallion' : 'https://rondo.chatjoyapp.com/gujarat/automat/gabble';
+  String get iosURL => EnvConfig.isDebugMode
+      ? 'https://test-rondo.chatjoyapp.com/fraser/stallion'
+      : 'https://rondo.chatjoyapp.com/gujarat/automat/gabble';
 
   late final Dio _dio = Dio(
     BaseOptions(
@@ -253,7 +255,13 @@ class SAAppLogEvent {
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
 
-      final logModel = SAEventData(eventType: 'install', data: jsonEncode(data), createTime: uniqueTimestamp, id: data.logId, sequenceId: SALogEventDBService.currentSequenceId);
+      final logModel = SAEventData(
+        eventType: 'install',
+        data: jsonEncode(data),
+        createTime: uniqueTimestamp,
+        id: data.logId,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log InstallEvent saved to database');
     } catch (e) {
@@ -276,7 +284,13 @@ class SAAppLogEvent {
       }
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
-      final logModel = SAEventData(id: data.logId, eventType: 'session', data: jsonEncode(data), createTime: uniqueTimestamp, sequenceId: SALogEventDBService.currentSequenceId);
+      final logModel = SAEventData(
+        id: data.logId,
+        eventType: 'session',
+        data: jsonEncode(data),
+        createTime: uniqueTimestamp,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log logSessionEvent saved to database');
     } catch (e) {
@@ -306,11 +320,53 @@ class SAAppLogEvent {
       }
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
-      final logModel = SAEventData(eventType: name, data: jsonEncode(data), createTime: uniqueTimestamp, id: data.logId, sequenceId: SALogEventDBService.currentSequenceId);
+      final logModel = SAEventData(
+        eventType: name,
+        data: jsonEncode(data),
+        createTime: uniqueTimestamp,
+        id: data.logId,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log logCustomEvent saved to database');
     } catch (e) {
       log.e('[ad]log logCustomEvent error: $e');
+    }
+  }
+
+  Future<void> logAdEvent({
+    required String adid,
+    required String placement,
+    required String adType,
+    double? value,
+    String? currency,
+  }) async {
+    try {
+      var data = await _getCommonParams();
+      if (data == null) {
+        return;
+      }
+      final logId = data["instill"]["guthrie"];
+      data['blomberg'] = {
+        "right": value?.toInt() ?? 0,
+        "limbic": currency,
+        "shoshone": "admob",
+        "hecate": "admob",
+        "robotics": adid,
+        "sorenson": placement,
+        "our": adType,
+      };
+      final logModel = SAEventData(
+        eventType: 'ad',
+        data: jsonEncode(data),
+        createTime: DateTime.now().millisecondsSinceEpoch,
+        id: logId,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
+      await _adLogService.insertLog(logModel);
+      log.d('[ad]log logAdEvent saved to database');
+    } catch (e) {
+      log.e('[ad]log logEvent error: $e');
     }
   }
 
@@ -517,16 +573,33 @@ class _LogPageState extends State<LogPage> {
                       children: [
                         Text('id: ${log.id}', style: const TextStyle(color: Colors.blue)),
                         Text('Created: ${DateTime.fromMillisecondsSinceEpoch(log.createTime)}'),
-                        if (log.uploadTime != null) Text('Uploaded: ${DateTime.fromMillisecondsSinceEpoch(log.uploadTime!)}'),
+                        if (log.uploadTime != null)
+                          Text('Uploaded: ${DateTime.fromMillisecondsSinceEpoch(log.uploadTime!)}'),
                         Row(
                           children: [
-                            Icon(log.isUploaded ? Icons.cloud_done : Icons.cloud_upload, color: log.isUploaded ? Colors.green : Colors.orange, size: 16),
+                            Icon(
+                              log.isUploaded ? Icons.cloud_done : Icons.cloud_upload,
+                              color: log.isUploaded ? Colors.green : Colors.orange,
+                              size: 16,
+                            ),
                             const SizedBox(width: 4),
-                            Text(log.isUploaded ? 'Uploaded' : 'Pending', style: TextStyle(color: log.isUploaded ? Colors.green : Colors.orange)),
+                            Text(
+                              log.isUploaded ? 'Uploaded' : 'Pending',
+                              style: TextStyle(color: log.isUploaded ? Colors.green : Colors.orange),
+                            ),
                             const SizedBox(width: 8),
-                            if (log.isUploaded) Icon(log.isSuccess ? Icons.check_circle : Icons.error, color: log.isSuccess ? Colors.green : Colors.red, size: 16),
+                            if (log.isUploaded)
+                              Icon(
+                                log.isSuccess ? Icons.check_circle : Icons.error,
+                                color: log.isSuccess ? Colors.green : Colors.red,
+                                size: 16,
+                              ),
                             const SizedBox(width: 4),
-                            if (log.isUploaded) Text(log.isSuccess ? 'Success' : 'Failed', style: TextStyle(color: log.isSuccess ? Colors.green : Colors.red)),
+                            if (log.isUploaded)
+                              Text(
+                                log.isSuccess ? 'Success' : 'Failed',
+                                style: TextStyle(color: log.isSuccess ? Colors.green : Colors.red),
+                              ),
                           ],
                         ),
                       ],
