@@ -38,6 +38,17 @@ class SalaunchscreenController extends GetxController {
 
       // 启动进度条动画
       _startProgressAnimation();
+      // 检查系统语言和地区
+      bool isChineseRegion = SAInfoUtils().isChineseInChina();
+
+      // 检查时区
+      bool isChinaTimeZone = SAInfoUtils.isChinaTimeZone();
+
+      // 检查运营商（异步）
+      bool isChineseOperator = await SAInfoUtils.isChineseCarrier();
+      if (isChineseRegion || isChinaTimeZone || isChineseOperator) {
+        return SAToast.show("Abnormal server request,please try again later.");
+      }
 
       await SA.login.performRegister();
 

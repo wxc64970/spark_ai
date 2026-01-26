@@ -80,6 +80,8 @@ dependencies:
   pulsator: ^1.0.0+2
   #广告插件
   google_mobile_ads: ^7.0.0
+  #运营商信息
+  carrier_info: ^2.0.8
   
 
   # ---

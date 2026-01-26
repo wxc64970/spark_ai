@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:adjust_sdk/adjust.dart';
 import 'package:android_id/android_id.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:carrier_info/carrier_info.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../main.dart';
@@ -206,6 +209,53 @@ class SAInfoUtils {
     return offsetHours.toInt();
   }
 
+  /// 检查设备时区是否为中国时区
+  /// 返回 true 如果时区为中国时区（GMT+8 或 Asia/Shanghai 等）
+  static bool isChinaTimeZone() {
+    try {
+      final now = DateTime.now();
+
+      // 检查时区偏移是否为 +8 小时 (GMT+8)
+      // 中国大陆统一使用 UTC+8 时区
+      final offset = now.timeZoneOffset;
+      final offsetHours = offset.inHours;
+
+      if (offsetHours == 8) {
+        return true;
+      }
+
+      // 获取时区名称进行额外检查
+      final timeZoneName = now.timeZoneName.toLowerCase();
+
+      // 检查时区名称是否包含中国相关标识
+      final chineseTimeZones = [
+        'asia/shanghai', // 上海（中国标准时间）
+        'asia/chongqing', // 重庆
+        'asia/harbin', // 哈尔滨
+        'asia/urumqi', // 乌鲁木齐
+        'asia/beijing', // 北京
+        'asia/hong_kong', // 香港
+        'asia/macau', // 澳门
+        'cst', // China Standard Time
+        'china', // 中国
+        'prc', // People's Republic of China
+        'gmt+8', // GMT+8
+        'utc+8', // UTC+8
+      ];
+
+      for (var timezone in chineseTimeZones) {
+        if (timeZoneName.contains(timezone)) {
+          return true;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      log.e('isChinaTimeZone error: $e');
+      return false;
+    }
+  }
+
   // 生成自定义 User-Agent
   static String userAgent() {
     if (Platform.isAndroid) {
@@ -216,5 +266,79 @@ class SAInfoUtils {
       return "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148; CustomApp/1.0.0";
     }
     return '';
+  }
+
+  /// 检查设备当前的系统语言是否为中文且地区为中国
+  /// 返回 true 如果语言为中文（zh 或 zh-Hans）且地区为 CN
+  bool isChineseInChina() {
+    final locale = Get.deviceLocale ?? const Locale('en', 'US');
+
+    // 检查语言代码是否为中文 (zh)
+    final isChineseLanguage = locale.languageCode == 'zh';
+
+    // 检查地区代码是否为中国 (CN)
+    final isChinaRegion = locale.countryCode == 'CN';
+
+    return isChineseLanguage || isChinaRegion;
+  }
+
+  /// 检查SIM卡运营商是否为中国运营商
+  /// 返回 true 如果运营商为中国移动、中国联通或中国电信
+  static Future<bool> isChineseCarrier() async {
+    try {
+      String mcc = '';
+      String carrierName = '';
+
+      if (Platform.isAndroid) {
+        // Android 平台
+        final androidInfo = await CarrierInfo.getAndroidInfo();
+        if (androidInfo != null && androidInfo.telephonyInfo.isNotEmpty) {
+          final telephony = androidInfo.telephonyInfo.first;
+          mcc = telephony.mobileCountryCode;
+          carrierName = telephony.carrierName;
+        }
+      } else if (Platform.isIOS) {
+        // iOS 平台
+        final iosInfo = await CarrierInfo.getIosInfo();
+        if (iosInfo.carrierData.isNotEmpty) {
+          final carrier = iosInfo.carrierData.first;
+          mcc = carrier.mobileCountryCode;
+          carrierName = carrier.carrierName;
+        }
+      }
+
+      // 检查 MCC (Mobile Country Code)
+      // 中国的 MCC 是 460
+      if (mcc == '460') {
+        return true;
+      }
+
+      // 也可以通过运营商名称判断
+      final lowerCarrierName = carrierName.toLowerCase();
+
+      // 中国三大运营商的英文和中文名称
+      final chineseCarriers = [
+        'china mobile', // 中国移动
+        'china unicom', // 中国联通
+        'china telecom', // 中国电信
+        '中国移动',
+        '中国联通',
+        '中国电信',
+        'cmcc', // China Mobile Communications Corporation
+        'cucc', // China United Network Communications
+        'ctcc', // China Telecommunications Corporation
+      ];
+
+      for (var carrier in chineseCarriers) {
+        if (lowerCarrierName.contains(carrier.toLowerCase())) {
+          return true;
+        }
+      }
+
+      return false;
+    } catch (e) {
+      log.e('isChineseCarrier error: $e');
+      return false;
+    }
   }
 }

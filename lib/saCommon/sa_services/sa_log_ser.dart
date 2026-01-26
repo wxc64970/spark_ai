@@ -206,7 +206,8 @@ class SALoginService extends GetxService {
 
     // 4. 匹配语言代码前缀 (例如: zh-CN 匹配 zh)
     for (var lang in allLangs) {
-      if (lang.value?.startsWith('$languageCode-') == true || lang.value?.startsWith('${languageCode}_') == true) {
+      if (lang.value?.startsWith('$languageCode-') == true ||
+          lang.value?.startsWith('${languageCode}_') == true) {
         return lang;
       }
     }
@@ -235,14 +236,16 @@ class SALoginService extends GetxService {
 
       // 3. 尝试匹配相同语言代码的其他变体
       for (var lang in allLangs) {
-        if (lang.value?.startsWith('$languageCode-') == true || lang.value?.startsWith('${languageCode}_') == true) {
+        if (lang.value?.startsWith('$languageCode-') == true ||
+            lang.value?.startsWith('${languageCode}_') == true) {
           return lang;
         }
       }
     } else {
       // 3. 如果用户语言是纯语言代码，尝试匹配带国家代码的变体
       for (var lang in allLangs) {
-        if (lang.value?.startsWith('$userLang-') == true || lang.value?.startsWith('${userLang}_') == true) {
+        if (lang.value?.startsWith('$userLang-') == true ||
+            lang.value?.startsWith('${userLang}_') == true) {
           return lang;
         }
       }
