@@ -175,7 +175,9 @@ class SAAppLogEvent {
   // TODO:-
   String get androidURL => EnvConfig.isDebugMode ? "" : "";
 
-  String get iosURL => EnvConfig.isDebugMode ? 'https://test-auerbach.sparkaiweb.com/ruinous/forte' : 'https://auerbach.sparkaiweb.com/goliath/dewitt';
+  String get iosURL => EnvConfig.isDebugMode
+      ? 'https://test-auerbach.sparkaiweb.com/ruinous/forte'
+      : 'https://auerbach.sparkaiweb.com/goliath/dewitt';
 
   late final Dio _dio = Dio(
     BaseOptions(
@@ -197,6 +199,7 @@ class SAAppLogEvent {
       final osVersion = await SAInfoUtils.getOsVersion();
       final idfa = await SAInfoUtils.getIdfa();
       final snuggly = (Get.deviceLocale ?? const Locale('en_US')).toString();
+      final packageName = await SAInfoUtils.packageName();
       // final timeZone = InfoUtils.getBasicTimeZone();
 
       if (Platform.isAndroid) {
@@ -208,9 +211,21 @@ class SAAppLogEvent {
       final logId = uuid.generate();
 
       return {
-        "artifice": {"bug": "com.spark.garden", "knowlton": manufacturer, "frisky": "mcc", "absurdum": snuggly},
+        "artifice": {
+          "bug": packageName,
+          "knowlton": manufacturer,
+          "frisky": "mcc",
+          "absurdum": snuggly,
+        },
         "leer": {"surgeon": "needle", "system": deviceModel, "supplant": osVersion},
-        "instill": {"alveoli": version, "sailboat": deviceId, "guthrie": logId, "hit": DateTime.now().millisecondsSinceEpoch, "demitted": idfa, "twigging": idfv},
+        "instill": {
+          "alveoli": version,
+          "sailboat": deviceId,
+          "guthrie": logId,
+          "hit": DateTime.now().millisecondsSinceEpoch,
+          "demitted": idfa,
+          "twigging": idfv,
+        },
       };
     } catch (e) {
       log.e('_getCommonParams error: $e');
@@ -243,7 +258,13 @@ class SAAppLogEvent {
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
 
-      final logModel = SAEventData(eventType: 'install', data: jsonEncode(data), createTime: uniqueTimestamp, id: data.logId, sequenceId: SALogEventDBService.currentSequenceId);
+      final logModel = SAEventData(
+        eventType: 'install',
+        data: jsonEncode(data),
+        createTime: uniqueTimestamp,
+        id: data.logId,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log InstallEvent saved to database');
     } catch (e) {
@@ -266,7 +287,13 @@ class SAAppLogEvent {
       }
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
-      final logModel = SAEventData(id: data.logId, eventType: 'session', data: jsonEncode(data), createTime: uniqueTimestamp, sequenceId: SALogEventDBService.currentSequenceId);
+      final logModel = SAEventData(
+        id: data.logId,
+        eventType: 'session',
+        data: jsonEncode(data),
+        createTime: uniqueTimestamp,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log logSessionEvent saved to database');
     } catch (e) {
@@ -296,7 +323,13 @@ class SAAppLogEvent {
       }
 
       final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
-      final logModel = SAEventData(eventType: name, data: jsonEncode(data), createTime: uniqueTimestamp, id: data.logId, sequenceId: SALogEventDBService.currentSequenceId);
+      final logModel = SAEventData(
+        eventType: name,
+        data: jsonEncode(data),
+        createTime: uniqueTimestamp,
+        id: data.logId,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log logCustomEvent saved to database');
     } catch (e) {
@@ -304,15 +337,35 @@ class SAAppLogEvent {
     }
   }
 
-  Future<void> logAdEvent({required String adid, required String placement, required String adType, double? value, String? currency}) async {
+  Future<void> logAdEvent({
+    required String adid,
+    required String placement,
+    required String adType,
+    double? value,
+    String? currency,
+  }) async {
     try {
       var data = await _getCommonParams();
       if (data == null) {
         return;
       }
       final logId = data["instill"]["guthrie"];
-      data['blomberg'] = {"right": value?.toInt() ?? 0, "limbic": currency, "shoshone": "admob", "hecate": "admob", "robotics": adid, "sorenson": placement, "our": adType};
-      final logModel = SAEventData(eventType: 'ad', data: jsonEncode(data), createTime: DateTime.now().millisecondsSinceEpoch, id: logId, sequenceId: SALogEventDBService.currentSequenceId);
+      data['blomberg'] = {
+        "right": value?.toInt() ?? 0,
+        "limbic": currency,
+        "shoshone": "admob",
+        "hecate": "admob",
+        "robotics": adid,
+        "sorenson": placement,
+        "our": adType,
+      };
+      final logModel = SAEventData(
+        eventType: 'ad',
+        data: jsonEncode(data),
+        createTime: DateTime.now().millisecondsSinceEpoch,
+        id: logId,
+        sequenceId: SALogEventDBService.currentSequenceId,
+      );
       await _adLogService.insertLog(logModel);
       log.d('[ad]log logAdEvent saved to database');
     } catch (e) {
@@ -426,7 +479,7 @@ extension Clannish on Map<String, dynamic> {
     if (Platform.isAndroid) {
       return ''; //TODO:
     } else {
-      return this['guthrie'];
+      return this['instill']['guthrie'];
     }
   }
 }
@@ -495,7 +548,10 @@ class _LogPageState extends State<LogPage> {
               const PopupMenuItem(value: 'pending', child: Text('Pending Logs')),
               const PopupMenuItem(value: 'failed', child: Text('Failed Logs')),
             ],
-            child: const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Icon(Icons.filter_list)),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.filter_list),
+            ),
           ),
         ],
       ),
@@ -523,16 +579,35 @@ class _LogPageState extends State<LogPage> {
                       children: [
                         Text('id: ${log.id}', style: const TextStyle(color: Colors.blue)),
                         Text('Created: ${DateTime.fromMillisecondsSinceEpoch(log.createTime)}'),
-                        if (log.uploadTime != null) Text('Uploaded: ${DateTime.fromMillisecondsSinceEpoch(log.uploadTime!)}'),
+                        if (log.uploadTime != null)
+                          Text('Uploaded: ${DateTime.fromMillisecondsSinceEpoch(log.uploadTime!)}'),
                         Row(
                           children: [
-                            Icon(log.isUploaded ? Icons.cloud_done : Icons.cloud_upload, color: log.isUploaded ? Colors.green : Colors.orange, size: 16),
+                            Icon(
+                              log.isUploaded ? Icons.cloud_done : Icons.cloud_upload,
+                              color: log.isUploaded ? Colors.green : Colors.orange,
+                              size: 16,
+                            ),
                             const SizedBox(width: 4),
-                            Text(log.isUploaded ? 'Uploaded' : 'Pending', style: TextStyle(color: log.isUploaded ? Colors.green : Colors.orange)),
+                            Text(
+                              log.isUploaded ? 'Uploaded' : 'Pending',
+                              style: TextStyle(
+                                color: log.isUploaded ? Colors.green : Colors.orange,
+                              ),
+                            ),
                             const SizedBox(width: 8),
-                            if (log.isUploaded) Icon(log.isSuccess ? Icons.check_circle : Icons.error, color: log.isSuccess ? Colors.green : Colors.red, size: 16),
+                            if (log.isUploaded)
+                              Icon(
+                                log.isSuccess ? Icons.check_circle : Icons.error,
+                                color: log.isSuccess ? Colors.green : Colors.red,
+                                size: 16,
+                              ),
                             const SizedBox(width: 4),
-                            if (log.isUploaded) Text(log.isSuccess ? 'Success' : 'Failed', style: TextStyle(color: log.isSuccess ? Colors.green : Colors.red)),
+                            if (log.isUploaded)
+                              Text(
+                                log.isSuccess ? 'Success' : 'Failed',
+                                style: TextStyle(color: log.isSuccess ? Colors.green : Colors.red),
+                              ),
                           ],
                         ),
                       ],
@@ -546,7 +621,10 @@ class _LogPageState extends State<LogPage> {
                             child: SelectableText(log.data), // 替换为SelectableText
                           ),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Close'),
+                            ),
                             IconButton(
                               icon: const Icon(Icons.content_copy),
                               onPressed: () {

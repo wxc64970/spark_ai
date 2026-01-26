@@ -102,19 +102,35 @@ class MyAd {
     Map<String, dynamic> jsonMap = {};
 
     if (adConfigStr != null && adConfigStr.isNotEmpty) {
-      jsonMap = jsonDecode(adConfigStr);
+      // jsonMap = jsonDecode(adConfigStr);
+      jsonMap = {
+        "interval": 15,
+        "homelist": [
+          {"source": "admob", "level": 0, "type": "native", "id": adConfigStr},
+        ],
+      };
     } else {
       jsonMap = EnvConfig.isDebugMode
           ? {
               "interval": 15,
               "homelist": [
-                {"source": "admob", "level": 0, "type": "native", "id": "ca-app-pub-3940256099942544/3986624511"},
+                {
+                  "source": "admob",
+                  "level": 0,
+                  "type": "native",
+                  "id": "ca-app-pub-3940256099942544/3986624511",
+                },
               ],
             }
           : {
               "interval": 15,
               "homelist": [
-                {"source": "admob", "level": 0, "type": "native", "id": "ca-app-pub-2215944226039228/3818295153"},
+                {
+                  "source": "admob",
+                  "level": 0,
+                  "type": "native",
+                  "id": "ca-app-pub-2215944226039228/3818295153",
+                },
               ],
             };
       ;
