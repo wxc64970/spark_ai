@@ -66,46 +66,59 @@ class _CjMakste2State extends State<SAMakste2> {
         Positioned.fill(
           child: Column(
             children: [
-              Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(32.r),
-                  clipBehavior: Clip.hardEdge,
-                  child: Stack(
-                    children: [
-                      Container(
-                        color: Colors.white,
-                        height: imgH,
-                        width: imgW,
-                        child: Stack(
-                          alignment: Alignment.topRight,
-                          children: [
-                            if (widget.undressRole && avatar != null)
-                              Positioned.fill(
-                                child: CachedNetworkImage(imageUrl: avatar, fit: BoxFit.cover),
-                              ),
-                            if (imagePath != null && imagePath.isNotEmpty)
-                              Positioned.fill(child: Image.file(File(imagePath), fit: BoxFit.cover)),
-                            IconButton(
-                              onPressed: widget.onDeleteImage,
-                              icon: Image.asset("assets/images/close1.png", width: 48.w, fit: BoxFit.contain),
-                            ),
-                            if (widget.isLoading) const SAMakLoading(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.w),
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.zero,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(32.r),
+                          clipBehavior: Clip.hardEdge,
+                          child: Stack(
+                            children: [
+                              Container(
+                                color: Colors.white,
+                                height: imgH,
+                                width: imgW,
+                                child: Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    if (widget.undressRole && avatar != null)
+                                      Positioned.fill(
+                                        child: CachedNetworkImage(
+                                          imageUrl: avatar,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    if (imagePath != null && imagePath.isNotEmpty)
+                                      Positioned.fill(
+                                        child: Image.file(File(imagePath), fit: BoxFit.cover),
+                                      ),
+                                    IconButton(
+                                      onPressed: widget.onDeleteImage,
+                                      icon: Image.asset(
+                                        "assets/images/close1.png",
+                                        width: 48.w,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    if (widget.isLoading) const SAMakLoading(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 24.w),
                       if (widget.isVideo == false) ...[
-                        SAMakStylesWidget(selectedStyel: style, list: widget.styles, onChooseed: onChooseedStyle),
+                        SAMakStylesWidget(
+                          selectedStyel: style,
+                          list: widget.styles,
+                          onChooseed: onChooseedStyle,
+                        ),
                         const SizedBox(height: 8),
                       ],
                       Container(
@@ -113,7 +126,11 @@ class _CjMakste2State extends State<SAMakste2> {
                         // padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
                           SATextData.ai_custom_prompt,
-                          style: TextStyle(color: Color(0xFF222222), fontSize: 28.sp, fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                            color: Color(0xFF222222),
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       SizedBox(height: 16.w),
@@ -122,7 +139,10 @@ class _CjMakste2State extends State<SAMakste2> {
                         borderRadius: BorderRadius.circular(24.r),
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 24.w),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24.r)),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24.r),
+                          ),
                           alignment: AlignmentDirectional.centerStart,
                           child: SAAutoHeightScrollText(
                             text: hasCustomPrompt
@@ -131,7 +151,9 @@ class _CjMakste2State extends State<SAMakste2> {
                                 ? SATextData.ai_prompt_examples_video
                                 : SATextData.ai_prompt_examples_img,
                             style: TextStyle(
-                              color: hasCustomPrompt ? const Color(0xFF1C1C1C) : const Color(0xFFA5A5B9),
+                              color: hasCustomPrompt
+                                  ? const Color(0xFF1C1C1C)
+                                  : const Color(0xFFA5A5B9),
                               fontSize: 24.sp,
                               fontWeight: FontWeight.w400,
                               height: 1.5,
@@ -166,7 +188,11 @@ class _CjMakste2State extends State<SAMakste2> {
                       children: [
                         TextSpan(
                           text: SATextData.ai_balance,
-                          style: TextStyle(color: Color(0xFF222222), fontSize: 24.w, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                            color: Color(0xFF222222),
+                            fontSize: 24.w,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         WidgetSpan(child: SizedBox(width: 8.w)),
                         TextSpan(
@@ -182,7 +208,11 @@ class _CjMakste2State extends State<SAMakste2> {
                         const WidgetSpan(child: SizedBox(width: 4)),
                         TextSpan(
                           text: widget.isVideo ? SATextData.ai_videos : SATextData.ai_photos,
-                          style: TextStyle(color: Color(0xFF222222), fontSize: 24.w, fontWeight: FontWeight.w400),
+                          style: TextStyle(
+                            color: Color(0xFF222222),
+                            fontSize: 24.w,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ],
                     ),
@@ -232,7 +262,11 @@ class _CjMakste2State extends State<SAMakste2> {
           children: [
             Text(
               SATextData.ai_custom_prompt,
-              style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                color: Color(0xff222222),
+                fontSize: 32.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),

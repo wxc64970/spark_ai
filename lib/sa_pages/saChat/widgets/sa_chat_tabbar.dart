@@ -31,7 +31,11 @@ class SAChatTabbar extends GetView<SachatController> {
           indicatorSize: TabBarIndicatorSize.label, // 下划线宽度与文字一致
           indicator: GradientUnderlineTabIndicator(
             // 渐变颜色（可自定义）
-            gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [SAAppColors.primaryColor, SAAppColors.yellowColor]),
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [SAAppColors.primaryColor, SAAppColors.yellowColor],
+            ),
             // 下标线条粗细（同原方案的borderSide.width）
             thickness: 16.w,
             // 下标宽度/位置控制（同原方案的insets）
@@ -51,7 +55,11 @@ class SAChatTabbar extends GetView<SachatController> {
                 children: [
                   Text(
                     data,
-                    style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w600, color: Colors.transparent),
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.transparent,
+                    ),
                   ),
                   Text(data),
                 ],
@@ -59,7 +67,7 @@ class SAChatTabbar extends GetView<SachatController> {
             );
           }),
         ),
-        SizedBox(height: 40.w),
+        SizedBox(height: 24.w),
         Expanded(
           child: TabBarView(
             controller: controller.tabController,

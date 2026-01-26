@@ -12,7 +12,10 @@ import 'package:uuid/v4.dart';
 class SALocalStorage extends GetxService {
   late SharedPreferences _prefs;
 
-  final _secureStorage = const FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true), iOptions: IOSOptions());
+  final _secureStorage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(),
+  );
 
   SharedPreferences get prefs => _prefs;
 
@@ -122,7 +125,9 @@ class SALocalStorage extends GetxService {
       } else if (Platform.isIOS) {
         final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
         final iosInfo = await deviceInfo.iosInfo;
-        return iosInfo.identifierForVendor?.isNotEmpty == true ? iosInfo.identifierForVendor! : generateUuid();
+        return iosInfo.identifierForVendor?.isNotEmpty == true
+            ? iosInfo.identifierForVendor!
+            : generateUuid();
       } else {
         return generateUuid();
       }
@@ -186,7 +191,8 @@ class SALocalStorage extends GetxService {
     return Map<String, int>.from(jsonMap);
   }
 
-  set messageCountMap(Map<String, int> value) => _prefs.setString('feg4543dsafdg3', json.encode(value));
+  set messageCountMap(Map<String, int> value) =>
+      _prefs.setString('feg4543dsafdg3', json.encode(value));
 
   /// 聊天背景图片路径
   String get chatBgImagePath {

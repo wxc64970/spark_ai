@@ -6,7 +6,13 @@ import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 class SAMsgEditScreen extends StatefulWidget {
-  const SAMsgEditScreen({super.key, required this.onInputTextFinish, this.content, this.subtitle, this.height});
+  const SAMsgEditScreen({
+    super.key,
+    required this.onInputTextFinish,
+    this.content,
+    this.subtitle,
+    this.height,
+  });
 
   final String? content;
   final Widget? subtitle;
@@ -38,7 +44,9 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
       // 截断文本到500字符
       textController.text = textController.text.substring(0, 500);
       // 将光标移到文本末尾
-      textController.selection = TextSelection.fromPosition(TextPosition(offset: textController.text.length));
+      textController.selection = TextSelection.fromPosition(
+        TextPosition(offset: textController.text.length),
+      );
     }
   }
 
@@ -79,13 +87,23 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(32.r), topRight: Radius.circular(32.r)),
-                child: Image.asset("assets/images/sa_10.png", width: Get.width, fit: BoxFit.contain),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
+                ),
+                child: Image.asset(
+                  "assets/images/sa_10.png",
+                  width: Get.width,
+                  fit: BoxFit.contain,
+                ),
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 36.w, horizontal: 32.w),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(32.r), topRight: Radius.circular(32.r)),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32.r),
+                    topRight: Radius.circular(32.r),
+                  ),
                 ),
                 child: SingleChildScrollView(
                   physics: NeverScrollableScrollPhysics(),
@@ -95,7 +113,10 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                     children: [
                       if (widget.subtitle != null)
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16).copyWith(bottom: 6),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 0,
+                          ).copyWith(bottom: 6),
                           child: widget.subtitle!,
                         ),
                       Container(
@@ -146,7 +167,10 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                         children: [
                           Container(
                             width: 296.w,
-                            margin: EdgeInsets.only(top: 32.w, bottom: Get.mediaQuery.viewInsets.bottom),
+                            margin: EdgeInsets.only(
+                              top: 32.w,
+                              bottom: Get.mediaQuery.viewInsets.bottom,
+                            ),
                             child: ButtonGradientWidget(
                               height: 64,
                               width: Get.width,
@@ -154,7 +178,11 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                               child: Center(
                                 child: Text(
                                   SATextData.confirm,
-                                  style: TextStyle(fontSize: 24.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                                  style: TextStyle(
+                                    fontSize: 24.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
