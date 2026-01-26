@@ -82,9 +82,11 @@ class SAPayUtils {
     }
 
     // 根据 sku.orderNum 从小到大排序
-    consumableList = allList.where((sku) => _consumableIds.contains(sku.sku)).toList()..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
+    consumableList = allList.where((sku) => _consumableIds.contains(sku.sku)).toList()
+      ..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
 
-    subscriptionList = allList.where((sku) => _subscriptionIds.contains(sku.sku)).toList()..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
+    subscriptionList = allList.where((sku) => _subscriptionIds.contains(sku.sku)).toList()
+      ..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
   }
 
   Future<void> _getSkuDatas() async {
@@ -130,7 +132,9 @@ class SAPayUtils {
 
       final isConsumable = data.skuType == 0;
 
-      await (isConsumable ? _inAppPurchase.buyConsumable(purchaseParam: purchaseParam) : _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam));
+      await (isConsumable
+          ? _inAppPurchase.buyConsumable(purchaseParam: purchaseParam)
+          : _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam));
     } catch (e) {
       await SALoading.close();
       SAToast.show(e.toString());
@@ -156,7 +160,9 @@ class SAPayUtils {
     }
 
     // 按交易日期降序排序
-    purchaseDetailsList.sort((a, b) => (int.tryParse(b.transactionDate ?? '0') ?? 0).compareTo(int.tryParse(a.transactionDate ?? '0') ?? 0));
+    purchaseDetailsList.sort(
+      (a, b) => (int.tryParse(b.transactionDate ?? '0') ?? 0).compareTo(int.tryParse(a.transactionDate ?? '0') ?? 0),
+    );
 
     final first = purchaseDetailsList.first;
 
@@ -195,7 +201,9 @@ class SAPayUtils {
   Future<void> _handleSuccessfulPurchase(PurchaseDetails purchaseDetails) async {
     log.d(' 购买成功 status: ${purchaseDetails.status}');
     log.d(' 购买成功 pendingCompletePurchase: ${purchaseDetails.pendingCompletePurchase}');
-    log.d('[iap] 成功购买: ${purchaseDetails.productID}, ${purchaseDetails.purchaseID}, ${purchaseDetails.transactionDate}');
+    log.d(
+      '[iap] 成功购买: ${purchaseDetails.productID}, ${purchaseDetails.purchaseID}, ${purchaseDetails.transactionDate}',
+    );
     if (!_isUserBuy) {
       log.d('[iap] 自动购买, 不需要处理');
       return;
@@ -385,7 +393,11 @@ class SAPayUtils {
       final name = 'suc_${path}_${id}_$from';
       log.d('[iap] report: $name');
       SAlogEvent(name);
-      if (_consFrom != ConsumeFrom.undr && _consFrom != ConsumeFrom.creaimg && _consFrom != ConsumeFrom.creavideo && _consFrom != ConsumeFrom.aiphoto && _consFrom != ConsumeFrom.img2v) {
+      if (_consFrom != ConsumeFrom.undr &&
+          _consFrom != ConsumeFrom.creaimg &&
+          _consFrom != ConsumeFrom.creavideo &&
+          _consFrom != ConsumeFrom.aiphoto &&
+          _consFrom != ConsumeFrom.img2v) {
         _showRechargeSuccess(id);
       }
       iapEvent.value = (IAPEvent.goldSucc, id, _eventCounter.value);

@@ -27,25 +27,33 @@ class SAContentWidget extends GetView<SagemsController> {
                       onTap: () {
                         Get.back();
                       },
-                      child: Image.asset("assets/images/sa_06.png", width: 64.w, fit: BoxFit.contain),
+                      child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
                     ),
                     GestureDetector(
                       onTap: () {
                         controller.help();
                       },
-                      child: Image.asset("assets/images/sa_43.png", width: 64.w, fit: BoxFit.contain),
+                      child: Image.asset("assets/images/sa_43.png", width: 48.w, fit: BoxFit.contain),
                     ),
                   ],
                 ),
                 SizedBox(height: 40.w),
                 Text(
                   SA.storage.isSAB ? SATextData.openChatsUnlock : SATextData.buyGemsOpenChats,
-                  style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 32.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    color: Colors.black,
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 32.w),
                 Expanded(child: ItemListWidget()),
-                Text(SATextData.oneTimePurchaseNote(controller.state.chooseProduct.value.productDetails?.price ?? '--'), textAlign: TextAlign.center),
+                Text(
+                  SATextData.oneTimePurchaseNote(controller.state.chooseProduct.value.productDetails?.price ?? '--'),
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(height: 16.w),
               ],
             ),
@@ -55,7 +63,9 @@ class SAContentWidget extends GetView<SagemsController> {
           padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 32.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(24.r), topRight: Radius.circular(24.r)),
-            boxShadow: [BoxShadow(color: const Color(0x1000001a), offset: const Offset(0, -2), blurRadius: 8, spreadRadius: 0)],
+            boxShadow: [
+              BoxShadow(color: const Color(0x1000001a), offset: const Offset(0, -2), blurRadius: 8, spreadRadius: 0),
+            ],
             color: Colors.white,
           ),
 
@@ -71,7 +81,12 @@ class SAContentWidget extends GetView<SagemsController> {
                   child: Center(
                     child: Text(
                       SA.storage.isSAB ? SATextData.btnContinue : SATextData.buy,
-                      style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontFamily: "Montserrat",
+                        fontSize: 28.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),

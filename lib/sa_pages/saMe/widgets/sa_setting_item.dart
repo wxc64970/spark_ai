@@ -4,7 +4,15 @@ import 'package:get/get.dart';
 import 'package:spark_ai/sa_pages/saMe/controller.dart';
 
 class SettingItem extends GetView<SameController> {
-  const SettingItem({Key? key, this.sectionTitle, required this.title, this.onTap, required this.top, this.subtitle, this.subWidget}) : super(key: key);
+  const SettingItem({
+    Key? key,
+    this.sectionTitle,
+    required this.title,
+    this.onTap,
+    required this.top,
+    this.subtitle,
+    this.subWidget,
+  }) : super(key: key);
   final String? sectionTitle;
   final String title;
   final String? subtitle;
@@ -18,12 +26,9 @@ class SettingItem extends GetView<SameController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (sectionTitle != null)
-          Padding(
-            padding: EdgeInsets.only(top: top.w, bottom: 16.w),
-            child: Text(
-              sectionTitle!,
-              style: TextStyle(fontSize: 28.sp, color: Color(0xff666666), fontWeight: FontWeight.w500),
-            ),
+          Text(
+            sectionTitle!,
+            style: TextStyle(fontSize: 28.sp, color: Color(0xff666666), fontWeight: FontWeight.w500),
           ),
         InkWell(
           onTap: onTap,

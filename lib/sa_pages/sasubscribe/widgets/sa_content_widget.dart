@@ -15,7 +15,12 @@ class SaContentWidget extends GetView<SasubscribeController> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset(SA.storage.isSAB ? "assets/images/sa_65.png" : "assets/images/sa_45.png", width: Get.width, height: Get.height, fit: BoxFit.cover),
+        Image.asset(
+          SA.storage.isSAB ? "assets/images/sa_65.png" : "assets/images/sa_45.png",
+          width: Get.width,
+          height: Get.height,
+          fit: BoxFit.cover,
+        ),
         Positioned.fill(child: Container(color: Colors.black45)),
         SizedBox(
           height: Get.height,
@@ -61,7 +66,11 @@ class SaContentWidget extends GetView<SasubscribeController> {
                         if (SA.storage.isSAB) SizedBox(height: 32.w),
                         Stack(
                           children: [
-                            Image.asset(SA.storage.isSAB ? "assets/images/sa_64.png" : "assets/images/sa_46.png", width: Get.width, fit: BoxFit.contain),
+                            Image.asset(
+                              SA.storage.isSAB ? "assets/images/sa_64.png" : "assets/images/sa_46.png",
+                              width: Get.width,
+                              fit: BoxFit.contain,
+                            ),
                             Positioned.fill(
                               child: Container(
                                 padding: EdgeInsets.only(left: 48.w),
@@ -70,8 +79,13 @@ class SaContentWidget extends GetView<SasubscribeController> {
                                   children: [
                                     SizedBox(height: 48.w),
                                     Text(
-                                      SATextData.vipUpgrade,
-                                      style: TextStyle(fontSize: 40.sp, color: Color(0xffDF9A44), fontFamily: "Montserrat", fontWeight: FontWeight.w900),
+                                      SA.storage.isSAB ? SATextData.bestChatExperience : SATextData.vipUpgrade,
+                                      style: TextStyle(
+                                        fontSize: SA.storage.isSAB ? 24.sp : 40.sp,
+                                        color: Color(0xffDF9A44),
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.w900,
+                                      ),
                                     ),
                                     SizedBox(height: 16.w),
                                     Obx(
@@ -80,10 +94,19 @@ class SaContentWidget extends GetView<SasubscribeController> {
                                         placeholders: {
                                           'icon': WidgetSpan(
                                             alignment: PlaceholderAlignment.middle,
-                                            child: Image.asset('assets/images/sa_47.png', width: 32.w, fit: BoxFit.contain),
+                                            child: Image.asset(
+                                              'assets/images/sa_47.png',
+                                              width: 32.w,
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
                                         },
-                                        style: TextStyle(color: Color(0xff808080), fontSize: 24.sp, fontWeight: FontWeight.w500, height: 1.5),
+                                        style: TextStyle(
+                                          color: Color(0xff808080),
+                                          fontSize: 24.sp,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1.5,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -123,7 +146,11 @@ class SaContentWidget extends GetView<SasubscribeController> {
           child: Text(
             controller.subscriptionDescription,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xffFFFFFF).withValues(alpha: 0.7), fontSize: 20.sp, fontWeight: FontWeight.w400),
+            style: TextStyle(
+              color: Color(0xffFFFFFF).withValues(alpha: 0.7),
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
       ),
@@ -142,7 +169,12 @@ class SaContentWidget extends GetView<SasubscribeController> {
         child: Center(
           child: Text(
             SA.storage.isSAB ? SATextData.btnContinue : SATextData.subscribe,
-            style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Colors.white, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontFamily: "Montserrat",
+              fontSize: 28.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

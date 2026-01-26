@@ -76,13 +76,20 @@ class SAVListWidget extends GetView<SasubscribeController> {
             child: Container(
               width: Get.width,
               // margin: EdgeInsets.only(bottom: 16.w),
-              padding: EdgeInsets.symmetric(vertical: 32.w, horizontal: 32.w),
+              padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 32.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24.r),
-                border: Border.all(width: 2.w, color: isSelected ? Color(0xffDF9A44) : Color(0xffFFFFFF).withValues(alpha: 0.15)),
-                color: isSelected ? Color(0xffDF9A44).withValues(alpha: 0.4) : Color(0xffFFFFFF).withValues(alpha: 0.15),
+                border: Border.all(
+                  width: 2.w,
+                  color: isSelected ? Color(0xffDF9A44) : Color(0xffFFFFFF).withValues(alpha: 0.15),
+                ),
+                color: isSelected
+                    ? Color(0xffDF9A44).withValues(alpha: 0.4)
+                    : Color(0xffFFFFFF).withValues(alpha: 0.15),
               ),
-              child: SA.storage.isSAB ? SAbWidget(price, isLifetime, sku, getSkuTitle()) : SAaWidget(getSkuTitle(), price),
+              child: SA.storage.isSAB
+                  ? SAbWidget(price, isLifetime, sku, getSkuTitle())
+                  : SAaWidget(getSkuTitle(), price),
             ),
           );
         });
@@ -104,7 +111,13 @@ class SAVListWidget extends GetView<SasubscribeController> {
           children: [
             Text(
               price,
-              style: TextStyle(fontFamily: "Montserrat", fontSize: 48.sp, color: Colors.white, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+              style: TextStyle(
+                fontFamily: "Montserrat",
+                fontSize: 48.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
         ),
@@ -146,7 +159,14 @@ class SAVListWidget extends GetView<SasubscribeController> {
             Text(
               originalPrice,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70, fontSize: 22.sp, decoration: TextDecoration.lineThrough, decorationColor: Colors.white, decorationThickness: 3.w, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 22.sp,
+                decoration: TextDecoration.lineThrough,
+                decorationColor: Colors.white,
+                decorationThickness: 3.w,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ],
         ),
@@ -159,7 +179,13 @@ class SAVListWidget extends GetView<SasubscribeController> {
                 SizedBox(width: 8.w),
                 Text(
                   '+${sku.number}',
-                  style: TextStyle(fontFamily: "Montserrat", fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    fontSize: 32.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ],
             ),
@@ -222,7 +248,13 @@ class SAVListWidget extends GetView<SasubscribeController> {
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: "Montserrat", color: Colors.white, fontSize: 40.sp, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    color: Colors.white,
+                    fontSize: 40.sp,
+                    fontWeight: FontWeight.w600,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
                 FittedBox(
                   fit: BoxFit.scaleDown,

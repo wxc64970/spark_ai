@@ -13,10 +13,13 @@ class MomentsWidget extends GetView<SaprofileController> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 32.w),
-      margin: EdgeInsets.only(bottom: 32.w),
+      margin: EdgeInsets.only(bottom: 32.w, top: 10.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(46.r),
-        boxShadow: [BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 8), blurRadius: 8, spreadRadius: 0)],
+        // border: Border.all(width: 2.w, color: Color(0xffEBEBEB)),
+        boxShadow: [
+          BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 0), blurRadius: 8, spreadRadius: 1),
+        ],
         color: Colors.white,
       ),
       child: Obx(() {
@@ -28,7 +31,12 @@ class MomentsWidget extends GetView<SaprofileController> {
         return GridView.builder(
           shrinkWrap: true,
           padding: EdgeInsets.zero,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, mainAxisSpacing: 8.w, crossAxisSpacing: 18.w, childAspectRatio: 1.0),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 8.w,
+            crossAxisSpacing: 18.w,
+            childAspectRatio: 1.0,
+          ),
           itemBuilder: (_, idx) {
             final image = images[idx];
             final unlocked = image.unlocked ?? false;

@@ -83,7 +83,8 @@ class _CjMakste2State extends State<SAMakste2> {
                               Positioned.fill(
                                 child: CachedNetworkImage(imageUrl: avatar, fit: BoxFit.cover),
                               ),
-                            if (imagePath != null && imagePath.isNotEmpty) Positioned.fill(child: Image.file(File(imagePath), fit: BoxFit.cover)),
+                            if (imagePath != null && imagePath.isNotEmpty)
+                              Positioned.fill(child: Image.file(File(imagePath), fit: BoxFit.cover)),
                             IconButton(
                               onPressed: widget.onDeleteImage,
                               icon: Image.asset("assets/images/close1.png", width: 48.w, fit: BoxFit.contain),
@@ -103,7 +104,10 @@ class _CjMakste2State extends State<SAMakste2> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.isVideo == false) ...[SAMakStylesWidget(selectedStyel: style, list: widget.styles, onChooseed: onChooseedStyle), const SizedBox(height: 8)],
+                      if (widget.isVideo == false) ...[
+                        SAMakStylesWidget(selectedStyel: style, list: widget.styles, onChooseed: onChooseedStyle),
+                        const SizedBox(height: 8),
+                      ],
                       Container(
                         alignment: Alignment.centerLeft,
                         // padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -126,7 +130,12 @@ class _CjMakste2State extends State<SAMakste2> {
                                 : widget.isVideo
                                 ? SATextData.ai_prompt_examples_video
                                 : SATextData.ai_prompt_examples_img,
-                            style: TextStyle(color: hasCustomPrompt ? const Color(0xFF1C1C1C) : const Color(0xFFA5A5B9), fontSize: 24.sp, fontWeight: FontWeight.w400, height: 1.5),
+                            style: TextStyle(
+                              color: hasCustomPrompt ? const Color(0xFF1C1C1C) : const Color(0xFFA5A5B9),
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w400,
+                              height: 1.5,
+                            ),
                             preciseHeight: true,
                             maxLines: 3,
                           ),
@@ -162,7 +171,13 @@ class _CjMakste2State extends State<SAMakste2> {
                         WidgetSpan(child: SizedBox(width: 8.w)),
                         TextSpan(
                           text: widget.isVideo ? '$createVideo' : '$createImg',
-                          style: TextStyle(fontFamily: "Montserrat", color: Color(0xFF1A1A1A), fontSize: 24.sp, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic),
+                          style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: Color(0xFF1A1A1A),
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                         const WidgetSpan(child: SizedBox(width: 4)),
                         TextSpan(
@@ -180,7 +195,12 @@ class _CjMakste2State extends State<SAMakste2> {
                   child: Center(
                     child: Text(
                       SATextData.ai_generate,
-                      style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontFamily: "Montserrat",
+                        fontSize: 28.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -208,11 +228,11 @@ class _CjMakste2State extends State<SAMakste2> {
           Get.back();
         },
         subtitle: Row(
-          spacing: 4,
+          // spacing: 4,
           children: [
             Text(
               SATextData.ai_custom_prompt,
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+              style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w500),
             ),
           ],
         ),

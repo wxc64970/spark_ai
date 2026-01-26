@@ -19,7 +19,14 @@ class SAContentWidget extends GetView<SaprofileController> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SAImageWidget(url: controller.role.avatar, width: Get.width, height: 600.w, shape: BoxShape.rectangle, cacheWidth: 80, cacheHeight: 80),
+        SAImageWidget(
+          url: controller.role.avatar,
+          width: Get.width,
+          height: 600.w,
+          shape: BoxShape.rectangle,
+          cacheWidth: 80,
+          cacheHeight: 80,
+        ),
         Container(
           width: Get.width,
           height: 600.w,
@@ -28,7 +35,12 @@ class SAContentWidget extends GetView<SaprofileController> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [Color(0xff000000).withValues(alpha: 0.8), Color(0xff000000).withValues(alpha: 0.0), Color(0xff000000).withValues(alpha: 0.0), Color(0xff000000).withValues(alpha: 0.9)],
+              colors: [
+                Color(0xff000000).withValues(alpha: 0.8),
+                Color(0xff000000).withValues(alpha: 0.0),
+                Color(0xff000000).withValues(alpha: 0.0),
+                Color(0xff000000).withValues(alpha: 0.9),
+              ],
             ),
           ),
           child: Column(
@@ -65,16 +77,27 @@ class SAContentWidget extends GetView<SaprofileController> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
                           gradient: LinearGradient(
-                            colors: controller.state.collect ? [Color(0xff000000).withValues(alpha: 0.3), Color(0xff000000).withValues(alpha: 0.3)] : [Color(0xffF77DF3), Color(0xffA67DF7)],
+                            colors: controller.state.collect
+                                ? [Color(0xff000000).withValues(alpha: 0.3), Color(0xff000000).withValues(alpha: 0.3)]
+                                : [Color(0xffF77DF3), Color(0xffA67DF7)],
                           ),
                         ),
                         child: Row(
                           children: [
-                            Image.asset(controller.state.collect ? "assets/images/sa_04.png" : "assets/images/sa_03.png", width: 40.w, fit: BoxFit.contain),
+                            Image.asset(
+                              controller.state.collect ? "assets/images/sa_04.png" : "assets/images/sa_03.png",
+                              width: 40.w,
+                              fit: BoxFit.contain,
+                            ),
                             SizedBox(width: 8.w),
                             Text(
                               controller.role.likes ?? '0',
-                              style: TextStyle(fontFamily: "Montserrat", color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: Colors.white,
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
@@ -91,7 +114,13 @@ class SAContentWidget extends GetView<SaprofileController> {
           height: Get.height,
           margin: EdgeInsets.only(top: 560.w),
           decoration: BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xffEBFFCC), Color(0xffFFFFFF)], stops: [0.0, 0.4]),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xffEBFFCC), Color(0xffF7F7F7)],
+              stops: [0.0, 0.4],
+            ),
+            color: Color(0xffF7F7F7),
             borderRadius: BorderRadius.only(topLeft: Radius.circular(32.r), topRight: Radius.circular(32.r)),
           ),
           child: Column(
@@ -107,7 +136,14 @@ class SAContentWidget extends GetView<SaprofileController> {
                         padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 32.w),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(46.r),
-                          boxShadow: [BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 8), blurRadius: 8, spreadRadius: 0)],
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0x61C5E7B3),
+                              offset: const Offset(0, 8),
+                              blurRadius: 8,
+                              spreadRadius: 0,
+                            ),
+                          ],
                           color: Colors.white,
                         ),
                         child: Row(
@@ -132,7 +168,11 @@ class SAContentWidget extends GetView<SaprofileController> {
                                         constraints: BoxConstraints(maxWidth: 360.w),
                                         child: Text(
                                           controller.role.name ?? '',
-                                          style: TextStyle(fontSize: 40.sp, color: Color(0xff212121), fontWeight: FontWeight.w600),
+                                          style: TextStyle(
+                                            fontSize: 40.sp,
+                                            color: Color(0xff212121),
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -146,14 +186,26 @@ class SAContentWidget extends GetView<SaprofileController> {
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(40.r),
                                                 gradient: LinearGradient(
-                                                  begin: Alignment(math.cos(164 * math.pi / 180), math.sin(-100 * math.pi / 180)),
-                                                  end: Alignment(math.cos(164 * math.pi / 180 + math.pi), math.sin(-100 * math.pi / 180 + math.pi)),
+                                                  begin: Alignment(
+                                                    math.cos(164 * math.pi / 180),
+                                                    math.sin(-100 * math.pi / 180),
+                                                  ),
+                                                  end: Alignment(
+                                                    math.cos(164 * math.pi / 180 + math.pi),
+                                                    math.sin(-100 * math.pi / 180 + math.pi),
+                                                  ),
                                                   colors: [SAAppColors.primaryColor, SAAppColors.yellowColor],
                                                 ),
                                               ),
                                               child: Text(
                                                 '${controller.role.age}',
-                                                style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Colors.black, height: 1, fontWeight: FontWeight.w600),
+                                                style: TextStyle(
+                                                  fontFamily: "Montserrat",
+                                                  fontSize: 28.sp,
+                                                  color: Colors.black,
+                                                  height: 1,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -165,14 +217,22 @@ class SAContentWidget extends GetView<SaprofileController> {
                                     children: [
                                       Container(
                                         padding: EdgeInsets.symmetric(vertical: 7.w, horizontal: 16.w),
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.r), color: Color(0xffFFEAFE)),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(100.r),
+                                          color: Color(0xffFFEAFE),
+                                        ),
                                         child: Row(
                                           children: [
                                             Image.asset("assets/images/sa_57.png", width: 24.w, fit: BoxFit.contain),
                                             SizedBox(width: 8.w),
                                             Text(
                                               controller.role.sessionCount ?? '0',
-                                              style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Color(0xffF77DF3), fontWeight: FontWeight.w500),
+                                              style: TextStyle(
+                                                fontFamily: "Montserrat",
+                                                fontSize: 28.sp,
+                                                color: Color(0xffF77DF3),
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -199,7 +259,11 @@ class SAContentWidget extends GetView<SaprofileController> {
                               indicatorSize: TabBarIndicatorSize.label, // 下划线宽度与文字一致
                               indicator: GradientUnderlineTabIndicator(
                                 // 渐变颜色（可自定义）
-                                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [SAAppColors.primaryColor, SAAppColors.yellowColor]),
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [SAAppColors.primaryColor, SAAppColors.yellowColor],
+                                ),
                                 // 下标线条粗细（同原方案的borderSide.width）
                                 thickness: 16.w,
                                 // 下标宽度/位置控制（同原方案的insets）
@@ -219,7 +283,11 @@ class SAContentWidget extends GetView<SaprofileController> {
                                     children: [
                                       Text(
                                         data,
-                                        style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w600, color: Colors.transparent),
+                                        style: TextStyle(
+                                          fontSize: 32.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.transparent,
+                                        ),
                                       ),
                                       Text(data),
                                     ],
@@ -229,7 +297,14 @@ class SAContentWidget extends GetView<SaprofileController> {
                             ),
                             SizedBox(height: 40.w),
                             Expanded(
-                              child: TabBarView(controller: controller.tabController, children: [InfoWidget(), if (SA.storage.isSAB) TagWidget(), if (SA.storage.isSAB) MomentsWidget()]),
+                              child: TabBarView(
+                                controller: controller.tabController,
+                                children: [
+                                  InfoWidget(),
+                                  if (SA.storage.isSAB) TagWidget(),
+                                  if (SA.storage.isSAB) MomentsWidget(),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -241,9 +316,16 @@ class SAContentWidget extends GetView<SaprofileController> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 40.w, horizontal: 32.w),
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(24.r), topRight: Radius.circular(24.r)),
-                  boxShadow: [BoxShadow(color: const Color(0x1000001a), offset: const Offset(0, -2), blurRadius: 8, spreadRadius: 0)],
-                  color: Color(0xffF7F7F7),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0x1000001a),
+                      offset: const Offset(0, -2),
+                      blurRadius: 8,
+                      spreadRadius: 0,
+                    ),
+                  ],
                 ),
 
                 child: SafeArea(
@@ -260,7 +342,12 @@ class SAContentWidget extends GetView<SaprofileController> {
                           child: Center(
                             child: Text(
                               controller.state.collect ? SATextData.liked : SATextData.like,
-                              style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: controller.state.collect ? Color(0xff000000) : SAAppColors.primaryColor, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontSize: 28.sp,
+                                color: controller.state.collect ? Color(0xff000000) : SAAppColors.primaryColor,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
@@ -273,7 +360,12 @@ class SAContentWidget extends GetView<SaprofileController> {
                         child: Center(
                           child: Text(
                             SATextData.chat,
-                            style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              fontSize: 28.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

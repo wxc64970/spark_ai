@@ -13,10 +13,12 @@ class InfoWidget extends GetView<SaprofileController> {
       padding: EdgeInsets.zero,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 24.w, horizontal: 32.w),
-        margin: EdgeInsets.only(bottom: 32.w),
+        margin: EdgeInsets.only(bottom: 32.w, top: 10.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(46.r),
-          boxShadow: [BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 8), blurRadius: 8, spreadRadius: 0)],
+          boxShadow: [
+            BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 0), blurRadius: 8, spreadRadius: 1),
+          ],
           color: Colors.white,
         ),
         child: Text(

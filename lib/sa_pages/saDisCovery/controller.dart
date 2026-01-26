@@ -156,7 +156,13 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
   Future<void> setup() async {
     try {
       final isSAB = SA.storage.isSAB;
-      categroyList.addAll([HomeListCategroy.all, HomeListCategroy.realistic, HomeListCategroy.anime, if (isSAB) HomeListCategroy.video, if (isSAB) HomeListCategroy.dressUp]);
+      categroyList.addAll([
+        HomeListCategroy.all,
+        HomeListCategroy.realistic,
+        HomeListCategroy.anime,
+        if (isSAB) HomeListCategroy.video,
+        if (isSAB) HomeListCategroy.dressUp,
+      ]);
 
       // 初始化数据
       for (int i = 0; i < categroyList.length; i++) {
@@ -167,7 +173,11 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
       }
       SALoading.show();
       onRefresh(0);
-      tabController = TabController(length: categroyList.length, vsync: this, animationDuration: const Duration(milliseconds: 200));
+      tabController = TabController(
+        length: categroyList.length,
+        vsync: this,
+        animationDuration: const Duration(milliseconds: 200),
+      );
       tabController.addListener(() {
         currentIndex.value = tabController.index;
         // 避免重复触发（Tab 切换动画过程中索引会变化）
@@ -337,7 +347,9 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
 
     // 安装后第一天不弹窗，只有从第二天开始才弹窗
     final isAfterSecondDay =
-        now.year > installTime.year || (now.year == installTime.year && now.month > installTime.month) || (now.year == installTime.year && now.month == installTime.month && now.day > installTime.day);
+        now.year > installTime.year ||
+        (now.year == installTime.year && now.month > installTime.month) ||
+        (now.year == installTime.year && now.month == installTime.month && now.day > installTime.day);
 
     if (!isAfterSecondDay) {
       return false;
@@ -400,7 +412,16 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
     tagIds = ids;
 
     try {
-      final res = await Api.homeList(page: page, size: size, rendStyl: rendStyl, videoChat: videoChat, genImg: genImg, genVideo: genVideo, tags: tagIds, dress: changeClothing);
+      final res = await Api.homeList(
+        page: page,
+        size: size,
+        rendStyl: rendStyl,
+        videoChat: videoChat,
+        genImg: genImg,
+        genVideo: genVideo,
+        tags: tagIds,
+        dress: changeClothing,
+      );
 
       final records = res?.records ?? [];
       isNoMoreData[index] = (records.length) < size;
@@ -411,6 +432,7 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
           Get.find<SAAutoCallController>().onCall(records);
         }
       }
+      nativeAd ??= MyAd().nativeAd;
 
       type.value = list[index].isEmpty ? EmptyType.noData : null;
       list[index].addAll(records);

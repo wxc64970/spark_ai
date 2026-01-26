@@ -19,7 +19,7 @@ class SAItemWidget extends GetView<SamomentsController> {
     var istop = item.istop ?? false;
     return Container(
       padding: EdgeInsets.all(24.w),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(32.r), color: Colors.white),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), color: Colors.white),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +36,10 @@ class SAItemWidget extends GetView<SamomentsController> {
                   spacing: 16.w,
                   children: [
                     DecoratedBox(
-                      decoration: BoxDecoration(color: SAAppColors.primaryColor, borderRadius: BorderRadius.circular(16.r)),
+                      decoration: BoxDecoration(
+                        color: SAAppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.all(2.w), // 边框厚度
                         child: SAImageWidget(
@@ -74,7 +77,13 @@ class SAItemWidget extends GetView<SamomentsController> {
                 onTap: () {
                   controller.onPlay(item);
                 },
-                child: SAImageWidget(url: imgUrl, height: 360.w, width: double.infinity, borderRadius: BorderRadius.circular(16.r), shape: BoxShape.rectangle),
+                child: SAImageWidget(
+                  url: imgUrl,
+                  height: 360.w,
+                  width: double.infinity,
+                  borderRadius: BorderRadius.circular(16.r),
+                  shape: BoxShape.rectangle,
+                ),
               ),
               Positioned.fill(child: _buildLock(istop, isVideo, item)),
               Obx(() {
@@ -113,7 +122,7 @@ class SAItemWidget extends GetView<SamomentsController> {
         Get.toNamed(SARouteNames.vip, arguments: isVideo ? VipFrom.postvideo : VipFrom.postpic);
       },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(24.r),
+        borderRadius: BorderRadius.circular(16.r),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 18.0, sigmaY: 18.0),
           child: Container(
@@ -127,7 +136,10 @@ class SAItemWidget extends GetView<SamomentsController> {
                   width: 64.w,
                   height: 64.w,
                   padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(color: const Color(0xff212121).withValues(alpha: 0.5), borderRadius: BorderRadius.circular(100.r)),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff212121).withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(100.r),
+                  ),
                   child: Image.asset('assets/images/sa_35.png', width: 32.w, fit: BoxFit.contain),
                 ),
                 SizedBox(height: 24.w),

@@ -18,11 +18,14 @@ class SAContentWidget extends GetView<MessageController> {
       children: [
         Stack(
           children: [
-            Positioned.fill(child: SAImageWidget(url: controller.state.session.background ?? controller.state.role.avatar)),
+            Positioned.fill(
+              child: SAImageWidget(url: controller.state.session.background ?? controller.state.role.avatar),
+            ),
             Positioned.fill(
               child: Container(width: Get.width, height: Get.height, color: Colors.black.withValues(alpha: 0.3)),
             ),
-            if (SA.storage.chatBgImagePath.isNotEmpty) Positioned.fill(child: Image.file(File(SA.storage.chatBgImagePath), fit: BoxFit.cover)),
+            if (SA.storage.chatBgImagePath.isNotEmpty)
+              Positioned.fill(child: Image.file(File(SA.storage.chatBgImagePath), fit: BoxFit.cover)),
             Positioned.fill(
               child: Padding(
                 padding: EdgeInsets.only(left: 32.w, right: 32.w, top: Get.mediaQuery.padding.top + 16.w),
@@ -63,13 +66,18 @@ class SAContentWidget extends GetView<MessageController> {
                                   child: Container(
                                     width: 48.w,
                                     height: 48.w,
-                                    // margin: EdgeInsets.only(left: 24.w),
-                                    decoration: BoxDecoration(color: Color(0xff999999).withValues(alpha: 0.2), borderRadius: BorderRadius.circular(100.r)),
+                                    margin: EdgeInsets.only(right: 32.w),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff999999).withValues(alpha: 0.2),
+                                      borderRadius: BorderRadius.circular(100.r),
+                                    ),
                                     child: Center(
                                       child: Obx(() {
                                         var data = controller.state.chatLevel.value;
                                         var level = data?.level ?? 1;
-                                        final map = controller.state.chatLevelConfigs.firstWhereOrNull((element) => element['level'] == level);
+                                        final map = controller.state.chatLevelConfigs.firstWhereOrNull(
+                                          (element) => element['level'] == level,
+                                        );
                                         var levelStr = map?['icon'] as String?;
                                         return Text(levelStr ?? '👋', style: const TextStyle(fontSize: 17));
                                       }),
@@ -96,20 +104,14 @@ class SAContentWidget extends GetView<MessageController> {
                                         return;
                                       }
 
-                                      RoutePages.pushPhone(sessionId: sessionId, role: controller.state.role, showVideo: false);
+                                      RoutePages.pushPhone(
+                                        sessionId: sessionId,
+                                        role: controller.state.role,
+                                        showVideo: false,
+                                      );
                                     },
-                                    child: Container(
-                                      width: 56.w,
-                                      height: 56.w,
-                                      margin: EdgeInsets.only(left: 24.w),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black54,
-                                        borderRadius: BorderRadius.circular(14.r),
-                                        // border: Border.all(color: Colors.white54, width: 2.w),
-                                      ),
-                                      child: Center(
-                                        child: Image.asset("assets/images/sa_67.png", width: 48.w, fit: BoxFit.contain),
-                                      ),
+                                    child: Center(
+                                      child: Image.asset("assets/images/sa_67.png", width: 48.w, fit: BoxFit.contain),
                                     ),
                                   ),
                               ],

@@ -10,7 +10,7 @@ class VipWidget extends GetView<SameController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 32.w, horizontal: 48.w),
+      padding: EdgeInsets.only(top: 40.w, left: 48.w),
       width: Get.width,
       height: 184.w,
       decoration: BoxDecoration(
@@ -21,9 +21,14 @@ class VipWidget extends GetView<SameController> {
         children: [
           Text(
             SATextData.vipMember,
-            style: TextStyle(fontFamily: "Montserrat", fontSize: 40.sp, color: Color(0xffDF9A44), fontWeight: FontWeight.w900),
+            style: TextStyle(
+              fontFamily: "Montserrat",
+              fontSize: 40.sp,
+              color: Color(0xffDF9A44),
+              fontWeight: FontWeight.w900,
+            ),
           ),
-          SizedBox(height: 16.w),
+          SizedBox(height: 8.w),
           Obx(() {
             SA.login.vipStatus.value;
             final timer = SA.login.currentUser?.subscriptionEnd ?? DateTime.now().millisecondsSinceEpoch;
@@ -35,7 +40,13 @@ class VipWidget extends GetView<SameController> {
                   TextSpan(text: SATextData.deadline('')),
                   TextSpan(
                     text: date,
-                    style: TextStyle(fontSize: 32.sp, fontFamily: "Montserrat", color: Color(0xff2F2E35), fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      fontFamily: "Montserrat",
+                      color: Color(0xff2F2E35),
+                      fontWeight: FontWeight.w600,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ],
               ),

@@ -36,7 +36,12 @@ class SAVItem extends StatelessWidget {
 
     var imageWidget = ClipRRect(
       borderRadius: BorderRadius.circular(16),
-      child: SAImageWidget(url: imageUrl, width: imageWidth, height: imageHeight, borderRadius: BorderRadius.circular(16)),
+      child: SAImageWidget(
+        url: imageUrl,
+        width: imageWidth,
+        height: imageHeight,
+        borderRadius: BorderRadius.circular(16),
+      ),
     );
 
     return Obx(() {
@@ -51,7 +56,10 @@ class SAVItem extends StatelessWidget {
       child: Container(
         width: imageWidth,
         height: imageHeight,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color(0xFF000000).withValues(alpha: 0.1)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: const Color(0xFF000000).withValues(alpha: 0.1),
+        ),
         clipBehavior: Clip.antiAlias,
         child: Stack(
           alignment: Alignment.center,
@@ -73,7 +81,8 @@ class SAVItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 40.w,
               children: [
-                const Icon(Icons.play_circle, size: 32, color: Colors.white),
+                // const Icon(Icons.play_circle, size: 32, color: Colors.white),
+                Image.asset('assets/images/sa_74.png', width: 64.w, fit: BoxFit.contain),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -87,7 +96,12 @@ class SAVItem extends StatelessWidget {
                         children: [
                           Text(
                             SATextData.hotVideo,
-                            style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 24.sp, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              color: Colors.black,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
