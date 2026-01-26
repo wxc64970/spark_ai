@@ -58,7 +58,9 @@ class _InputBarState extends State<SAInpBar> {
       // 截断文本到500字符
       textEditingController.text = textEditingController.text.substring(0, 500);
       // 将光标移到文本末尾
-      textEditingController.selection = TextSelection.fromPosition(TextPosition(offset: textEditingController.text.length));
+      textEditingController.selection = TextSelection.fromPosition(
+        TextPosition(offset: textEditingController.text.length),
+      );
     }
     isSend = textEditingController.text.isNotEmpty;
     setState(() {});
@@ -110,14 +112,9 @@ class _InputBarState extends State<SAInpBar> {
           Get.back();
           ctr.editScene(v);
         },
-        subtitle: Row(
-          spacing: 4,
-          children: [
-            Text(
-              SATextData.editScenario,
-              style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w700),
-            ),
-          ],
+        subtitle: Text(
+          SATextData.editScenario,
+          style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w700),
         ),
         height: heigth,
       ),
@@ -145,7 +142,9 @@ class _InputBarState extends State<SAInpBar> {
     return Obx(
       () => Column(
         children: [
-          ctr.state.inputTags.isEmpty ? const SizedBox() : MsgInputButtons(tags: ctr.state.inputTags, onTap: onTapTag),
+          ctr.state.inputTags.isEmpty
+              ? const SizedBox()
+              : MsgInputButtons(tags: ctr.state.inputTags, onTap: onTapTag),
           Container(
             padding: EdgeInsets.only(bottom: 28.w),
             child: Stack(
@@ -172,7 +171,11 @@ class _InputBarState extends State<SAInpBar> {
                             highlightColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             child: Center(
-                              child: Image.asset(isSend ? 'assets/images/sa_62.png' : 'assets/images/sa_22.png', width: 64.w, fit: BoxFit.contain),
+                              child: Image.asset(
+                                isSend ? 'assets/images/sa_62.png' : 'assets/images/sa_22.png',
+                                width: 64.w,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                           SizedBox(width: 16.w),
@@ -182,7 +185,8 @@ class _InputBarState extends State<SAInpBar> {
                   ),
                 ),
                 // 第一次使用时的覆盖层
-                if (SA.storage.firstClickChatInputBox) Positioned.fill(child: GestureDetector(onTap: firstClickChatInputBox)),
+                if (SA.storage.firstClickChatInputBox)
+                  Positioned.fill(child: GestureDetector(onTap: firstClickChatInputBox)),
               ],
             ),
           ),
@@ -197,7 +201,12 @@ class _InputBarState extends State<SAInpBar> {
       onEditingComplete: onSend,
       minLines: 1,
       maxLines: null,
-      style: TextStyle(height: 1.2, color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w400),
+      style: TextStyle(
+        height: 1.2,
+        color: Colors.white,
+        fontSize: 28.sp,
+        fontWeight: FontWeight.w400,
+      ),
       controller: textEditingController,
       enableInteractiveSelection: true, // 确保文本选择功能启用
       dragStartBehavior: DragStartBehavior.down, // 优化拖拽行为
@@ -300,7 +309,11 @@ class MsgInputButtons extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20.sp, color: Color(color), fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            color: Color(color),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
