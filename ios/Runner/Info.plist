@@ -49,11 +49,9 @@
 		<!-- iOS 16+ 直接关闭键盘圆角（核心配置） -->
 		<key>UIKeyboardRoundCorners</key>
 		<false />
-
 		<!-- 兼容iOS 15+：重置键盘样式，间接去掉圆角 -->
 		<key>UIKeyboardAppearance</key>
 		<string>dark</string>
-
 		<!-- 辅助配置：确保CJK输入适配 -->
 		<key>UIKeyboardSupportsCJKInput</key>
 		<true />
