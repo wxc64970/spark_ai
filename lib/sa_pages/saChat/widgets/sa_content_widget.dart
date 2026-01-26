@@ -36,7 +36,10 @@ class SaContentWidget extends GetView<SachatController> {
                               },
                               child: Container(
                                 padding: EdgeInsets.all(8.w),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.r), color: Colors.white),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24.r),
+                                  color: Colors.white,
+                                ),
                                 child: Image.asset("assets/images/sa_08.png", width: 48.w, fit: BoxFit.contain),
                               ),
                             ),
@@ -55,7 +58,13 @@ class SaContentWidget extends GetView<SachatController> {
                               Obx(
                                 () => Text(
                                   SA.login.gemBalance.toString(),
-                                  style: TextStyle(fontFamily: "Montserrat", fontSize: 32.sp, color: SAAppColors.pinkColor, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                                  style: TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 32.sp,
+                                    color: SAAppColors.pinkColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.italic,
+                                  ),
                                 ),
                               ),
                             ],
@@ -67,7 +76,7 @@ class SaContentWidget extends GetView<SachatController> {
                 ),
               ],
             ),
-            SizedBox(height: 36.w),
+            SizedBox(height: 24.w),
             Expanded(child: SAChatTabbar()),
           ],
         ),

@@ -48,7 +48,12 @@ class _TimerWidgetState extends State<TimerWidget> {
                 SizedBox(width: 4.w),
                 Text(
                   ':',
-                  style: TextStyle(fontFamily: "Montserrat", fontSize: 32.sp, fontWeight: FontWeight.w600, color: SAAppColors.pinkColor),
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w600,
+                    color: SAAppColors.pinkColor,
+                  ),
                 ),
                 SizedBox(width: 4.w),
                 _buildDigit(secondsStr),
@@ -68,7 +73,12 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Center(
         child: Text(
           digit,
-          style: TextStyle(fontFamily: "Montserrat", fontSize: 30.sp, fontWeight: FontWeight.w600, color: SAAppColors.pinkColor),
+          style: TextStyle(
+            fontFamily: "Montserrat",
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w600,
+            color: SAAppColors.pinkColor,
+          ),
         ),
       ),
     );

@@ -39,7 +39,13 @@ class SaContentWidget extends GetView<SaaiphotoController> {
                             Obx(
                               () => Text(
                                 SA.login.gemBalance.toString(),
-                                style: TextStyle(fontFamily: "Montserrat", fontSize: 32.sp, color: SAAppColors.pinkColor, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontSize: 32.sp,
+                                  color: SAAppColors.pinkColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.italic,
+                                ),
                               ),
                             ),
                           ],
@@ -50,7 +56,7 @@ class SaContentWidget extends GetView<SaaiphotoController> {
                 ),
               ],
             ),
-            SizedBox(height: 32.w),
+            SizedBox(height: 20.w),
             Expanded(child: SAAIPhotoTabbar()),
           ],
         ),

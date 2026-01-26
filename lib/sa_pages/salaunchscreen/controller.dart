@@ -17,7 +17,11 @@ class SalaunchscreenController extends GetxController {
 
   _initData() {
     EasyRefresh.defaultHeaderBuilder = () => const MaterialHeader(color: SAAppColors.primaryColor);
-    EasyRefresh.defaultFooterBuilder = () => const ClassicFooter(showText: false, showMessage: false, iconTheme: IconThemeData(color: SAAppColors.primaryColor));
+    EasyRefresh.defaultFooterBuilder = () => const ClassicFooter(
+      showText: false,
+      showMessage: false,
+      iconTheme: IconThemeData(color: SAAppColors.primaryColor),
+    );
     if (SA.network.isConnected) {
       setup();
     } else {
@@ -37,19 +41,25 @@ class SalaunchscreenController extends GetxController {
 
       await SA.login.performRegister();
 
-      await Future.wait([SALockUtils.request(isFisrt: true), SAPayUtils().query(), SAFBUtils.initializeWithRemoteConfig(), SA.login.loadAppLangs()]).timeout(const Duration(seconds: 7));
+      await Future.wait([
+        SALockUtils.request(isFisrt: true),
+        SAPayUtils().query(),
+        SAFBUtils.initializeWithRemoteConfig(),
+        SA.login.loadAppLangs(),
+      ]).timeout(const Duration(seconds: 7));
 
       await SA.login.fetchUserInfo();
 
       await MyAd().initAdConfig();
 
       var startTimer = DateTime.now().millisecondsSinceEpoch;
-      await _preloadAd().timeout(
-        const Duration(seconds: 7),
-        onTimeout: () {
-          log.d('Ad preload timeout');
-        },
-      );
+      // await _preloadAd().timeout(
+      //   const Duration(seconds: 7),
+      //   onTimeout: () {
+      //     log.d('Ad preload timeout');
+      //   },
+      // );
+      await _preloadAd();
       var endTimer = DateTime.now().millisecondsSinceEpoch;
       var adTimer = (endTimer - startTimer) / 1000;
       log.d('启动加载广告时间：$adTimer秒');
@@ -93,7 +103,7 @@ class SalaunchscreenController extends GetxController {
       }
       retryCount++;
       if (retryCount < maxRetries) {
-        await Future.delayed(const Duration(milliseconds: 800));
+        await Future.delayed(const Duration(milliseconds: 700));
       }
     }
 

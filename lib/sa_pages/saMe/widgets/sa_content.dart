@@ -26,7 +26,12 @@ class ContentWidget extends GetView<SameController> {
                 margin: EdgeInsets.only(bottom: 32.w),
                 padding: EdgeInsets.all(24.w),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24.r)),
-                child: SettingItem(sectionTitle: SATextData.nickname, title: controller.nickname, onTap: controller.changeNickName, top: 32),
+                child: SettingItem(
+                  sectionTitle: SATextData.nickname,
+                  title: controller.nickname,
+                  onTap: controller.changeNickName,
+                  top: 32,
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 32.w),
@@ -50,7 +55,14 @@ class ContentWidget extends GetView<SameController> {
                     }),
                     SettingItem(title: SATextData.feedback, onTap: controller.feedback, top: 32),
                     SettingItem(title: SATextData.setChatBackground, onTap: controller.changeChatBackground, top: 32),
-                    Obx(() => SettingItem(title: SATextData.appVersion, subtitle: controller.version.value, top: 32, onTap: () => controller.openAppStore())),
+                    Obx(
+                      () => SettingItem(
+                        title: SATextData.appVersion,
+                        subtitle: controller.version.value,
+                        top: 32,
+                        onTap: () => controller.openAppStore(),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -61,7 +73,12 @@ class ContentWidget extends GetView<SameController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SettingItem(sectionTitle: SATextData.legal, title: SATextData.privacyPolicy, onTap: controller.PrivacyPolicy, top: 32),
+                    SettingItem(
+                      sectionTitle: SATextData.legal,
+                      title: SATextData.privacyPolicy,
+                      onTap: controller.PrivacyPolicy,
+                      top: 32,
+                    ),
                     SettingItem(title: SATextData.termsOfUse, onTap: controller.TermsOfUse, top: 32),
                   ],
                 ),

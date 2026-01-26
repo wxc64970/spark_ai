@@ -67,9 +67,13 @@ class SagemsController extends GetxController {
               SizedBox(height: 32.w),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(32.w),
+                padding: EdgeInsets.all(48.w),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: AlignmentGeometry.topCenter, end: AlignmentGeometry.bottomCenter, colors: [Color(0xffEBFFCC), Color(0xffFFFFFF), Color(0xffFFFFFF)]),
+                  gradient: LinearGradient(
+                    begin: AlignmentGeometry.topCenter,
+                    end: AlignmentGeometry.bottomCenter,
+                    colors: [Color(0xffEBFFCC), Color(0xffFFFFFF), Color(0xffFFFFFF)],
+                  ),
                   borderRadius: BorderRadius.circular(32.r),
                 ),
                 child: Column(
@@ -78,12 +82,13 @@ class SagemsController extends GetxController {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
                       itemCount: strList.length,
                       itemBuilder: (context, index) {
                         String title = strList[index];
                         return Container(
                           width: Get.width,
-                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          // padding: EdgeInsets.symmetric(horizontal: 40.w),
                           child: Row(
                             children: [
                               Image.asset("assets/images/sa_20.png", width: 48.w, fit: BoxFit.contain),
@@ -91,7 +96,11 @@ class SagemsController extends GetxController {
                               Expanded(
                                 child: Text(
                                   title,
-                                  style: TextStyle(color: const Color(0xFF222222), fontSize: 24.sp, fontWeight: FontWeight.w500),
+                                  style: TextStyle(
+                                    color: const Color(0xFF222222),
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ],
@@ -102,7 +111,6 @@ class SagemsController extends GetxController {
                         return SizedBox(height: 40.w);
                       },
                     ),
-                    SizedBox(height: 60.w),
                   ],
                 ),
               ),

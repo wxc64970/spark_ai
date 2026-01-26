@@ -93,9 +93,13 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.subtitle != null) Padding(padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16).copyWith(bottom: 6), child: widget.subtitle!),
+                      if (widget.subtitle != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16).copyWith(bottom: 6),
+                          child: widget.subtitle!,
+                        ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.w),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(32.r),
@@ -109,8 +113,8 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                           child: TextField(
                             autofocus: true,
                             textInputAction: TextInputAction.newline, // 修改为换行操作
-                            maxLines: widget.height == null ? 8 : 7, // 允许多行输入
-                            minLines: widget.height == null ? 8 : 7, // 最小显示5行
+                            maxLines: widget.height == null ? 7 : 7, // 允许多行输入
+                            minLines: widget.height == null ? 7 : 7, // 最小显示5行
                             maxLength: null,
                             enableInteractiveSelection: true, // 确保文本选择功能启用
                             dragStartBehavior: DragStartBehavior.down, // 优化拖拽行为

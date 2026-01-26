@@ -23,7 +23,9 @@ class SAContentWidget extends GetView<SamaskController> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(24.r), topRight: Radius.circular(24.r)),
-            boxShadow: [BoxShadow(color: const Color(0x1000001a), offset: const Offset(0, -2), blurRadius: 8, spreadRadius: 0)],
+            boxShadow: [
+              BoxShadow(color: const Color(0x1000001a), offset: const Offset(0, -2), blurRadius: 8, spreadRadius: 0),
+            ],
           ),
 
           child: Column(
@@ -33,11 +35,18 @@ class SAContentWidget extends GetView<SamaskController> {
                   onTap: controller.handleChangeMask,
                   height: 88,
                   borderRadius: BorderRadius.circular(100.r),
-                  gradientColors: controller.state.maskList.isEmpty || controller.state.selectedMask.value == null ? [Colors.grey, Colors.grey] : [SAAppColors.primaryColor, SAAppColors.yellowColor],
+                  gradientColors: controller.state.maskList.isEmpty || controller.state.selectedMask.value == null
+                      ? [Colors.grey, Colors.grey]
+                      : [SAAppColors.primaryColor, SAAppColors.yellowColor],
                   child: Center(
                     child: Text(
                       SATextData.pickIt,
-                      style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontFamily: "Montserrat",
+                        color: Colors.black,
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
