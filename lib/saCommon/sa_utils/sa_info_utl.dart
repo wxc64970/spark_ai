@@ -268,18 +268,21 @@ class SAInfoUtils {
     return '';
   }
 
-  /// 检查设备当前的系统语言是否为中文且地区为中国
-  /// 返回 true 如果语言为中文（zh 或 zh-Hans）且地区为 CN
+  /// 检查设备当前的系统语言是否为简体中文
+  /// 返回 true 如果语言为简体中文（zh-Hans 或地区为 CN）
   bool isChineseInChina() {
     final locale = Get.deviceLocale ?? const Locale('en', 'US');
 
-    // 检查语言代码是否为中文 (zh)
-    final isChineseLanguage = locale.languageCode == 'zh';
+    // 检查是否为简体中文 (scriptCode 为 Hans)
+    final isSimplifiedChinese = locale.scriptCode == 'Hans';
+    // final isChineseLanguage = locale.languageCode == 'zh';
 
-    // 检查地区代码是否为中国 (CN)
+    // 检查地区代码是否为中国大陆 (CN)，中国大陆使用简体中文
     final isChinaRegion = locale.countryCode == 'CN';
 
-    return isChineseLanguage || isChinaRegion;
+    // 只要满足简体中文或中国大陆地区，就返回 true
+    // 这样会屏蔽简体中文用户，但不会屏蔽繁体中文（台湾、香港等）
+    return isSimplifiedChinese || isChinaRegion;
   }
 
   /// 检查SIM卡运营商是否为中国运营商

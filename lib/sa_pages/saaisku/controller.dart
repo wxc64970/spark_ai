@@ -40,10 +40,12 @@ class SaaiskuController extends GetxController {
 
     var products = SAPayUtils().consumableList;
 
-    if (isVideo) {
+    if (!isVideo) {
       aiSkuList.assignAll(products.where((e) => e.createImg != null && e.createImg! > 0).toList());
     } else {
-      aiSkuList.assignAll(products.where((e) => e.createVideo != null && e.createVideo! > 0).toList());
+      aiSkuList.assignAll(
+        products.where((e) => e.createVideo != null && e.createVideo! > 0).toList(),
+      );
     }
 
     selectedModel.value = aiSkuList.firstWhereOrNull((e) => e.id == aiSkuList.last.id)!;
