@@ -93,9 +93,13 @@ class _CjMakste2State extends State<SAMakste2> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                    if (imagePath != null && imagePath.isNotEmpty)
+                                    if (imagePath != null &&
+                                        imagePath.isNotEmpty)
                                       Positioned.fill(
-                                        child: Image.file(File(imagePath), fit: BoxFit.cover),
+                                        child: Image.file(
+                                          File(imagePath),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     IconButton(
                                       onPressed: widget.onDeleteImage,
@@ -139,7 +143,10 @@ class _CjMakste2State extends State<SAMakste2> {
                         onTap: onTapInput,
                         borderRadius: BorderRadius.circular(24.r),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 24.w),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30.w,
+                            vertical: 24.w,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(24.r),
@@ -208,7 +215,9 @@ class _CjMakste2State extends State<SAMakste2> {
                         ),
                         const WidgetSpan(child: SizedBox(width: 4)),
                         TextSpan(
-                          text: widget.isVideo ? SATextData.ai_videos : SATextData.ai_photos,
+                          text: widget.isVideo
+                              ? SATextData.ai_videos
+                              : SATextData.ai_photos,
                           style: TextStyle(
                             color: Color(0xFF222222),
                             fontSize: 24.w,
@@ -261,7 +270,7 @@ class _CjMakste2State extends State<SAMakste2> {
 
             widget.onInputTextFinish(v);
             setState(() {});
-            Get.back();
+            SmartDialog.dismiss();
           },
           subtitle: Row(
             // spacing: 4,
