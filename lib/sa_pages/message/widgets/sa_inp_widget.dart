@@ -1,7 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/sa_pages/index.dart';
@@ -96,32 +96,40 @@ class _InputBarState extends State<SAInpBar> {
     }
   }
 
-  void editScene(heigth) {
-    Get.bottomSheet(
-      SAMsgEditScreen(
-        content: ctr.state.session.scene ?? '',
-        onInputTextFinish: (v) {
-          if (v == ctr.state.session.scene) {
-            Get.back();
-            return;
-          }
-          if (!SA.login.vipStatus.value) {
-            Get.toNamed(SARouteNames.vip, arguments: VipFrom.scenario);
-            return;
-          }
-          Get.back();
-          ctr.editScene(v);
-        },
-        subtitle: Text(
-          SATextData.editScenario,
-          style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w700),
-        ),
-        height: heigth,
-      ),
-      enableDrag: false, // 禁用底部表单拖拽，避免与文本选择冲突
-      isScrollControlled: true,
-      isDismissible: true,
-      ignoreSafeArea: false,
+  void editScene(double heigth) {
+    SmartDialog.show(
+      alignment: Alignment.bottomCenter,
+      usePenetrate: false,
+      clickMaskDismiss: true,
+      backType: SmartBackType.normal,
+      builder: (_) {
+        return Container(
+          width: Get.width,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: SAMsgEditScreen(
+            content: ctr.state.session.scene ?? '',
+            onInputTextFinish: (v) {
+              if (v == ctr.state.session.scene) {
+                SmartDialog.dismiss();
+                return;
+              }
+              if (!SA.login.vipStatus.value) {
+                Get.toNamed(SARouteNames.vip, arguments: VipFrom.scenario);
+                return;
+              }
+              SmartDialog.dismiss();
+              ctr.editScene(v);
+            },
+            subtitle: Text(
+              SATextData.editScenario,
+              style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w700),
+            ),
+            height: heigth,
+          ),
+        );
+      },
     );
   }
 

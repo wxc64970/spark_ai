@@ -77,7 +77,7 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
               InkWell(
                 onTap: () {
                   focusNode.unfocus();
-                  Get.back();
+                  SmartDialog.dismiss();
                 },
                 child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
               ),
