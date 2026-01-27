@@ -169,7 +169,6 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                             width: 296.w,
                             margin: EdgeInsets.only(
                               top: 32.w,
-                              bottom: Get.mediaQuery.viewInsets.bottom,
                             ),
                             child: ButtonGradientWidget(
                               height: 64,
@@ -189,6 +188,8 @@ class _MessageEditScreenState extends State<SAMsgEditScreen> {
                           ),
                         ],
                       ),
+                      // 添加键盘高度的占位空间，避免圆角问题
+                      SizedBox(height: Get.mediaQuery.viewInsets.bottom),
                     ],
                   ),
                 ),
