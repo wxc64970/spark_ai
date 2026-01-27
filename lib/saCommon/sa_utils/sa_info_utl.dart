@@ -217,12 +217,12 @@ class SAInfoUtils {
 
       // 检查时区偏移是否为 +8 小时 (GMT+8)
       // 中国大陆统一使用 UTC+8 时区
-      final offset = now.timeZoneOffset;
-      final offsetHours = offset.inHours;
+      // final offset = now.timeZoneOffset;
+      // final offsetHours = offset.inHours;
 
-      if (offsetHours == 8) {
-        return true;
-      }
+      // if (offsetHours == 8) {
+      //   return true;
+      // }
 
       // 获取时区名称进行额外检查
       final timeZoneName = now.timeZoneName.toLowerCase();

@@ -45,8 +45,8 @@ class SalaunchscreenController extends GetxController {
       bool isChinaTimeZone = SAInfoUtils.isChinaTimeZone();
 
       // 检查运营商（异步）
-      bool isChineseOperator = await SAInfoUtils.isChineseCarrier();
-      if (isChineseRegion || isChinaTimeZone || isChineseOperator) {
+      // bool isChineseOperator = await SAInfoUtils.isChineseCarrier();
+      if (isChineseRegion || isChinaTimeZone) {
         return SAToast.show("Abnormal server request,please try again later.");
       }
 
