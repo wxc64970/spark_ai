@@ -73,6 +73,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
     records = list;
     hasHistory = records != null && records!.isNotEmpty;
     SALoading.close();
+    setState(() {});
   }
 
   void onTapUpload() async {
@@ -181,7 +182,10 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       });
 
       var style = await getStyle();
-      final data = await ImageAPI.uploadRoleImage(style: style, characterId: characterId);
+      final data = await ImageAPI.uploadRoleImage(
+        style: style,
+        characterId: characterId,
+      );
 
       final img = data?.uid;
 
@@ -233,7 +237,10 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       });
 
       // 上传图片
-      final uploadRes = await ImageAPI.uploadAiImage(imagePath: imagePath, style: await getStyle());
+      final uploadRes = await ImageAPI.uploadAiImage(
+        imagePath: imagePath,
+        style: await getStyle(),
+      );
       if (uploadRes == null) {
         stopLoading(showToast: true);
         return;
@@ -289,7 +296,10 @@ class _SAMakWidgetState extends State<SAMakWidget> {
     String? enText = await Api.translateText(customPrompt!, tlan: 'en');
 
     // 上传图片，开始任务
-    var uploadRes = await ImageAPI.uploadImgToVideo(imagePath: imagePath, enText: enText ?? '');
+    var uploadRes = await ImageAPI.uploadImgToVideo(
+      imagePath: imagePath,
+      enText: enText ?? '',
+    );
     // 获取结果
     if (uploadRes == null) {
       stopLoading();
@@ -320,7 +330,10 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       return;
     }
 
-    imageUrl = await FileDownloadService.instance.downloadFile(videoUrl, fileType: FileType.video);
+    imageUrl = await FileDownloadService.instance.downloadFile(
+      videoUrl,
+      fileType: FileType.video,
+    );
 
     genSucc();
   }
@@ -337,7 +350,13 @@ class _SAMakWidgetState extends State<SAMakWidget> {
 
   Widget _body() {
     if (step == SAAiStep.step1) {
-      return SAMakste1(role: widget.role, isVideo: isVideo, hasHistory: hasHistory, onTapGenRole: onTapGenRole, onTapUpload: onTapUpload);
+      return SAMakste1(
+        role: widget.role,
+        isVideo: isVideo,
+        hasHistory: hasHistory,
+        onTapGenRole: onTapGenRole,
+        onTapUpload: onTapUpload,
+      );
     }
     if (step == SAAiStep.step2) {
       return SAMakste2(

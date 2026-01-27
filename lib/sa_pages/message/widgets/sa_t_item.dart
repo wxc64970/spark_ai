@@ -21,7 +21,9 @@ class SATItem extends StatefulWidget {
 class _TextItemState extends State<SATItem> {
   // 性能优化：使用AppColors统一颜色管理
   static const Color _bgColor = Color(0x60000000);
-  static final BorderRadius _borderRadius = BorderRadius.all(Radius.circular(24.r));
+  static final BorderRadius _borderRadius = BorderRadius.all(
+    Radius.circular(24.r),
+  );
 
   // 控制器缓存，避免重复查找
   late final MessageController _ctr;
@@ -83,7 +85,8 @@ class _TextItemState extends State<SATItem> {
         return false;
       }
 
-      return msg.source == MessageSource.sendText || (sendText != null && msg.onAnswer != true);
+      return msg.source == MessageSource.sendText ||
+          (sendText != null && msg.onAnswer != true);
     } catch (e) {
       debugPrint('[TextContainer] 判断发送消息显示失败: $e');
       return false;
@@ -115,7 +118,9 @@ class _TextItemState extends State<SATItem> {
     final msg = widget.msg;
 
     final textContent =
-        msg.translateAnswer ?? msg.answer ?? "Hmm… we lost connection for a bit. Please try again!";
+        msg.translateAnswer ??
+        msg.answer ??
+        "Hmm… we lost connection for a bit. Please try again!";
 
     final maxWidth = MediaQuery.of(context).size.width * 0.8;
 
@@ -125,7 +130,10 @@ class _TextItemState extends State<SATItem> {
       children: [
         Container(
           padding: EdgeInsets.all(24.w),
-          decoration: BoxDecoration(color: _bgColor, borderRadius: _borderRadius),
+          decoration: BoxDecoration(
+            color: _bgColor,
+            borderRadius: _borderRadius,
+          ),
           constraints: BoxConstraints(maxWidth: maxWidth),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -156,7 +164,11 @@ class _TextItemState extends State<SATItem> {
         ),
         const SizedBox(height: 6),
         if (!_isTypingAnimationActive(msg))
-          _buildActionButtons(msg: msg, showTranslate: false, showTransBtn: false),
+          _buildActionButtons(
+            msg: msg,
+            showTranslate: false,
+            showTransBtn: false,
+          ),
       ],
     );
   }
@@ -218,7 +230,11 @@ class _TextItemState extends State<SATItem> {
   Widget _buildReportButton() {
     return InkWell(
       onTap: RoutePages.report,
-      child: Image.asset('assets/images/sa_23.png', width: 48.w, fit: BoxFit.contain),
+      child: Image.asset(
+        'assets/images/sa_23.png',
+        width: 48.w,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
@@ -230,7 +246,10 @@ class _TextItemState extends State<SATItem> {
       // 续写按钮
       _buildContinueButton(),
       // 编辑和刷新按钮（仅特定消息类型）
-      if (hasEditAndRefresh) ...[_buildEditButton(msg), _buildRefreshButton(msg)],
+      if (hasEditAndRefresh) ...[
+        _buildEditButton(msg),
+        _buildRefreshButton(msg),
+      ],
     ];
   }
 
@@ -253,7 +272,11 @@ class _TextItemState extends State<SATItem> {
       child: InkWell(
         splashColor: Colors.transparent,
         onTap: () => _handleContinueWriting(),
-        child: Image.asset('assets/images/sa_25.png', width: 96.w, fit: BoxFit.contain),
+        child: Image.asset(
+          'assets/images/sa_25.png',
+          width: 96.w,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }
@@ -272,7 +295,11 @@ class _TextItemState extends State<SATItem> {
     return InkWell(
       splashColor: Colors.transparent,
       onTap: () => _handleEditMessage(msg),
-      child: Image.asset('assets/images/sa_26.png', width: 48.w, fit: BoxFit.contain),
+      child: Image.asset(
+        'assets/images/sa_26.png',
+        width: 48.w,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
@@ -290,7 +317,7 @@ class _TextItemState extends State<SATItem> {
             return SAMsgEditScreen(
               content: msg.answer ?? '',
               onInputTextFinish: (value) {
-                Get.back();
+                SmartDialog.dismiss();
                 _ctr.editMsg(value, msg);
               },
             );
@@ -308,7 +335,11 @@ class _TextItemState extends State<SATItem> {
       child: InkWell(
         splashColor: Colors.transparent,
         onTap: () => _handleResendMessage(msg),
-        child: Image.asset('assets/images/sa_29.png', width: 48.w, fit: BoxFit.contain),
+        child: Image.asset(
+          'assets/images/sa_29.png',
+          width: 48.w,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }
