@@ -103,33 +103,29 @@ class _InputBarState extends State<SAInpBar> {
       clickMaskDismiss: false,
       backType: SmartBackType.normal,
       builder: (context) {
-        return Container(
-          width: Get.width,
-          decoration: BoxDecoration(color: Colors.transparent),
-          child: SAMsgEditScreen(
-            content: ctr.state.session.scene ?? '',
-            onInputTextFinish: (v) {
-              if (v == ctr.state.session.scene) {
-                SmartDialog.dismiss();
-                return;
-              }
-              if (!SA.login.vipStatus.value) {
-                Get.toNamed(SARouteNames.vip, arguments: VipFrom.scenario);
-                return;
-              }
+        return SAMsgEditScreen(
+          content: ctr.state.session.scene ?? '',
+          onInputTextFinish: (v) {
+            if (v == ctr.state.session.scene) {
               SmartDialog.dismiss();
-              ctr.editScene(v);
-            },
-            subtitle: Text(
-              SATextData.editScenario,
-              style: TextStyle(
-                color: Color(0xff222222),
-                fontSize: 32.sp,
-                fontWeight: FontWeight.w700,
-              ),
+              return;
+            }
+            if (!SA.login.vipStatus.value) {
+              Get.toNamed(SARouteNames.vip, arguments: VipFrom.scenario);
+              return;
+            }
+            SmartDialog.dismiss();
+            ctr.editScene(v);
+          },
+          subtitle: Text(
+            SATextData.editScenario,
+            style: TextStyle(
+              color: Color(0xff222222),
+              fontSize: 32.sp,
+              fontWeight: FontWeight.w700,
             ),
-            height: heigth,
           ),
+          height: heigth,
         );
       },
     );

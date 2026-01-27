@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/sa_pages/message/index.dart';
@@ -113,7 +114,8 @@ class _TextItemState extends State<SATItem> {
   Widget _buildText(BuildContext context) {
     final msg = widget.msg;
 
-    final textContent = msg.translateAnswer ?? msg.answer ?? "Hmm… we lost connection for a bit. Please try again!";
+    final textContent =
+        msg.translateAnswer ?? msg.answer ?? "Hmm… we lost connection for a bit. Please try again!";
 
     final maxWidth = MediaQuery.of(context).size.width * 0.8;
 
@@ -134,17 +136,27 @@ class _TextItemState extends State<SATItem> {
                   padding: const EdgeInsets.only(bottom: 4),
                   child: Text(
                     widget.title!,
-                    style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w700, color: SAAppColors.primaryColor),
+                    style: TextStyle(
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.w700,
+                      color: SAAppColors.primaryColor,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              SARicTItem(text: textContent, isSend: false, isTypingAnimation: msg.typewriterAnimated == true, onAnimationComplete: () => _handleAnimationComplete(msg)),
+              SARicTItem(
+                text: textContent,
+                isSend: false,
+                isTypingAnimation: msg.typewriterAnimated == true,
+                onAnimationComplete: () => _handleAnimationComplete(msg),
+              ),
             ],
           ),
         ),
         const SizedBox(height: 6),
-        if (!_isTypingAnimationActive(msg)) _buildActionButtons(msg: msg, showTranslate: false, showTransBtn: false),
+        if (!_isTypingAnimationActive(msg))
+          _buildActionButtons(msg: msg, showTranslate: false, showTransBtn: false),
       ],
     );
   }
@@ -174,7 +186,11 @@ class _TextItemState extends State<SATItem> {
   }
 
   /// 构建操作按钮行
-  Widget _buildActionButtons({required SAMessageModel msg, required bool showTranslate, required bool showTransBtn}) {
+  Widget _buildActionButtons({
+    required SAMessageModel msg,
+    required bool showTranslate,
+    required bool showTransBtn,
+  }) {
     return Wrap(
       spacing: 16.w,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -221,7 +237,10 @@ class _TextItemState extends State<SATItem> {
   /// 判断消息是否支持编辑和刷新操作
   bool _hasEditAndRefreshActions(SAMessageModel msg) {
     try {
-      return msg.source == MessageSource.text || msg.source == MessageSource.video || msg.source == MessageSource.audio || msg.source == MessageSource.photo;
+      return msg.source == MessageSource.text ||
+          msg.source == MessageSource.video ||
+          msg.source == MessageSource.audio ||
+          msg.source == MessageSource.photo;
     } catch (e) {
       debugPrint('[TextContainer] 检查编辑刷新权限失败: $e');
       return false;
@@ -262,18 +281,20 @@ class _TextItemState extends State<SATItem> {
     FocusManager.instance.primaryFocus?.unfocus();
     Future.delayed(Duration(milliseconds: 300), () {
       try {
-        Get.bottomSheet(
-          SAMsgEditScreen(
-            content: msg.answer ?? '',
-            onInputTextFinish: (value) {
-              Get.back();
-              _ctr.editMsg(value, msg);
-            },
-          ),
-          enableDrag: false, // 禁用底部表单拖拽，避免与文本选择冲突
-          isScrollControlled: true,
-          isDismissible: true,
-          ignoreSafeArea: false,
+        SmartDialog.show(
+          alignment: Alignment.bottomCenter,
+          usePenetrate: false,
+          clickMaskDismiss: false,
+          backType: SmartBackType.normal,
+          builder: (context) {
+            return SAMsgEditScreen(
+              content: msg.answer ?? '',
+              onInputTextFinish: (value) {
+                Get.back();
+                _ctr.editMsg(value, msg);
+              },
+            );
+          },
         );
       } catch (e) {
         debugPrint('[TextContainer] 编辑消息失败: $e');
