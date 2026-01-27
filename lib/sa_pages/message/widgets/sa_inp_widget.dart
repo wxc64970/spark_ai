@@ -100,14 +100,12 @@ class _InputBarState extends State<SAInpBar> {
     SmartDialog.show(
       alignment: Alignment.bottomCenter,
       usePenetrate: false,
-      clickMaskDismiss: true,
+      clickMaskDismiss: false,
       backType: SmartBackType.normal,
-      builder: (_) {
+      builder: (context) {
         return Container(
           width: Get.width,
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-          ),
+          decoration: BoxDecoration(color: Colors.transparent),
           child: SAMsgEditScreen(
             content: ctr.state.session.scene ?? '',
             onInputTextFinish: (v) {
@@ -124,7 +122,11 @@ class _InputBarState extends State<SAInpBar> {
             },
             subtitle: Text(
               SATextData.editScenario,
-              style: TextStyle(color: Color(0xff222222), fontSize: 32.sp, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: Color(0xff222222),
+                fontSize: 32.sp,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             height: heigth,
           ),
