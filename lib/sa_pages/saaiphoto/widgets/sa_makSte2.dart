@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/sa_pages/message/widgets/sa_msg_e_scr.dart';
@@ -244,37 +245,39 @@ class _CjMakste2State extends State<SAMakste2> {
 
   void onTapInput() {
     if (widget.isLoading) return;
-    Get.bottomSheet(
-      SAMsgEditScreen(
-        content: customPrompt,
-        onInputTextFinish: (v) {
-          customPrompt = v;
+    SmartDialog.show(
+      alignment: Alignment.bottomCenter,
+      usePenetrate: false,
+      clickMaskDismiss: false,
+      backType: SmartBackType.normal,
+      builder: (context) {
+        return SAMsgEditScreen(
+          content: customPrompt,
+          onInputTextFinish: (v) {
+            customPrompt = v;
 
-          style = v.isEmpty ? widget.styles.firstOrNull : null;
-          widget.onChooseStyles(style);
+            style = v.isEmpty ? widget.styles.firstOrNull : null;
+            widget.onChooseStyles(style);
 
-          widget.onInputTextFinish(v);
-          setState(() {});
-          Get.back();
-        },
-        subtitle: Row(
-          // spacing: 4,
-          children: [
-            Text(
-              SATextData.ai_custom_prompt,
-              style: TextStyle(
-                color: Color(0xff222222),
-                fontSize: 32.sp,
-                fontWeight: FontWeight.w500,
+            widget.onInputTextFinish(v);
+            setState(() {});
+            Get.back();
+          },
+          subtitle: Row(
+            // spacing: 4,
+            children: [
+              Text(
+                SATextData.ai_custom_prompt,
+                style: TextStyle(
+                  color: Color(0xff222222),
+                  fontSize: 32.sp,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-      enableDrag: false, // 禁用底部表单拖拽，避免与文本选择冲突
-      isScrollControlled: true,
-      isDismissible: true,
-      ignoreSafeArea: false,
+            ],
+          ),
+        );
+      },
     );
   }
 
