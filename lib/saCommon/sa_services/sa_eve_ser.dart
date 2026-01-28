@@ -136,6 +136,9 @@ class SAAppLogEvent {
   bool _isProcessingUpload = false;
   final uuid = const UuidV7();
 
+  // 记录正在上传中的日志ID，避免超时重复上传
+  final Set<String> _uploadingLogIds = {};
+
   final connectTimeout = const Duration(seconds: 20);
   final receiveTimeout = const Duration(seconds: 20);
   final periodicTime = const Duration(seconds: 10);
@@ -386,7 +389,7 @@ class SAAppLogEvent {
 
   Future<void> _uploadPendingLogs() async {
     try {
-      final logs = await _adLogService.getUnuploadedLogs().timeout(
+      final allLogs = await _adLogService.getUnuploadedLogs().timeout(
         const Duration(seconds: 5),
         onTimeout: () {
           log.w('[ad]log getUnuploadedLogs timeout, returning empty list');
@@ -394,42 +397,54 @@ class SAAppLogEvent {
         },
       );
 
+      // 过滤掉正在上传中的日志，避免重复上传
+      final logs = allLogs.where((log) => !_uploadingLogIds.contains(log.id)).toList();
+
       if (logs.isEmpty) return;
 
-      final List<dynamic> dataList = logs
-          .map((log) => jsonDecode(log.data))
-          .toList();
+      // 将这批日志标记为上传中
+      final logIds = logs.map((log) => log.id).toList();
+      _uploadingLogIds.addAll(logIds);
 
-      // 添加超时控制，避免网络请求卡住应用
-      final res = await _dio
-          .post('', data: dataList)
-          .timeout(
-            const Duration(seconds: 15),
-            onTimeout: () {
-              log.w('[ad]log Upload request timeout');
-              throw TimeoutException(
-                'Upload request timeout',
-                const Duration(seconds: 15),
-              );
-            },
-          );
+      try {
+        final List<dynamic> dataList = logs
+            .map((log) => jsonDecode(log.data))
+            .toList();
 
-      if (res.statusCode == 200) {
-        await _adLogService
-            .markLogsAsSuccess(logs)
+        // 添加超时控制，避免网络请求卡住应用
+        final res = await _dio
+            .post('', data: dataList)
             .timeout(
-              const Duration(seconds: 5),
+              const Duration(seconds: 15),
               onTimeout: () {
-                log.w('[ad]log markLogsAsSuccess timeout');
+                log.w('[ad]log Upload request timeout');
                 throw TimeoutException(
-                  'markLogsAsSuccess timeout',
-                  const Duration(seconds: 5),
+                  'Upload request timeout',
+                  const Duration(seconds: 15),
                 );
               },
             );
-        log.d('[ad]log Batch upload success: ${logs.length} logs');
-      } else {
-        log.e('[ad]log Batch upload error: ${res.statusMessage}');
+
+        if (res.statusCode == 200) {
+          await _adLogService
+              .markLogsAsSuccess(logs)
+              .timeout(
+                const Duration(seconds: 5),
+                onTimeout: () {
+                  log.w('[ad]log markLogsAsSuccess timeout');
+                  throw TimeoutException(
+                    'markLogsAsSuccess timeout',
+                    const Duration(seconds: 5),
+                  );
+                },
+              );
+          log.d('[ad]log Batch upload success: ${logs.length} logs');
+        } else {
+          log.e('[ad]log Batch upload error: ${res.statusMessage}');
+        }
+      } finally {
+        // 无论成功或失败，都要从上传中集合移除这些ID
+        _uploadingLogIds.removeAll(logIds);
       }
     } catch (e) {
       log.e('[ad]log Batch upload catch: $e');
