@@ -48,7 +48,8 @@ class SALogEventDBService {
   }
 
   Future<Box<SAEventData>> _initBox() async {
-    final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+    final appDocumentDir = await path_provider
+        .getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(EventDataAdapter());
@@ -184,12 +185,17 @@ class SAAppLogEvent {
       baseUrl: Platform.isAndroid ? androidURL : iosURL,
       connectTimeout: connectTimeout,
       receiveTimeout: receiveTimeout,
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
     ),
   );
 
   // 获取通用参数
   Future<Map<String, dynamic>?> _getCommonParams() async {
+    final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
+
     try {
       final deviceId = await SA.storage.getDeviceId(isOrigin: true);
       final deviceModel = await SAInfoUtils.getDeviceModel();
@@ -215,7 +221,7 @@ class SAAppLogEvent {
         "mafia": version,
         "piraeus": deviceId,
         "gross": logId,
-        "frazzle": DateTime.now().millisecondsSinceEpoch,
+        "frazzle": uniqueTimestamp,
         "palliate": manufacturer,
         "frothy": deviceModel,
         "hangdog": osVersion,
@@ -235,7 +241,8 @@ class SAAppLogEvent {
       var data = await _getCommonParams() ?? {};
 
       final build = await SAInfoUtils.buildNumber();
-      final isLimitAdTrackingEnabled = await SAInfoUtils.isLimitAdTrackingEnabled();
+      final isLimitAdTrackingEnabled =
+          await SAInfoUtils.isLimitAdTrackingEnabled();
       final agent = SAInfoUtils.userAgent();
 
       if (Platform.isAndroid) {
@@ -253,12 +260,10 @@ class SAAppLogEvent {
         data["mannitol"] = DateTime.now().millisecondsSinceEpoch;
       }
 
-      final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
-
       final logModel = SAEventData(
         eventType: 'install',
         data: jsonEncode(data),
-        createTime: uniqueTimestamp,
+        createTime: data['frazzle'],
         id: data.logId,
         sequenceId: SALogEventDBService.currentSequenceId,
       );
@@ -282,13 +287,11 @@ class SAAppLogEvent {
       } else {
         data['hilbert'] = {};
       }
-
-      final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
       final logModel = SAEventData(
         id: data.logId,
         eventType: 'session',
         data: jsonEncode(data),
-        createTime: uniqueTimestamp,
+        createTime: data['frazzle'],
         sequenceId: SALogEventDBService.currentSequenceId,
       );
       await _adLogService.insertLog(logModel);
@@ -298,7 +301,10 @@ class SAAppLogEvent {
     }
   }
 
-  Future<void> logCustomEvent({required String name, required Map<String, dynamic> params}) async {
+  Future<void> logCustomEvent({
+    required String name,
+    required Map<String, dynamic> params,
+  }) async {
     try {
       var data = await _getCommonParams();
       if (data == null) {
@@ -318,12 +324,10 @@ class SAAppLogEvent {
           data['keenan>$key'] = value;
         });
       }
-
-      final uniqueTimestamp = SALogEventDBService.generateUniqueTimestamp();
       final logModel = SAEventData(
         eventType: name,
         data: jsonEncode(data),
-        createTime: uniqueTimestamp,
+        createTime: data['frazzle'],
         id: data.logId,
         sequenceId: SALogEventDBService.currentSequenceId,
       );
@@ -382,7 +386,9 @@ class SAAppLogEvent {
 
       if (logs.isEmpty) return;
 
-      final List<dynamic> dataList = logs.map((log) => jsonDecode(log.data)).toList();
+      final List<dynamic> dataList = logs
+          .map((log) => jsonDecode(log.data))
+          .toList();
 
       // 添加超时控制，避免网络请求卡住应用
       final res = await _dio
@@ -391,7 +397,10 @@ class SAAppLogEvent {
             const Duration(seconds: 15),
             onTimeout: () {
               log.w('[ad]log Upload request timeout');
-              throw TimeoutException('Upload request timeout', const Duration(seconds: 15));
+              throw TimeoutException(
+                'Upload request timeout',
+                const Duration(seconds: 15),
+              );
             },
           );
 
@@ -402,7 +411,10 @@ class SAAppLogEvent {
               const Duration(seconds: 5),
               onTimeout: () {
                 log.w('[ad]log markLogsAsSuccess timeout');
-                throw TimeoutException('markLogsAsSuccess timeout', const Duration(seconds: 5));
+                throw TimeoutException(
+                  'markLogsAsSuccess timeout',
+                  const Duration(seconds: 5),
+                );
               },
             );
         log.d('[ad]log Batch upload success: ${logs.length} logs');
@@ -542,10 +554,16 @@ class _LogPageState extends State<LogPage> {
             },
             itemBuilder: (context) => [
               const PopupMenuItem(value: 'all', child: Text('All Logs')),
-              const PopupMenuItem(value: 'pending', child: Text('Pending Logs')),
+              const PopupMenuItem(
+                value: 'pending',
+                child: Text('Pending Logs'),
+              ),
               const PopupMenuItem(value: 'failed', child: Text('Failed Logs')),
             ],
-            child: const Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Icon(Icons.filter_list)),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.filter_list),
+            ),
           ),
         ],
       ),
@@ -566,39 +584,65 @@ class _LogPageState extends State<LogPage> {
                   return ListTile(
                     title: Text(
                       name,
-                      style: const TextStyle(color: Colors.deepOrange, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('id: ${log.id}', style: const TextStyle(color: Colors.blue)),
-                        Text('Created: ${DateTime.fromMillisecondsSinceEpoch(log.createTime)}'),
+                        Text(
+                          'id: ${log.id}',
+                          style: const TextStyle(color: Colors.blue),
+                        ),
+                        Text(
+                          'Created: ${DateTime.fromMillisecondsSinceEpoch(log.createTime)}',
+                        ),
                         if (log.uploadTime != null)
-                          Text('Uploaded: ${DateTime.fromMillisecondsSinceEpoch(log.uploadTime!)}'),
+                          Text(
+                            'Uploaded: ${DateTime.fromMillisecondsSinceEpoch(log.uploadTime!)}',
+                          ),
                         Row(
                           children: [
                             Icon(
-                              log.isUploaded ? Icons.cloud_done : Icons.cloud_upload,
-                              color: log.isUploaded ? Colors.green : Colors.orange,
+                              log.isUploaded
+                                  ? Icons.cloud_done
+                                  : Icons.cloud_upload,
+                              color: log.isUploaded
+                                  ? Colors.green
+                                  : Colors.orange,
                               size: 16,
                             ),
                             const SizedBox(width: 4),
                             Text(
                               log.isUploaded ? 'Uploaded' : 'Pending',
-                              style: TextStyle(color: log.isUploaded ? Colors.green : Colors.orange),
+                              style: TextStyle(
+                                color: log.isUploaded
+                                    ? Colors.green
+                                    : Colors.orange,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             if (log.isUploaded)
                               Icon(
-                                log.isSuccess ? Icons.check_circle : Icons.error,
-                                color: log.isSuccess ? Colors.green : Colors.red,
+                                log.isSuccess
+                                    ? Icons.check_circle
+                                    : Icons.error,
+                                color: log.isSuccess
+                                    ? Colors.green
+                                    : Colors.red,
                                 size: 16,
                               ),
                             const SizedBox(width: 4),
                             if (log.isUploaded)
                               Text(
                                 log.isSuccess ? 'Success' : 'Failed',
-                                style: TextStyle(color: log.isSuccess ? Colors.green : Colors.red),
+                                style: TextStyle(
+                                  color: log.isSuccess
+                                      ? Colors.green
+                                      : Colors.red,
+                                ),
                               ),
                           ],
                         ),
@@ -610,15 +654,25 @@ class _LogPageState extends State<LogPage> {
                         builder: (context) => AlertDialog(
                           title: Text('Log Details - ${log.eventType}'),
                           content: SingleChildScrollView(
-                            child: SelectableText(log.data), // 替换为SelectableText
+                            child: SelectableText(
+                              log.data,
+                            ), // 替换为SelectableText
                           ),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Close'),
+                            ),
                             IconButton(
                               icon: const Icon(Icons.content_copy),
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: log.data));
-                                Get.snackbar('Copied', 'Log data copied to clipboard');
+                                Clipboard.setData(
+                                  ClipboardData(text: log.data),
+                                );
+                                Get.snackbar(
+                                  'Copied',
+                                  'Log data copied to clipboard',
+                                );
                               },
                             ),
                           ],
