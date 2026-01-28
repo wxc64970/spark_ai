@@ -20,12 +20,14 @@ class ImageAPI {
     try {
       const path = SAApiUrl.aiGetHistroy;
       final baseRes = await api.post(path, data: {"character_id": characterId});
-      final resp = baseRes.data["records"];
-      return resp == null
-          ? []
-          : (resp as List).map((e) {
-              return SAImageHistroy.fromJson(e);
-            }).toList();
+      final resp = SAPagesModel.fromJson(
+        baseRes.data,
+        (json) => SAImageHistroy.fromJson(json),
+      );
+      // final resp = baseRes.data["records"];
+      return (resp.records ?? []).map((e) {
+        return e;
+      }).toList();
     } catch (e) {
       SALoading.close();
       return null;
@@ -34,11 +36,20 @@ class ImageAPI {
 
   /// 上传图片, ai 图片
   /// 角色
-  static Future<SAImgUpModle?> uploadRoleImage({required String style, required String characterId}) async {
+  static Future<SAImgUpModle?> uploadRoleImage({
+    required String style,
+    required String characterId,
+  }) async {
     try {
       // 上传图片
-      final formData = dio.FormData.fromMap({'style': style, 'characterId': characterId});
-      final ops = dio.Options(receiveTimeout: const Duration(seconds: 160), contentType: 'multipart/form-data');
+      final formData = dio.FormData.fromMap({
+        'style': style,
+        'characterId': characterId,
+      });
+      final ops = dio.Options(
+        receiveTimeout: const Duration(seconds: 160),
+        contentType: 'multipart/form-data',
+      );
 
       const path = SAApiUrl.upImageForAiImage;
       final response = await api.uploadFile(path, data: formData, options: ops);
@@ -50,7 +61,10 @@ class ImageAPI {
     }
   }
 
-  static Future<SAImgUpModle?> uploadAiImage({required String imagePath, required String style}) async {
+  static Future<SAImgUpModle?> uploadAiImage({
+    required String imagePath,
+    required String style,
+  }) async {
     try {
       // 选择图片
       final file = File(imagePath);
@@ -62,9 +76,19 @@ class ImageAPI {
       }
 
       // 上传图片
-      final formData = dio.FormData.fromMap({'file': await dio.MultipartFile.fromFile(processedFile.path, filename: 'img_${DateTime.now().millisecondsSinceEpoch}.jpg'), 'style': style});
+      final formData = dio.FormData.fromMap({
+        'file': await dio.MultipartFile.fromFile(
+          processedFile.path,
+          filename: 'img_${DateTime.now().millisecondsSinceEpoch}.jpg',
+        ),
+        'style': style,
+      });
 
-      final ops = dio.Options(receiveTimeout: const Duration(seconds: 180), contentType: 'multipart/form-data', method: 'POST');
+      final ops = dio.Options(
+        receiveTimeout: const Duration(seconds: 180),
+        contentType: 'multipart/form-data',
+        method: 'POST',
+      );
 
       const path = SAApiUrl.upImageForAiImage;
 
@@ -78,22 +102,37 @@ class ImageAPI {
   }
 
   /// 获取任务结果 ai 图片
-  static Future<ImageResultRes?> getImageResult(String taskId, {int attempt = 0, int maxAttempts = 30}) async {
+  static Future<ImageResultRes?> getImageResult(
+    String taskId, {
+    int attempt = 0,
+    int maxAttempts = 30,
+  }) async {
     try {
-      final res = await api.post(SAApiUrl.aiImageResult, queryParameters: {'taskId': taskId});
+      final res = await api.post(
+        SAApiUrl.aiImageResult,
+        queryParameters: {'taskId': taskId},
+      );
       var baseResponse = SABaseModel.fromJson(res.data, null);
       final json = baseResponse.data;
 
       if (json == null) {
         await Future.delayed(const Duration(seconds: 15));
-        return await getImageResult(taskId, attempt: attempt + 1, maxAttempts: maxAttempts);
+        return await getImageResult(
+          taskId,
+          attempt: attempt + 1,
+          maxAttempts: maxAttempts,
+        );
       } else {
         final data = ImageResultRes.fromJson(json);
         if (data.status == 2) {
           return data;
         } else if (attempt < maxAttempts) {
           await Future.delayed(const Duration(seconds: 15));
-          return await getImageResult(taskId, attempt: attempt + 1, maxAttempts: maxAttempts);
+          return await getImageResult(
+            taskId,
+            attempt: attempt + 1,
+            maxAttempts: maxAttempts,
+          );
         } else {
           return null; // 达到最大递归次数后返回null
         }
@@ -104,7 +143,10 @@ class ImageAPI {
   }
 
   /// 上传图片, ai 视频
-  static Future<SAImgUpModle?> uploadImgToVideo({required String imagePath, required String enText}) async {
+  static Future<SAImgUpModle?> uploadImgToVideo({
+    required String imagePath,
+    required String enText,
+  }) async {
     try {
       // 选择图片
       final file = File(imagePath);
@@ -120,12 +162,19 @@ class ImageAPI {
 
       // 上传图片
       final formData = dio.FormData.fromMap({
-        'file': await dio.MultipartFile.fromFile(processedFile.path, filename: 'img_${DateTime.now().millisecondsSinceEpoch}.jpg'),
+        'file': await dio.MultipartFile.fromFile(
+          processedFile.path,
+          filename: 'img_${DateTime.now().millisecondsSinceEpoch}.jpg',
+        ),
         'style': enText,
         'fileMd5': md5,
       });
 
-      final ops = dio.Options(receiveTimeout: const Duration(seconds: 180), contentType: 'multipart/form-data', method: 'POST');
+      final ops = dio.Options(
+        receiveTimeout: const Duration(seconds: 180),
+        contentType: 'multipart/form-data',
+        method: 'POST',
+      );
 
       const path = SAApiUrl.upImageForAiVideo;
 
@@ -139,14 +188,25 @@ class ImageAPI {
   }
 
   /// 获取任务结果 ai 视频
-  static Future<ImageVideoResItem?> getVideoResult(String taskId, {int attempt = 0, int maxAttempts = 30}) async {
+  static Future<ImageVideoResItem?> getVideoResult(
+    String taskId, {
+    int attempt = 0,
+    int maxAttempts = 30,
+  }) async {
     try {
-      final res = await api.post(SAApiUrl.aiVideoResult, queryParameters: {'taskId': taskId});
+      final res = await api.post(
+        SAApiUrl.aiVideoResult,
+        queryParameters: {'taskId': taskId},
+      );
       final json = res.data['data'];
 
       if (json == null) {
         await Future.delayed(const Duration(seconds: 15));
-        return await getVideoResult(taskId, attempt: attempt + 1, maxAttempts: maxAttempts);
+        return await getVideoResult(
+          taskId,
+          attempt: attempt + 1,
+          maxAttempts: maxAttempts,
+        );
       } else {
         final data = ImageVideoResult.fromJson(json);
         final item = data.item;
@@ -155,7 +215,11 @@ class ImageAPI {
           return item;
         } else if (attempt < maxAttempts) {
           await Future.delayed(const Duration(seconds: 15));
-          return await getVideoResult(taskId, attempt: attempt + 1, maxAttempts: maxAttempts);
+          return await getVideoResult(
+            taskId,
+            attempt: attempt + 1,
+            maxAttempts: maxAttempts,
+          );
         } else {
           return null; // 达到最大递归次数后返回null
         }
