@@ -11,7 +11,15 @@ class SAAutoHeightScrollText extends StatefulWidget {
   // 新增：是否启用精准行高计算（默认开启）
   final bool preciseHeight;
 
-  const SAAutoHeightScrollText({super.key, required this.text, this.style, this.maxLines = 3, this.width, this.textAlign = TextAlign.start, this.preciseHeight = true});
+  const SAAutoHeightScrollText({
+    super.key,
+    required this.text,
+    this.style,
+    this.maxLines = 3,
+    this.width,
+    this.textAlign = TextAlign.start,
+    this.preciseHeight = true,
+  });
 
   @override
   State<SAAutoHeightScrollText> createState() => _SAAutoHeightScrollTextState();
@@ -54,7 +62,10 @@ class _SAAutoHeightScrollTextState extends State<SAAutoHeightScrollText> {
     }
 
     // 1. 获取文本显示宽度
-    final double textWidth = widget.width ?? (context.findRenderObject() as RenderBox?)?.size.width ?? MediaQuery.of(context).size.width - 32;
+    final double textWidth =
+        widget.width ??
+        (context.findRenderObject() as RenderBox?)?.size.width ??
+        MediaQuery.of(context).size.width - 32;
 
     // 2. 构建基础文本样式（默认样式兜底）
     final defaultStyle = TextStyle(
@@ -71,7 +82,13 @@ class _SAAutoHeightScrollTextState extends State<SAAutoHeightScrollText> {
       textAlign: widget.textAlign,
       maxLines: widget.maxLines,
       // 关键：启用strutStyle，匹配Text的行支撑样式（解决行高偏差）
-      strutStyle: StrutStyle(fontSize: targetStyle.fontSize, height: targetStyle.height, fontStyle: targetStyle.fontStyle, fontWeight: targetStyle.fontWeight, fontFamily: targetStyle.fontFamily),
+      strutStyle: StrutStyle(
+        fontSize: targetStyle.fontSize,
+        height: targetStyle.height,
+        fontStyle: targetStyle.fontStyle,
+        fontWeight: targetStyle.fontWeight,
+        fontFamily: targetStyle.fontFamily,
+      ),
     );
 
     // 4. 计算「指定行数的最大高度」
@@ -86,7 +103,8 @@ class _SAAutoHeightScrollTextState extends State<SAAutoHeightScrollText> {
     // 6. 精准行高修正（补全行高/基线偏移）
     if (widget.preciseHeight && targetStyle.height != null) {
       // 获取字体的原始行高
-      final fontMetrics = textPainter.text!.style!.fontSize! * (targetStyle.height ?? 1.0);
+      final fontMetrics =
+          textPainter.text!.style!.fontSize! * (targetStyle.height ?? 1.0);
       // 修正多行文本的高度（适配行高倍数）
       final lineCount = textPainter.computeLineMetrics().length;
       actualHeight = fontMetrics * lineCount;
@@ -114,7 +132,10 @@ class _SAAutoHeightScrollTextState extends State<SAAutoHeightScrollText> {
       softWrap: true,
       overflow: _needScroll ? TextOverflow.visible : TextOverflow.ellipsis,
       // 关键：匹配TextPainter的strutStyle，确保行高一致
-      strutStyle: StrutStyle(height: widget.style?.height, fontSize: widget.style?.fontSize),
+      strutStyle: StrutStyle(
+        height: widget.style?.height,
+        fontSize: widget.style?.fontSize,
+      ),
     );
 
     final containerHeight = _needScroll ? _maxHeight : _actualHeight;
@@ -124,7 +145,10 @@ class _SAAutoHeightScrollTextState extends State<SAAutoHeightScrollText> {
       child: _needScroll
           ? Scrollbar(
               thumbVisibility: true,
-              child: SingleChildScrollView(physics: const AlwaysScrollableScrollPhysics(), child: textWidget),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: textWidget,
+              ),
             )
           : textWidget,
     );

@@ -153,7 +153,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       buySku();
       return;
     }
-    SA.login.imgCreationCount.value -= 1;
+    // SA.login.imgCreationCount.value -= 1;
     if (undressRole) {
       undrRole();
     } else {
@@ -290,7 +290,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
     setState(() {
       isLoading = true;
     });
-    SA.login.videoCreationCount.value -= 1;
+    // SA.login.videoCreationCount.value -= 1;
 
     // 翻译 customPrompt：
     String? enText = await Api.translateText(customPrompt!, tlan: 'en');
