@@ -231,18 +231,19 @@ class SAInfoUtils {
 
       // 检查时区名称是否包含中国相关标识
       final chineseTimeZones = [
-        'asia/shanghai', // 上海（中国标准时间）
-        'asia/chongqing', // 重庆
-        'asia/harbin', // 哈尔滨
-        'asia/urumqi', // 乌鲁木齐
-        'asia/beijing', // 北京
-        'asia/hong_kong', // 香港
-        'asia/macau', // 澳门
         'cst', // China Standard Time
         'china', // 中国
         'prc', // People's Republic of China
-        'gmt+8', // GMT+8
-        'utc+8', // UTC+8
+        'Shanghai',
+        'Urumqi',
+        'Chongqing',
+        'Chungking',
+        'Harbin',
+        'Kashgar',
+        'Beijing',
+        'Hong_Kong',
+        'Macau',
+        'PRC',
       ];
 
       for (var timezone in chineseTimeZones) {
