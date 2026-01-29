@@ -36,6 +36,13 @@
 		<true />
 		<key>NSLocalNetworkUsageDescription</key>
 		<string>Grant local network access.</string>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+			<key>NSAllowsArbitraryLoadsInWebContent</key>
+			<true/>
+		</dict>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Microphone access is required to use speech recognition during calls.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
