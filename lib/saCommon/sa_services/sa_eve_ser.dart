@@ -141,7 +141,7 @@ class SAAppLogEvent {
 
   final connectTimeout = const Duration(seconds: 20);
   final receiveTimeout = const Duration(seconds: 20);
-  final periodicTime = const Duration(seconds: 10);
+  final periodicTime = const Duration(seconds: 30);
 
   /// 异步启动定时器，避免阻塞应用启动
   void _startTimersAsync() {
@@ -396,6 +396,7 @@ class SAAppLogEvent {
       final logIds = logs.map((log) => log.id).toList();
       _uploadingLogIds.addAll(logIds);
 
+      bool uploadSuccess = false;
       try {
         final List<dynamic> dataList = logs
             .map((log) => jsonDecode(log.data))
@@ -405,36 +406,60 @@ class SAAppLogEvent {
         final res = await _dio
             .post('', data: dataList)
             .timeout(
-              const Duration(seconds: 15),
+              const Duration(seconds: 25),
               onTimeout: () {
                 log.w('[ad]log Upload request timeout');
                 throw TimeoutException(
                   'Upload request timeout',
-                  const Duration(seconds: 15),
+                  const Duration(seconds: 25),
                 );
               },
             );
 
         if (res.statusCode == 200) {
-          await _adLogService
-              .markLogsAsSuccess(logs)
-              .timeout(
-                const Duration(seconds: 5),
-                onTimeout: () {
-                  log.w('[ad]log markLogsAsSuccess timeout');
-                  throw TimeoutException(
-                    'markLogsAsSuccess timeout',
-                    const Duration(seconds: 5),
+          uploadSuccess = true;
+          // 增加重试逻辑，确保标记成功
+          int retryCount = 0;
+          while (retryCount < 3) {
+            try {
+              await _adLogService
+                  .markLogsAsSuccess(logs)
+                  .timeout(
+                    const Duration(seconds: 10),
+                    onTimeout: () {
+                      log.w('[ad]log markLogsAsSuccess timeout, retry: $retryCount');
+                      throw TimeoutException(
+                        'markLogsAsSuccess timeout',
+                        const Duration(seconds: 10),
+                      );
+                    },
                   );
-                },
-              );
-          log.d('[ad]log Batch upload success: ${logs.length} logs');
+              log.d('[ad]log Batch upload success: ${logs.length} logs');
+              break; // 成功后跳出循环
+            } catch (e) {
+              retryCount++;
+              if (retryCount >= 3) {
+                log.e('[ad]log markLogsAsSuccess failed after 3 retries: $e');
+                // 即使标记失败，也认为上传成功，避免重复上传
+              } else {
+                await Future.delayed(Duration(seconds: retryCount));
+              }
+            }
+          }
         } else {
           log.e('[ad]log Batch upload error: ${res.statusMessage}');
         }
       } finally {
-        // 无论成功或失败，都要从上传中集合移除这些ID
-        _uploadingLogIds.removeAll(logIds);
+        // 只有在上传成功或明确失败时才移除ID
+        // 如果是超时，保留ID一段时间，避免立即重试
+        if (uploadSuccess) {
+          _uploadingLogIds.removeAll(logIds);
+        } else {
+          // 延迟移除，避免立即重试
+          Future.delayed(const Duration(seconds: 60), () {
+            _uploadingLogIds.removeAll(logIds);
+          });
+        }
       }
     } catch (e) {
       log.e('[ad]log Batch upload catch: $e');
