@@ -121,9 +121,14 @@ class SADependencyInjection {
   /// 包含：Firebase、Adjust 等第三方 SDK
   static Future<void> _initThirdPartyServices() async {
     try {
-      SAThirdPartyService.init();
+      await SAThirdPartyService.init();
     } catch (e) {
-      // 第三方服务初始化失败不应该阻塞应用启动
+      // 如果是网络错误，重新抛出以阻止应用启动
+      if (e.toString().contains('Network connection required')) {
+        debugPrint('[DI]: 网络连接失败，无法启动应用');
+        rethrow;
+      }
+      // 其他第三方服务初始化失败不应该阻塞应用启动
       debugPrint('[DI]: 第三方服务初始化失败，但不影响应用启动: $e');
     }
   }

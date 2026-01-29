@@ -8,6 +8,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:spark_ai/saCommon/index.dart';
+import 'package:spark_ai/saCommon/sa_widgets/sa_network_error_page.dart';
 
 var log = SA.dio.logger;
 
@@ -32,7 +33,18 @@ void main() async {
       // 使用依赖注入初始化所有服务（遵循干净架构原则）
       // 包括：环境配置、网络客户端、存储、网络监控、登录等服务
       // Change to SAEnv.prod for production
-      await SADependencyInjection.init(env: SAEnv.dev);
+      try {
+        await SADependencyInjection.init(env: SAEnv.dev);
+      } catch (e) {
+        // 如果是网络错误，显示错误页面并阻止应用继续
+        if (e.toString().contains('Network connection required')) {
+          log.e('[Main]: 网络连接失败，显示错误页面');
+          runApp(const SANetworkErrorPage());
+          return;
+        }
+        // 其他错误继续抛出
+        rethrow;
+      }
 
       /// 控制图片缓存大小
       PaintingBinding.instance.imageCache.maximumSize = 100;
