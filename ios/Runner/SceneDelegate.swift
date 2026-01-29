@@ -145,11 +145,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let carriers = networkInfo.serviceSubscriberCellularProviders {
                 // 检查是否有任何有效的运营商信息
                 for (_, carrier) in carriers {
-                    // 如果有运营商名称或 MCC/MNC，说明有 SIM 卡
-                    if let carrierName = carrier.carrierName, !carrierName.isEmpty {
-                        return true
-                    }
-                    if let mcc = carrier.mobileCountryCode, !mcc.isEmpty {
+                    // 必须同时有 MCC 和 MNC 才说明有真实的 SIM 卡
+                    if let mcc = carrier.mobileCountryCode, !mcc.isEmpty,
+                       let mnc = carrier.mobileNetworkCode, !mnc.isEmpty {
                         return true
                     }
                 }
@@ -157,10 +155,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else {
             // iOS 12 以下使用旧 API
             if let carrier = networkInfo.subscriberCellularProvider {
-                if let carrierName = carrier.carrierName, !carrierName.isEmpty {
-                    return true
-                }
-                if let mcc = carrier.mobileCountryCode, !mcc.isEmpty {
+                // 必须同时有 MCC 和 MNC 才说明有真实的 SIM 卡
+                if let mcc = carrier.mobileCountryCode, !mcc.isEmpty,
+                   let mnc = carrier.mobileNetworkCode, !mnc.isEmpty {
                     return true
                 }
             }
