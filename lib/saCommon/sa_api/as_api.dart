@@ -23,7 +23,11 @@ class Api {
   static Future<SAUsersModel?> register() async {
     try {
       final deviceId = await SA.storage.getDeviceId();
-      var res = await api.request(SAApiUrl.register, method: HttpMethod.post, data: {"device_id": deviceId, "platform": EnvConfig.platform});
+      var res = await api.request(
+        SAApiUrl.register,
+        method: HttpMethod.post,
+        data: {"device_id": deviceId, "platform": EnvConfig.platform},
+      );
       if (!res.data) {
         return null;
       }
@@ -37,7 +41,11 @@ class Api {
   static Future<SAUsersModel?> getUserInfo() async {
     try {
       final deviceId = await SA.storage.getDeviceId();
-      final res = await api.request(SAApiUrl.getUserInfo, method: HttpMethod.get, queryParameters: {'device_id': deviceId});
+      final res = await api.request(
+        SAApiUrl.getUserInfo,
+        method: HttpMethod.get,
+        queryParameters: {'device_id': deviceId},
+      );
 
       final user = SAUsersModel.fromJson(res.data);
       return user;
@@ -48,7 +56,11 @@ class Api {
 
   static Future<bool> updateUserInfo(Map<String, dynamic> body) async {
     try {
-      final res = await api.request(SAApiUrl.updateUserInfo, method: HttpMethod.post, data: body);
+      final res = await api.request(
+        SAApiUrl.updateUserInfo,
+        method: HttpMethod.post,
+        data: body,
+      );
       final reult = SABaseModel.fromJson(res.data, null);
       return reult.data;
     } catch (e) {
@@ -58,9 +70,15 @@ class Api {
 
   static Future<List<SATagsModel>?> roleTagsList() async {
     try {
-      var res = await api.request(SAApiUrl.roleTag, method: HttpMethod.get, queryParameters: _qp);
+      var res = await api.request(
+        SAApiUrl.roleTag,
+        method: HttpMethod.get,
+        queryParameters: _qp,
+      );
       if (res.data is List) {
-        final list = (res.data as List).map((e) => SATagsModel.fromJson(e)).toList();
+        final list = (res.data as List)
+            .map((e) => SATagsModel.fromJson(e))
+            .toList();
         return list;
       } else {
         return null;
@@ -73,8 +91,15 @@ class Api {
   // 获取开屏随机角色
   static Future<ChaterModel?> splashRandomRole() async {
     try {
-      var res = await api.request(SAApiUrl.splashRandomRole, method: HttpMethod.get, queryParameters: _qp);
-      var result = SABaseModel.fromJson(res.data, (json) => ChaterModel.fromJson(json));
+      var res = await api.request(
+        SAApiUrl.splashRandomRole,
+        method: HttpMethod.get,
+        queryParameters: _qp,
+      );
+      var result = SABaseModel.fromJson(
+        res.data,
+        (json) => ChaterModel.fromJson(json),
+      );
       return result.data;
     } catch (e) {
       return null;
@@ -115,7 +140,12 @@ class Api {
       if (tags != null && tags.isNotEmpty) {
         data['tags'] = tags;
       }
-      var res = await api.request(SAApiUrl.roleList, data: data, method: HttpMethod.post, queryParameters: _qp);
+      var res = await api.request(
+        SAApiUrl.roleList,
+        data: data,
+        method: HttpMethod.post,
+        queryParameters: _qp,
+      );
       final rolePage = SAChaterPageModel.fromJson(res.data);
       return rolePage;
     } catch (e) {
@@ -127,7 +157,11 @@ class Api {
     try {
       var qp = _qp;
       qp['id'] = roleId;
-      var res = await api.request(SAApiUrl.getRoleById, method: HttpMethod.get, queryParameters: qp);
+      var res = await api.request(
+        SAApiUrl.getRoleById,
+        method: HttpMethod.get,
+        queryParameters: qp,
+      );
       var role = ChaterModel.fromJson(res.data);
       return role;
     } catch (e) {
@@ -141,10 +175,13 @@ class Api {
       if (userId == null || (userId?.isEmpty ?? true)) return null;
       const derEncodedPublicKey =
           'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCLWMEjJb703WZJ5Nqf7qJ2wefSSYvbmQZM0CgHGrYstUaj4Mlz+P06mCqpVAYmyf3dJxLrEsUiobWvhi1Ut5W+PY0yrzEsIOJ5lJrIt1pm0/kcPsPj2d4cEl9S7DTEIJVQTGMzquAlhEkgbA0yDVXNtqqf4MECCADU/WM3WTCH2QIDAQAB';
-      const pemPublicKey = '-----BEGIN PUBLIC KEY-----\n$derEncodedPublicKey\n-----END PUBLIC KEY-----';
+      const pemPublicKey =
+          '-----BEGIN PUBLIC KEY-----\n$derEncodedPublicKey\n-----END PUBLIC KEY-----';
       final parser = RSAKeyParser();
       final RSAPublicKey publicKey = parser.parse(pemPublicKey) as RSAPublicKey;
-      final encrypter = Encrypter(RSA(publicKey: publicKey, encoding: RSAEncoding.PKCS1));
+      final encrypter = Encrypter(
+        RSA(publicKey: publicKey, encoding: RSAEncoding.PKCS1),
+      );
       final encrypted = encrypter.encrypt(userId!);
       return encrypted.base64;
     } catch (e) {
@@ -158,10 +195,20 @@ class Api {
     if (uid == null || uid.isEmpty) return 0;
     final signature = await getApiSignature();
 
-    var body = <String, dynamic>{'signature': signature, 'id': uid, 'gems': value, 'description': from};
+    var body = <String, dynamic>{
+      'signature': signature,
+      'id': uid,
+      'gems': value,
+      'description': from,
+    };
 
     try {
-      var res = await api.request(SAApiUrl.minusGems, method: HttpMethod.post, data: body, queryParameters: _qp);
+      var res = await api.request(
+        SAApiUrl.minusGems,
+        method: HttpMethod.post,
+        data: body,
+        queryParameters: _qp,
+      );
       if (res.statusCode == 200) {
         return res.data;
       } else {
@@ -172,16 +219,39 @@ class Api {
     }
   }
 
-  static Future<SAOrderModel?> makeIosOrder({required String skuId, required String orderType}) async {
+  static Future<SAOrderModel?> makeIosOrder({
+    required String skuId,
+    required String orderType,
+    bool? createImg,
+    bool? createVideo,
+  }) async {
     try {
       if (userId == null || (userId?.isEmpty ?? true)) return null;
 
       String deviceId = await getDeviceId();
 
-      var body = {'user_id': userId, 'sku_id': skuId, 'order_type': orderType, 'device_id': deviceId};
+      Map<String, dynamic> body = {
+        'user_id': userId,
+        'sku_id': skuId,
+        'order_type': orderType,
+        'device_id': deviceId,
+      };
+      if (createImg != null) {
+        body['create_img'] = createImg;
+      }
+      if (createVideo != null) {
+        body['create_video'] = createVideo;
+      }
 
-      var res = await api.request(SAApiUrl.createIosOrder, method: HttpMethod.post, data: body);
-      final result = SABaseModel.fromJson(res.data, (data) => SAOrderModel.fromJson(data));
+      var res = await api.request(
+        SAApiUrl.createIosOrder,
+        method: HttpMethod.post,
+        data: body,
+      );
+      final result = SABaseModel.fromJson(
+        res.data,
+        (data) => SAOrderModel.fromJson(data),
+      );
       return result.data;
     } catch (e) {
       return null;
@@ -227,7 +297,11 @@ class Api {
       if (createVideo != null) {
         params['create_video'] = createVideo;
       }
-      var res = await api.request(SAApiUrl.verifyIosReceipt, method: HttpMethod.post, data: params);
+      var res = await api.request(
+        SAApiUrl.verifyIosReceipt,
+        method: HttpMethod.post,
+        data: params,
+      );
 
       var data = SABaseModel.fromJson(res.data, null);
       if (data.code == 0 || data.code == 200) {
@@ -242,17 +316,33 @@ class Api {
     }
   }
 
-  static Future<SAOrderModel?> makeAndOrder({required String orderType, required String skuId}) async {
+  static Future<SAOrderModel?> makeAndOrder({
+    required String orderType,
+    required String skuId,
+  }) async {
     try {
       if (userId == null || (userId?.isEmpty ?? true)) return null;
 
       String deviceId = await getDeviceId();
 
-      var body = {'device_id': deviceId, 'platform': EnvConfig.platform, 'order_type': orderType, 'sku_id': skuId, 'user_id': userId};
+      var body = {
+        'device_id': deviceId,
+        'platform': EnvConfig.platform,
+        'order_type': orderType,
+        'sku_id': skuId,
+        'user_id': userId,
+      };
 
-      var res = await api.request(SAApiUrl.createAndOrder, method: HttpMethod.post, data: body);
+      var res = await api.request(
+        SAApiUrl.createAndOrder,
+        method: HttpMethod.post,
+        data: body,
+      );
 
-      var result = SABaseModel.fromJson(res.data, (data) => SAOrderModel.fromJson(data));
+      var result = SABaseModel.fromJson(
+        res.data,
+        (data) => SAOrderModel.fromJson(data),
+      );
       return result.data;
     } catch (e) {
       return null;
@@ -299,7 +389,11 @@ class Api {
         body['create_video'] = createVideo;
       }
       log.d('verifyAndOrder: 请求参数构建完成 - ${body.keys.join(", ")}');
-      var res = await api.request(SAApiUrl.verifyAndOrder, method: HttpMethod.post, data: body);
+      var res = await api.request(
+        SAApiUrl.verifyAndOrder,
+        method: HttpMethod.post,
+        data: body,
+      );
       final data = SABaseModel.fromJson(res.data, null);
       if (data.code == 0 || data.code == 200) {
         log.d('verifyAndOrder:  ✅');
@@ -315,7 +409,11 @@ class Api {
 
   static Future<bool> collectRole(String roleId) async {
     try {
-      var res = await api.request(SAApiUrl.collectRole, method: HttpMethod.post, data: {'character_id': roleId});
+      var res = await api.request(
+        SAApiUrl.collectRole,
+        method: HttpMethod.post,
+        data: {'character_id': roleId},
+      );
       return res.statusCode == 200;
     } catch (e) {
       return false;
@@ -324,17 +422,32 @@ class Api {
 
   static Future<bool> cancelCollectRole(String roleId) async {
     try {
-      var res = await api.request(SAApiUrl.cancelCollectRole, method: HttpMethod.post, data: {'character_id': roleId});
+      var res = await api.request(
+        SAApiUrl.cancelCollectRole,
+        method: HttpMethod.post,
+        data: {'character_id': roleId},
+      );
       return res.statusCode == 200;
     } catch (e) {
       return false;
     }
   }
 
-  static Future<List<SAConversationModel>?> sessionList(int page, int size) async {
+  static Future<List<SAConversationModel>?> sessionList(
+    int page,
+    int size,
+  ) async {
     try {
-      var res = await api.request(SAApiUrl.sessionList, method: HttpMethod.post, data: {'page': page, 'size': size}, queryParameters: _qp);
-      final list = SAPagesModel.fromJson(res.data, (json) => SAConversationModel.fromJson(json));
+      var res = await api.request(
+        SAApiUrl.sessionList,
+        method: HttpMethod.post,
+        data: {'page': page, 'size': size},
+        queryParameters: _qp,
+      );
+      final list = SAPagesModel.fromJson(
+        res.data,
+        (json) => SAConversationModel.fromJson(json),
+      );
       return list.records;
     } catch (e) {
       log.e(e);
@@ -344,7 +457,11 @@ class Api {
 
   static Future<SAConversationModel?> addSession(String charId) async {
     try {
-      var res = await api.request(SAApiUrl.addSession, method: HttpMethod.post, queryParameters: {'charId': charId});
+      var res = await api.request(
+        SAApiUrl.addSession,
+        method: HttpMethod.post,
+        queryParameters: {'charId': charId},
+      );
       return SAConversationModel.fromJson(res.data);
     } catch (e) {
       return null;
@@ -353,7 +470,11 @@ class Api {
 
   static Future<SAConversationModel?> resetSession(int id) async {
     try {
-      var res = await api.request(SAApiUrl.resetSession, method: HttpMethod.post, queryParameters: {'conversationId': id.toString()});
+      var res = await api.request(
+        SAApiUrl.resetSession,
+        method: HttpMethod.post,
+        queryParameters: {'conversationId': id.toString()},
+      );
       return SAConversationModel.fromJson(res.data);
     } catch (e) {
       return null;
@@ -362,7 +483,11 @@ class Api {
 
   static Future<bool> deleteSession(int id) async {
     try {
-      var res = await api.request(SAApiUrl.deleteSession, method: HttpMethod.post, queryParameters: {'id': id.toString()});
+      var res = await api.request(
+        SAApiUrl.deleteSession,
+        method: HttpMethod.post,
+        queryParameters: {'id': id.toString()},
+      );
       return res.statusCode == 200;
     } catch (e) {
       return false;
@@ -371,7 +496,12 @@ class Api {
 
   static Future<SAChaterPageModel?> likedList(int page, int size) async {
     try {
-      var res = await api.request(SAApiUrl.collectList, method: HttpMethod.post, data: {'page': page, 'size': size}, queryParameters: _qp);
+      var res = await api.request(
+        SAApiUrl.collectList,
+        method: HttpMethod.post,
+        data: {'page': page, 'size': size},
+        queryParameters: _qp,
+      );
       return SAChaterPageModel.fromJson(res.data);
     } catch (e) {
       return null;
@@ -379,22 +509,46 @@ class Api {
   }
 
   // 消息列表
-  static Future<List<SAMessageModel>?> messageList(int page, int size, int convId) async {
+  static Future<List<SAMessageModel>?> messageList(
+    int page,
+    int size,
+    int convId,
+  ) async {
     try {
-      var res = await api.request(SAApiUrl.messageList, method: HttpMethod.post, data: {'page': page, 'size': size, 'conversation_id': convId}, queryParameters: _qp);
-      final list = SAPagesModel.fromJson(res.data, (json) => SAMessageModel.fromJson(json));
+      var res = await api.request(
+        SAApiUrl.messageList,
+        method: HttpMethod.post,
+        data: {'page': page, 'size': size, 'conversation_id': convId},
+        queryParameters: _qp,
+      );
+      final list = SAPagesModel.fromJson(
+        res.data,
+        (json) => SAMessageModel.fromJson(json),
+      );
       return list.records;
     } catch (e) {
       return null;
     }
   }
 
-  static Future<SAMsgReplayModel?> sendVoiceChatMsg({required String roleId, required String userId, required String nickName, required String message, String? msgId}) async {
+  static Future<SAMsgReplayModel?> sendVoiceChatMsg({
+    required String roleId,
+    required String userId,
+    required String nickName,
+    required String message,
+    String? msgId,
+  }) async {
     try {
       var res = await api.request(
         SAApiUrl.voiceChat,
         method: HttpMethod.post,
-        data: {'char_id': roleId, 'user_id': userId, 'nick_name': nickName, 'message': message, if (msgId?.isNotEmpty == true) 'msg_id': msgId},
+        data: {
+          'char_id': roleId,
+          'user_id': userId,
+          'nick_name': nickName,
+          'message': message,
+          if (msgId?.isNotEmpty == true) 'msg_id': msgId,
+        },
         queryParameters: _qp,
       );
       return SAMsgReplayModel.fromJson(res.data);
@@ -407,7 +561,11 @@ class Api {
     try {
       String deviceId = await Api.getDeviceId();
       final adid = await SAInfoUtils.getAdid();
-      Map<String, dynamic> data = {'adid': adid, 'device_id': deviceId, 'platform': EnvConfig.platform};
+      Map<String, dynamic> data = {
+        'adid': adid,
+        'device_id': deviceId,
+        'platform': EnvConfig.platform,
+      };
 
       if (Platform.isIOS) {
         String idfa = await SAInfoUtils.getIdfa();
@@ -437,7 +595,11 @@ class Api {
       if (lang != null) {
         data['target_language'] = lang;
       }
-      var result = await api.request(SAApiUrl.eventParams, method: HttpMethod.post, data: data);
+      var result = await api.request(
+        SAApiUrl.eventParams,
+        method: HttpMethod.post,
+        data: data,
+      );
       return result.data == true;
     } catch (e) {
       return false;
@@ -446,7 +608,10 @@ class Api {
 
   static Future<List<SALevelModel>?> getChatLevelConfig() async {
     try {
-      var result = await api.request(SAApiUrl.chatLevelConfig, method: HttpMethod.get);
+      var result = await api.request(
+        SAApiUrl.chatLevelConfig,
+        method: HttpMethod.get,
+      );
       final list = result.data;
       if (list is List) {
         final datas = list.map((x) => SALevelModel.fromJson(x)).toList();
@@ -460,7 +625,11 @@ class Api {
 
   static Future<bool> unlockImageReq(int imageId, String modelId) async {
     try {
-      var result = await api.request(SAApiUrl.unlockImage, method: HttpMethod.post, data: {'image_id': imageId, 'model_id': modelId});
+      var result = await api.request(
+        SAApiUrl.unlockImage,
+        method: HttpMethod.post,
+        data: {'image_id': imageId, 'model_id': modelId},
+      );
 
       return result.data;
     } catch (e) {
@@ -468,23 +637,45 @@ class Api {
     }
   }
 
-  static Future<ChatAnserLevel?> fetchChatLevel({required String charId, required String userId}) async {
+  static Future<ChatAnserLevel?> fetchChatLevel({
+    required String charId,
+    required String userId,
+  }) async {
     try {
       var qb = _qp;
       qb['charId'] = charId;
       qb['userId'] = userId;
 
-      var result = await api.request(SAApiUrl.chatLevel, queryParameters: qb, method: HttpMethod.post);
-      var res = SABaseModel.fromJson(result.data, (json) => ChatAnserLevel.fromJson(json));
+      var result = await api.request(
+        SAApiUrl.chatLevel,
+        queryParameters: qb,
+        method: HttpMethod.post,
+      );
+      var res = SABaseModel.fromJson(
+        result.data,
+        (json) => ChatAnserLevel.fromJson(json),
+      );
       return res.data;
     } catch (e) {
       return null;
     }
   }
 
-  static Future<String?> translateText(String content, {String? slan = 'en', String? tlan}) async {
+  static Future<String?> translateText(
+    String content, {
+    String? slan = 'en',
+    String? tlan,
+  }) async {
     try {
-      var result = await api.request(SAApiUrl.translate, method: HttpMethod.post, data: {'content': content, 'source_language': slan, 'target_language': tlan ?? Get.deviceLocale?.languageCode});
+      var result = await api.request(
+        SAApiUrl.translate,
+        method: HttpMethod.post,
+        data: {
+          'content': content,
+          'source_language': slan,
+          'target_language': tlan ?? Get.deviceLocale?.languageCode,
+        },
+      );
       final res = SABaseModel.fromJson(result.data, null);
       return res.data;
     } catch (e) {
@@ -505,9 +696,15 @@ class Api {
     }
   }
 
-  static Future<bool> saveMsgTrans({required String id, required String text}) async {
+  static Future<bool> saveMsgTrans({
+    required String id,
+    required String text,
+  }) async {
     try {
-      var result = await api.post(SAApiUrl.saveMsg, data: {'translate_answer': text, 'id': id});
+      var result = await api.post(
+        SAApiUrl.saveMsg,
+        data: {'translate_answer': text, 'id': id},
+      );
       return result.statusCode == 200;
     } catch (e) {
       return false;
@@ -533,10 +730,19 @@ class Api {
   }
 
   // /// 编辑消息
-  static Future<SAMessageModel?> editMsg({required String id, required String text}) async {
+  static Future<SAMessageModel?> editMsg({
+    required String id,
+    required String text,
+  }) async {
     try {
-      var result = await api.post(SAApiUrl.editMsg, data: {'id': id, 'answer': text});
-      var res = SABaseModel.fromJson(result.data, (json) => SAMessageModel.fromJson(json));
+      var result = await api.post(
+        SAApiUrl.editMsg,
+        data: {'id': id, 'answer': text},
+      );
+      var res = SABaseModel.fromJson(
+        result.data,
+        (json) => SAMessageModel.fromJson(json),
+      );
       return res.data;
     } catch (e) {
       return null;
@@ -544,9 +750,20 @@ class Api {
   }
 
   /// 修改聊天场景
-  static Future<bool> editScene({required int convId, required String scene, required String roleId}) async {
+  static Future<bool> editScene({
+    required int convId,
+    required String scene,
+    required String roleId,
+  }) async {
     try {
-      var result = await api.post(SAApiUrl.editScene, data: {'conversation_id': convId, 'character_id': roleId, 'scene': scene});
+      var result = await api.post(
+        SAApiUrl.editScene,
+        data: {
+          'conversation_id': convId,
+          'character_id': roleId,
+          'scene': scene,
+        },
+      );
       var res = SABaseModel.fromJson(result.data, null);
       return res.data == null ? false : true;
     } catch (e) {
@@ -555,9 +772,15 @@ class Api {
   }
 
   /// 修改会话模式
-  static Future<bool> editChatMode({required int convId, required String mode}) async {
+  static Future<bool> editChatMode({
+    required int convId,
+    required String mode,
+  }) async {
     try {
-      var result = await api.post(SAApiUrl.editMode, data: {'id': convId, 'chat_model': mode});
+      var result = await api.post(
+        SAApiUrl.editMode,
+        data: {'id': convId, 'chat_model': mode},
+      );
       var res = SABaseModel.fromJson(result.data, null);
       return res.data;
     } catch (e) {
@@ -566,11 +789,25 @@ class Api {
   }
 
   /// 新建 mask
-  static Future<bool> createOrUpdateMask({required String name, required String age, required int gender, required String? description, required String? otherInfo, required int? id}) async {
+  static Future<bool> createOrUpdateMask({
+    required String name,
+    required String age,
+    required int gender,
+    required String? description,
+    required String? otherInfo,
+    required int? id,
+  }) async {
     try {
       final isEdit = id != null;
       final path = isEdit ? SAApiUrl.editMask : SAApiUrl.createMask;
-      final body = <String, dynamic>{'profile_name': name, 'age': age, 'gender': gender, 'description': description, 'other_info': otherInfo, 'user_id': userId};
+      final body = <String, dynamic>{
+        'profile_name': name,
+        'age': age,
+        'gender': gender,
+        'description': description,
+        'other_info': otherInfo,
+        'user_id': userId,
+      };
       if (isEdit) {
         body['id'] = id;
       }
@@ -584,11 +821,20 @@ class Api {
   }
 
   /// 获取 mask 列表 分页
-  static Future<List<SAMaskModel>?> getMaskList({int page = 1, int size = 10}) async {
+  static Future<List<SAMaskModel>?> getMaskList({
+    int page = 1,
+    int size = 10,
+  }) async {
     try {
-      var result = await api.post(SAApiUrl.getMaskList, data: {'page': page, 'size': size, 'user_id': userId});
+      var result = await api.post(
+        SAApiUrl.getMaskList,
+        data: {'page': page, 'size': size, 'user_id': userId},
+      );
 
-      final list = SAPagesModel.fromJson(result.data, (json) => SAMaskModel.fromJson(json));
+      final list = SAPagesModel.fromJson(
+        result.data,
+        (json) => SAMaskModel.fromJson(json),
+      );
       return list.records;
     } catch (e) {
       return null;
@@ -596,9 +842,15 @@ class Api {
   }
 
   /// 切换 mask
-  static Future<bool> changeMask({required int? conversationId, required int? maskId}) async {
+  static Future<bool> changeMask({
+    required int? conversationId,
+    required int? maskId,
+  }) async {
     try {
-      var result = await api.post(SAApiUrl.changeMask, data: {'conversation_id': conversationId, 'profile_id': maskId});
+      var result = await api.post(
+        SAApiUrl.changeMask,
+        data: {'conversation_id': conversationId, 'profile_id': maskId},
+      );
       var res = SABaseModel.fromJson(result.data, null);
       return res.data;
     } catch (e) {
@@ -629,10 +881,16 @@ class Api {
   }
 
   /// 发送消息
-  static Future<SABaseModel<SAMessageModel>?> sendMsg({required String path, Map<String, Object>? body}) async {
+  static Future<SABaseModel<SAMessageModel>?> sendMsg({
+    required String path,
+    Map<String, Object>? body,
+  }) async {
     try {
       var result = await api.post(path, data: body);
-      var res = SABaseModel.fromJson(result.data, (x) => SAMessageModel.fromJson(x));
+      var res = SABaseModel.fromJson(
+        result.data,
+        (x) => SAMessageModel.fromJson(x),
+      );
       return res;
     } catch (e) {
       return null;
@@ -653,10 +911,24 @@ class Api {
     }
   }
 
-  static Future<List<SAPost>?> momensListPage({required int page, required int size}) async {
+  static Future<List<SAPost>?> momensListPage({
+    required int page,
+    required int size,
+  }) async {
     try {
-      var res = await api.post(SAApiUrl.momentsList, data: {'page': page, 'size': size, 'hide_character': SA.storage.isSAB ? true : false}, queryParameters: _qp);
-      final pageData = SAPagesModel<SAPost>.fromJson(res.data, (json) => SAPost.fromJson(json));
+      var res = await api.post(
+        SAApiUrl.momentsList,
+        data: {
+          'page': page,
+          'size': size,
+          'hide_character': SA.storage.isSAB ? true : false,
+        },
+        queryParameters: _qp,
+      );
+      final pageData = SAPagesModel<SAPost>.fromJson(
+        res.data,
+        (json) => SAPost.fromJson(json),
+      );
       return pageData.records;
     } catch (e) {
       return null;
