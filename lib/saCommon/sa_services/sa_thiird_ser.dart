@@ -56,6 +56,9 @@ class SAThirdPartyService {
   /// Firebase 初始化
   static Future<void> _initFirebase() async {
     try {
+      // 在 release 模式下，添加短暂延迟确保网络准备就绪
+      await Future.delayed(const Duration(milliseconds: 500));
+
       FirebaseApp app = await Firebase.initializeApp();
       isFirebaseInitialized = true;
       log.d('[Firebase]: Initialized ✅ app: ${app.name}');
@@ -82,27 +85,56 @@ class SAThirdPartyService {
 
   /// 初始化 Firebase Remote Config 服务
   static Future<void> _initRemoteConfig() async {
+    // 使用默认值
+    maxFreeChatCount = 50;
+    showClothingCount = 5;
+
     try {
-      // 设置 Remote Config 超时时间为 5 秒
+      // 设置 Remote Config 超时时间
       final remoteConfig = FirebaseRemoteConfig.instance;
+
       // 配置最小 fetch 时间，减少超时时间
-      await remoteConfig.setConfigSettings(RemoteConfigSettings(fetchTimeout: const Duration(seconds: 10), minimumFetchInterval: const Duration(seconds: 30)));
+      await remoteConfig.setConfigSettings(
+        RemoteConfigSettings(
+          fetchTimeout: const Duration(seconds: 10),
+          minimumFetchInterval: const Duration(seconds: 30),
+        ),
+      ).timeout(const Duration(seconds: 5));
 
-      // 拉取 + 激活远程配置，增加超时控制
-      await remoteConfig.fetchAndActivate().timeout(
-        const Duration(seconds: 15),
-        onTimeout: () {
-          log.w('[Firebase]: Remote Config fetch timeout, using default values');
-          return false;
-        },
-      );
+      // 拉取 + 激活远程配置，增加超时控制和重试
+      bool fetchSuccess = false;
+      int retryCount = 0;
 
-      // 获取配置值
-      maxFreeChatCount = _getConfigValue('Xj7bP3t', remoteConfig.getInt, 50);
-      showClothingCount = _getConfigValue('Tm4gW9n', remoteConfig.getInt, 5);
-      // 刷新 Remote Config 后，更新广告配置
-      adConfig = remoteConfig.getString('Mg7pR5b');
-      log.d('[fb] _refreshRemoteConfig ad_config: $adConfig');
+      while (!fetchSuccess && retryCount < 2) {
+        try {
+          fetchSuccess = await remoteConfig.fetchAndActivate().timeout(
+            const Duration(seconds: 15),
+            onTimeout: () {
+              log.w('[Firebase]: Remote Config fetch timeout (attempt ${retryCount + 1})');
+              return false;
+            },
+          );
+
+          if (fetchSuccess) {
+            // 获取配置值
+            maxFreeChatCount = _getConfigValue('Xj7bP3t', remoteConfig.getInt, 50);
+            showClothingCount = _getConfigValue('Tm4gW9n', remoteConfig.getInt, 5);
+            adConfig = remoteConfig.getString('Mg7pR5b');
+            log.d('[fb] Remote Config loaded successfully, ad_config: $adConfig');
+            break;
+          }
+        } catch (e) {
+          retryCount++;
+          if (retryCount < 2) {
+            log.w('[Firebase]: Remote Config fetch failed (attempt $retryCount), retrying...');
+            await Future.delayed(Duration(seconds: retryCount * 2));
+          }
+        }
+      }
+
+      if (!fetchSuccess) {
+        log.w('[Firebase]: Remote Config fetch failed after retries, using default values');
+      }
     } catch (e) {
       // 网络错误或其他错误，使用默认值
       final errorMsg = e.toString();
@@ -111,9 +143,6 @@ class SAThirdPartyService {
       } else {
         log.e('[Firebase]: Remote Config 错误: $e');
       }
-      // 使用默认值，不影响应用启动
-      maxFreeChatCount = 50;
-      showClothingCount = 5;
       log.d('[Firebase]: 使用 Remote Config 默认值');
     }
   }
