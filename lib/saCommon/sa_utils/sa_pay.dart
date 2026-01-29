@@ -69,24 +69,30 @@ class SAPayUtils {
     // SkuData ids
     final skuDataIds = _consumableIds.union(_subscriptionIds);
 
-    final response = await _inAppPurchase.queryProductDetails(skuDataIds).timeout(const Duration(seconds: 10));
+    final response = await _inAppPurchase
+        .queryProductDetails(skuDataIds)
+        .timeout(const Duration(seconds: 10));
     if (response.notFoundIDs.isNotEmpty) {
       log.e('[iap] notFoundIDs: ${response.notFoundIDs}');
     }
 
     for (final productDetails in response.productDetails) {
-      final skuData = allList.firstWhereOrNull((e) => e.sku == productDetails.id);
+      final skuData = allList.firstWhereOrNull(
+        (e) => e.sku == productDetails.id,
+      );
       if (skuData != null) {
         skuData.productDetails = productDetails;
       }
     }
 
     // 根据 sku.orderNum 从小到大排序
-    consumableList = allList.where((sku) => _consumableIds.contains(sku.sku)).toList()
-      ..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
+    consumableList =
+        allList.where((sku) => _consumableIds.contains(sku.sku)).toList()
+          ..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
 
-    subscriptionList = allList.where((sku) => _subscriptionIds.contains(sku.sku)).toList()
-      ..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
+    subscriptionList =
+        allList.where((sku) => _subscriptionIds.contains(sku.sku)).toList()
+          ..sort((a, b) => (a.orderNum ?? 0).compareTo(b.orderNum ?? 0));
   }
 
   Future<void> _getSkuDatas() async {
@@ -94,14 +100,24 @@ class SAPayUtils {
     final list = await Api.getSkuList();
     allList = list ?? [];
 
-    _consumableIds = allList.where((e) => e.skuType == 0 && e.shelf == true).map((e) => e.sku ?? '').toSet();
-    _subscriptionIds = allList.where((e) => e.skuType != 0 && e.shelf == true).map((e) => e.sku ?? '').toSet();
+    _consumableIds = allList
+        .where((e) => e.skuType == 0 && e.shelf == true)
+        .map((e) => e.sku ?? '')
+        .toSet();
+    _subscriptionIds = allList
+        .where((e) => e.skuType != 0 && e.shelf == true)
+        .map((e) => e.sku ?? '')
+        .toSet();
     log.d('[iap] _consumableIds: $_consumableIds');
     log.d('[iap] _subscriptionIds: $_subscriptionIds');
   }
 
   // 购买产品
-  Future<void> buy(SASkModel data, {VipFrom? vipFrom, ConsumeFrom? consFrom}) async {
+  Future<void> buy(
+    SASkModel data, {
+    VipFrom? vipFrom,
+    ConsumeFrom? consFrom,
+  }) async {
     try {
       SALoading.show();
       if (!await _isAvailable()) return;
@@ -128,7 +144,10 @@ class SAPayUtils {
         return;
       }
 
-      final purchaseParam = PurchaseParam(productDetails: productDetails, applicationUserName: orderNo);
+      final purchaseParam = PurchaseParam(
+        productDetails: productDetails,
+        applicationUserName: orderNo,
+      );
 
       final isConsumable = data.skuType == 0;
 
@@ -152,7 +171,9 @@ class SAPayUtils {
   }
 
   // 处理购买详情
-  Future<void> _processPurchaseDetails(List<PurchaseDetails> purchaseDetailsList) async {
+  Future<void> _processPurchaseDetails(
+    List<PurchaseDetails> purchaseDetailsList,
+  ) async {
     if (purchaseDetailsList.isEmpty) {
       log.d('[iap] 购买详情列表为空，可能是取消支付');
       SALoading.close();
@@ -161,7 +182,9 @@ class SAPayUtils {
 
     // 按交易日期降序排序
     purchaseDetailsList.sort(
-      (a, b) => (int.tryParse(b.transactionDate ?? '0') ?? 0).compareTo(int.tryParse(a.transactionDate ?? '0') ?? 0),
+      (a, b) => (int.tryParse(b.transactionDate ?? '0') ?? 0).compareTo(
+        int.tryParse(a.transactionDate ?? '0') ?? 0,
+      ),
     );
 
     final first = purchaseDetailsList.first;
@@ -169,7 +192,8 @@ class SAPayUtils {
     for (var purchaseDetails in purchaseDetailsList) {
       switch (purchaseDetails.status) {
         case PurchaseStatus.purchased:
-          if (first.purchaseID == purchaseDetails.purchaseID || _currentSkuData?.sku == purchaseDetails.productID) {
+          if (first.purchaseID == purchaseDetails.purchaseID ||
+              _currentSkuData?.sku == purchaseDetails.productID) {
             await _handleSuccessfulPurchase(purchaseDetails);
           }
           break;
@@ -198,9 +222,13 @@ class SAPayUtils {
     }
   }
 
-  Future<void> _handleSuccessfulPurchase(PurchaseDetails purchaseDetails) async {
+  Future<void> _handleSuccessfulPurchase(
+    PurchaseDetails purchaseDetails,
+  ) async {
     log.d(' 购买成功 status: ${purchaseDetails.status}');
-    log.d(' 购买成功 pendingCompletePurchase: ${purchaseDetails.pendingCompletePurchase}');
+    log.d(
+      ' 购买成功 pendingCompletePurchase: ${purchaseDetails.pendingCompletePurchase}',
+    );
     log.d(
       '[iap] 成功购买: ${purchaseDetails.productID}, ${purchaseDetails.purchaseID}, ${purchaseDetails.transactionDate}',
     );
@@ -221,10 +249,18 @@ class SAPayUtils {
 
   void _handlePurchaseError(PurchaseDetails purchaseDetails) {
     final error = purchaseDetails.error;
-    _handleError(IAPError(source: error?.source ?? '', code: error?.code ?? '', message: purchaseDetails.status.name));
+    _handleError(
+      IAPError(
+        source: error?.source ?? '',
+        code: error?.code ?? '',
+        message: purchaseDetails.status.name,
+      ),
+    );
   }
 
-  Future<bool> _verifyAndCompletePurchase(PurchaseDetails purchaseDetails) async {
+  Future<bool> _verifyAndCompletePurchase(
+    PurchaseDetails purchaseDetails,
+  ) async {
     bool isValid = await verifyPurchaseWithServer(purchaseDetails);
     SALoading.close();
     if (isValid) {
@@ -249,17 +285,21 @@ class SAPayUtils {
 
       // 获取服务器验证数据 v2
       var receipt = purchaseDetails.verificationData.serverVerificationData;
-      final localVerificationData = purchaseDetails.verificationData.localVerificationData;
+      final localVerificationData =
+          purchaseDetails.verificationData.localVerificationData;
       log.d('[iap] receipt: $receipt');
       log.d('[iap] localVerificationData: $localVerificationData');
 
       // 如果没有 v2 票据，就刷新并获取 v1 票据
       if (receipt.isEmpty) {
         // 刷新并获取 v1 票据 ：
-        final iosPlatformAddition = InAppPurchase.instance.getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
-        PurchaseVerificationData? verificationData = await iosPlatformAddition.refreshPurchaseVerificationData();
+        final iosPlatformAddition = InAppPurchase.instance
+            .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+        PurchaseVerificationData? verificationData = await iosPlatformAddition
+            .refreshPurchaseVerificationData();
 
-        String? vdl = verificationData?.localVerificationData; // 这就是 v1 的 Base64 字符串
+        String? vdl =
+            verificationData?.localVerificationData; // 这就是 v1 的 Base64 字符串
         String? vds = verificationData?.serverVerificationData;
         log.d('[iap] vdl: $vdl');
         log.d('[iap] vds: $vds');
@@ -267,7 +307,10 @@ class SAPayUtils {
         receipt = vds ?? '';
       }
 
-      var createImg = (_consFrom == ConsumeFrom.aiphoto || _consFrom == ConsumeFrom.undr) ? true : null;
+      var createImg =
+          (_consFrom == ConsumeFrom.aiphoto || _consFrom == ConsumeFrom.undr)
+          ? true
+          : null;
       var createVideo = _consFrom == ConsumeFrom.img2v ? true : null;
 
       var result = await Api.verifyIosOrder(
@@ -290,7 +333,10 @@ class SAPayUtils {
 
   Future<bool> _verifyGoogle(PurchaseDetails purchaseDetails) async {
     try {
-      var createImg = (_consFrom == ConsumeFrom.aiphoto || _consFrom == ConsumeFrom.undr) ? true : null;
+      var createImg =
+          (_consFrom == ConsumeFrom.aiphoto || _consFrom == ConsumeFrom.undr)
+          ? true
+          : null;
       var createVideo = _consFrom == ConsumeFrom.img2v ? true : null;
 
       final googleDetail = purchaseDetails as GooglePlayPurchaseDetails;
@@ -298,7 +344,9 @@ class SAPayUtils {
         originalJson: googleDetail.billingClientPurchase.originalJson,
         purchaseToken: googleDetail.billingClientPurchase.purchaseToken,
         skuId: purchaseDetails.productID,
-        orderType: _subscriptionIds.contains(purchaseDetails.productID) ? 'SUBSCRIPTION' : 'GEMS',
+        orderType: _subscriptionIds.contains(purchaseDetails.productID)
+            ? 'SUBSCRIPTION'
+            : 'GEMS',
         orderId: _orderData?.orderNo ?? '',
         createImg: createImg,
         createVideo: createVideo,
@@ -313,11 +361,22 @@ class SAPayUtils {
   }
 
   Future<void> _createOrder(ProductDetails productDetails) async {
-    final orderType = _consumableIds.contains(productDetails.id) ? 'GEMS' : 'SUBSCRIPTION';
-
+    final orderType = _consumableIds.contains(productDetails.id)
+        ? 'GEMS'
+        : 'SUBSCRIPTION';
+    var createImg =
+        (_consFrom == ConsumeFrom.aiphoto || _consFrom == ConsumeFrom.undr)
+        ? true
+        : null;
+    var createVideo = _consFrom == ConsumeFrom.img2v ? true : null;
     if (Platform.isIOS) {
       try {
-        final order = await Api.makeIosOrder(orderType: orderType, skuId: productDetails.id);
+        final order = await Api.makeIosOrder(
+          orderType: orderType,
+          skuId: productDetails.id,
+          createImg: createImg,
+          createVideo: createVideo,
+        );
         if (order == null || order.id == null) {
           throw Exception('Creat order error');
         }
@@ -330,7 +389,10 @@ class SAPayUtils {
     }
     if (Platform.isAndroid) {
       try {
-        final order = await Api.makeAndOrder(orderType: orderType, skuId: productDetails.id);
+        final order = await Api.makeAndOrder(
+          orderType: orderType,
+          skuId: productDetails.id,
+        );
         if (order == null || order.orderNo == null) {
           throw Exception('Creat order error');
         }
@@ -347,7 +409,8 @@ class SAPayUtils {
   Future _finishTransaction() async {
     // iOS 平台特定逻辑
     if (Platform.isIOS) {
-      final iosPlatformAddition = _inAppPurchase.getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
+      final iosPlatformAddition = _inAppPurchase
+          .getPlatformAddition<InAppPurchaseStoreKitPlatformAddition>();
       await iosPlatformAddition.setDelegate(ExamplePaymentQueueDelegate());
 
       // 清理挂起的交易
@@ -400,7 +463,8 @@ class SAPayUtils {
           _consFrom != ConsumeFrom.img2v) {
         _showRechargeSuccess(id);
       }
-      iapEvent.value = (IAPEvent.goldSucc, id, _eventCounter.value);
+      // iapEvent.value = (IAPEvent.goldSucc, id, _eventCounter.value);
+      Get.back();
     } else {
       path = 'sub';
       from = _vipFrom?.name ?? '';
@@ -457,7 +521,10 @@ class SAPayUtils {
 /// needed to complete transactions.
 class ExamplePaymentQueueDelegate implements SKPaymentQueueDelegateWrapper {
   @override
-  bool shouldContinueTransaction(SKPaymentTransactionWrapper transaction, SKStorefrontWrapper storefront) {
+  bool shouldContinueTransaction(
+    SKPaymentTransactionWrapper transaction,
+    SKStorefrontWrapper storefront,
+  ) {
     return true;
   }
 

@@ -29,7 +29,7 @@ class SaaiskuController extends GetxController {
     ever(SAPayUtils().iapEvent, (event) async {
       if (event?.$1 == IAPEvent.goldSucc && event?.$2 != null) {
         await SA.login.fetchUserInfo();
-        Get.back(result: true);
+        // Get.back(result: true);
       }
     });
   }
@@ -41,14 +41,20 @@ class SaaiskuController extends GetxController {
     var products = SAPayUtils().consumableList;
 
     if (!isVideo) {
-      aiSkuList.assignAll(products.where((e) => e.createImg != null && e.createImg! > 0).toList());
+      aiSkuList.assignAll(
+        products.where((e) => e.createImg != null && e.createImg! > 0).toList(),
+      );
     } else {
       aiSkuList.assignAll(
-        products.where((e) => e.createVideo != null && e.createVideo! > 0).toList(),
+        products
+            .where((e) => e.createVideo != null && e.createVideo! > 0)
+            .toList(),
       );
     }
 
-    selectedModel.value = aiSkuList.firstWhereOrNull((e) => e.id == aiSkuList.last.id)!;
+    selectedModel.value = aiSkuList.firstWhereOrNull(
+      (e) => e.id == aiSkuList.last.id,
+    )!;
     SALoading.close();
     update();
   }
