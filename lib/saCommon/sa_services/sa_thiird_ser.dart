@@ -86,10 +86,16 @@ class SAThirdPartyService {
       // 设置 Remote Config 超时时间为 5 秒
       final remoteConfig = FirebaseRemoteConfig.instance;
       // 配置最小 fetch 时间，减少超时时间
-      await remoteConfig.setConfigSettings(RemoteConfigSettings(fetchTimeout: const Duration(seconds: 3), minimumFetchInterval: const Duration(seconds: 30)));
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(fetchTimeout: const Duration(seconds: 10), minimumFetchInterval: const Duration(seconds: 30)));
 
-      // 拉取 + 激活远程配置
-      await remoteConfig.fetchAndActivate();
+      // 拉取 + 激活远程配置，增加超时控制
+      await remoteConfig.fetchAndActivate().timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          log.w('[Firebase]: Remote Config fetch timeout, using default values');
+          return false;
+        },
+      );
 
       // 获取配置值
       maxFreeChatCount = _getConfigValue('Xj7bP3t', remoteConfig.getInt, 50);
@@ -97,7 +103,13 @@ class SAThirdPartyService {
       adConfig = remoteConfig.getString('ad_config');
       log.d('[fb] _refreshRemoteConfig ad_config: $adConfig');
     } catch (e) {
-      log.e('[Firebase]: Remote Config 错误: $e');
+      // 网络错误或其他错误，使用默认值
+      final errorMsg = e.toString();
+      if (errorMsg.contains('offline') || errorMsg.contains('network') || errorMsg.contains('Internet connection')) {
+        log.w('[Firebase]: Remote Config 网络不可用，使用默认值');
+      } else {
+        log.e('[Firebase]: Remote Config 错误: $e');
+      }
       // 使用默认值，不影响应用启动
       maxFreeChatCount = 50;
       showClothingCount = 5;
