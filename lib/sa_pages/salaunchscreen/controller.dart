@@ -16,7 +16,8 @@ class SalaunchscreenController extends GetxController {
   bool isAdLoaded = false;
 
   _initData() {
-    EasyRefresh.defaultHeaderBuilder = () => const MaterialHeader(color: SAAppColors.primaryColor);
+    EasyRefresh.defaultHeaderBuilder = () =>
+        const MaterialHeader(color: SAAppColors.primaryColor);
     EasyRefresh.defaultFooterBuilder = () => const ClassicFooter(
       showText: false,
       showMessage: false,
