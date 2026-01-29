@@ -114,34 +114,7 @@ import CoreTelephony
     
     private func hasSim() -> Bool {
         let networkInfo = CTTelephonyNetworkInfo()
-
-        // iOS 12+ 使用 serviceSubscriberCellularProviders
-        if #available(iOS 12.0, *) {
-            if let carriers = networkInfo.serviceSubscriberCellularProviders {
-                // 检查是否有任何有效的运营商信息
-                for (_, carrier) in carriers {
-                    // 如果有运营商名称或 MCC/MNC，说明有 SIM 卡
-                    if let carrierName = carrier.carrierName, !carrierName.isEmpty {
-                        return true
-                    }
-                    if let mcc = carrier.mobileCountryCode, !mcc.isEmpty {
-                        return true
-                    }
-                }
-            }
-        } else {
-            // iOS 12 以下使用旧 API
-            if let carrier = networkInfo.subscriberCellularProvider {
-                if let carrierName = carrier.carrierName, !carrierName.isEmpty {
-                    return true
-                }
-                if let mcc = carrier.mobileCountryCode, !mcc.isEmpty {
-                    return true
-                }
-            }
-        }
-
-        return false
+        return networkInfo.serviceCurrentRadioAccessTechnology?.values.count ?? 0 != 0
     }
     
     override func application(

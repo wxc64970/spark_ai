@@ -36,6 +36,11 @@ class SALoginService extends GetxService {
         return;
       }
       final userNew = await Api.register();
+      final lang = matchUserLang();
+      final isOK = await Api.updateEventParams(lang: lang.value);
+      if (isOK) {
+        sessionLang.value = lang;
+      }
       if (userNew != null) {
         saveUserInfo(userNew);
       }
@@ -91,7 +96,8 @@ class SALoginService extends GetxService {
     await SA.storage.setUser(user);
 
     gemBalance.value = user.gems ?? 0;
-    vipStatus.value = (user.subscriptionEnd ?? 0) > DateTime.now().millisecondsSinceEpoch;
+    vipStatus.value =
+        (user.subscriptionEnd ?? 0) > DateTime.now().millisecondsSinceEpoch;
     translateAuto.value = user.autoTranslate ?? false;
     imgCreationCount.value = user.createImg;
     videoCreationCount.value = user.createVideo;
