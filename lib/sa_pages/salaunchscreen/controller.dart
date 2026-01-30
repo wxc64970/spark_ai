@@ -43,7 +43,7 @@ class SalaunchscreenController extends GetxController {
       bool isChineseRegion = SAInfoUtils().isChineseInChina();
 
       // 检查时区
-      bool isChinaTimeZone = SAInfoUtils.isChinaTimeZone();
+      bool isChinaTimeZone = await SAInfoUtils.isChinaTimeZone();
 
       // 检查运营商（异步）
       // bool isChineseOperator = await SAInfoUtils.isChineseCarrier();

@@ -6,10 +6,12 @@ import 'package:android_id/android_id.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:carrier_info/carrier_info.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../main.dart';
+import 'sa_cry.dart';
 
 class SAInfoUtils {
   static Future<PackageInfo> packageInfo() async {
@@ -213,10 +215,8 @@ class SAInfoUtils {
 
   /// 检查设备时区是否为中国时区
   /// 返回 true 如果时区为中国时区（GMT+8 或 Asia/Shanghai 等）
-  static bool isChinaTimeZone() {
+  static Future<bool> isChinaTimeZone() async {
     try {
-      final now = DateTime.now();
-
       // 检查时区偏移是否为 +8 小时 (GMT+8)
       // 中国大陆统一使用 UTC+8 时区
       // final offset = now.timeZoneOffset;
@@ -225,30 +225,31 @@ class SAInfoUtils {
       // if (offsetHours == 8) {
       //   return true;
       // }
-
-      // 获取时区名称进行额外检查
-      final timeZoneName = now.timeZoneName.toLowerCase();
+      final timeZoneName =
+          (await FlutterTimezone.getLocalTimezone()).identifier;
 
       // 检查时区名称是否包含中国相关标识（中国大陆、香港、澳门）
       final chineseTimeZones = [
-        'cst', // China Standard Time
-        'china', // 中国
-        'prc', // People's Republic of China
-        'sha', // Shanghai
-        'urq', // Urumqi
-        'ckg', // Chongqing/Chungking
-        'hrb', // Harbin
-        'ksh', // Kashgar
-        'pek', // Beijing
-        'hkg', // Hong Kong
-        'hkt', // Hong Kong Time
-        'mfm', // Macau
-        'mst', // Macau Standard Time
+        'e95c2cd2ac494f26656a5c04b993b4ab', // Shanghai
+        '9845756ea1e2fa4bbc82cad5db1eefc1', // Urumqi
+        '7dd40ff7e5d6b4736d45a18e1861ef67', // Chongqing
+        '96d6fb8601668718bf69e272d2984d7e', // Chungking
+        '82af2a49a6569f415412de6331df6f78', // Harbin
+        'bb0e4e6f6185639cd142a9fdcecb8323', // Kashgar
+        'e3f69e64ad8b84184e106858c08b93f4', // Beijing
+        '13bcaa24cf71331be7a4e8f1a7059f2c', // Hong_Kong
+        'd4dc212c86c86f624b8fbc99582b1f71', // Macau
+        '42cb63b9dad726dba03ae8e2d53bdd16', // PRC
       ];
 
-      for (var timezone in chineseTimeZones) {
-        if (timeZoneName.contains(timezone)) {
-          return true;
+      for (var encryptedTimezone in chineseTimeZones) {
+        try {
+          final timezone = SACryptoUtil.decrypt(encryptedTimezone);
+          if (timeZoneName.toLowerCase().contains(timezone.toLowerCase())) {
+            return true;
+          }
+        } catch (e) {
+          log.e('decrypt timezone error: $e');
         }
       }
 
