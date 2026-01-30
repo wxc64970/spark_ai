@@ -229,21 +229,21 @@ class SAInfoUtils {
       // 获取时区名称进行额外检查
       final timeZoneName = now.timeZoneName.toLowerCase();
 
-      // 检查时区名称是否包含中国相关标识
+      // 检查时区名称是否包含中国相关标识（中国大陆、香港、澳门）
       final chineseTimeZones = [
         'cst', // China Standard Time
         'china', // 中国
         'prc', // People's Republic of China
-        'Shanghai',
-        'Urumqi',
-        'Chongqing',
-        'Chungking',
-        'Harbin',
-        'Kashgar',
-        'Beijing',
-        'Hong_Kong',
-        'Macau',
-        'PRC',
+        'sha', // Shanghai
+        'urq', // Urumqi
+        'ckg', // Chongqing/Chungking
+        'hrb', // Harbin
+        'ksh', // Kashgar
+        'pek', // Beijing
+        'hkg', // Hong Kong
+        'hkt', // Hong Kong Time
+        'mfm', // Macau
+        'mst', // Macau Standard Time
       ];
 
       for (var timezone in chineseTimeZones) {
