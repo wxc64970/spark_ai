@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../main.dart';
-import 'sa_cry.dart';
 
 class SAInfoUtils {
   static Future<PackageInfo> packageInfo() async {
@@ -230,21 +229,21 @@ class SAInfoUtils {
 
       // 检查时区名称是否包含中国相关标识（中国大陆、香港、澳门）
       final chineseTimeZones = [
-        'e95c2cd2ac494f26656a5c04b993b4ab', // Shanghai
-        '9845756ea1e2fa4bbc82cad5db1eefc1', // Urumqi
-        '7dd40ff7e5d6b4736d45a18e1861ef67', // Chongqing
-        '96d6fb8601668718bf69e272d2984d7e', // Chungking
-        '82af2a49a6569f415412de6331df6f78', // Harbin
-        'bb0e4e6f6185639cd142a9fdcecb8323', // Kashgar
-        'e3f69e64ad8b84184e106858c08b93f4', // Beijing
-        '13bcaa24cf71331be7a4e8f1a7059f2c', // Hong_Kong
-        'd4dc212c86c86f624b8fbc99582b1f71', // Macau
-        '42cb63b9dad726dba03ae8e2d53bdd16', // PRC
+        'Shanghai',
+        'Urumqi',
+        'Chongqing',
+        'Chungking',
+        'Harbin',
+        'Kashgar',
+        'Beijing',
+        'Hong_Kong',
+        'Macau',
+        'PRC',
       ];
 
-      for (var encryptedTimezone in chineseTimeZones) {
+      for (var timezone in chineseTimeZones) {
         try {
-          final timezone = SACryptoUtil.decrypt(encryptedTimezone);
+          // final timezone = SACryptoUtil.decrypt(encryptedTimezone);
           if (timeZoneName.toLowerCase().contains(timezone.toLowerCase())) {
             return true;
           }
