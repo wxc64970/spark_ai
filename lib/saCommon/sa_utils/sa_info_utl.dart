@@ -174,7 +174,8 @@ class SAInfoUtils {
 
   static Future<bool> isLimitAdTrackingEnabled() async {
     if (Platform.isIOS) {
-      final attStatus = await AppTrackingTransparency.trackingAuthorizationStatus;
+      final attStatus =
+          await AppTrackingTransparency.trackingAuthorizationStatus;
       return attStatus == TrackingStatus.authorized;
     } else if (Platform.isAndroid) {
       final isLimitAdTracking = await Adjust.isEnabled();
@@ -202,7 +203,8 @@ class SAInfoUtils {
     // 获取时区偏移（例如：中国时区为 8 小时，返回 Duration(hours: 8)）
     Duration offset = now.timeZoneOffset;
     // 转换为小时数
-    double offsetHours = offset.inHours.toDouble() + offset.inMinutes.remainder(60) / 60;
+    double offsetHours =
+        offset.inHours.toDouble() + offset.inMinutes.remainder(60) / 60;
 
     // print("当前时区与 UTC 偏移：$offsetHours 小时");
     // print("时区偏移详细信息：$offset");
@@ -227,21 +229,21 @@ class SAInfoUtils {
       // 获取时区名称进行额外检查
       final timeZoneName = now.timeZoneName.toLowerCase();
 
-      // 检查时区名称是否包含中国相关标识
+      // 检查时区名称是否包含中国相关标识（中国大陆、香港、澳门）
       final chineseTimeZones = [
         'cst', // China Standard Time
         'china', // 中国
         'prc', // People's Republic of China
-        'Shanghai',
-        'Urumqi',
-        'Chongqing',
-        'Chungking',
-        'Harbin',
-        'Kashgar',
-        'Beijing',
-        'Hong_Kong',
-        'Macau',
-        'PRC',
+        'sha', // Shanghai
+        'urq', // Urumqi
+        'ckg', // Chongqing/Chungking
+        'hrb', // Harbin
+        'ksh', // Kashgar
+        'pek', // Beijing
+        'hkg', // Hong Kong
+        'hkt', // Hong Kong Time
+        'mfm', // Macau
+        'mst', // Macau Standard Time
       ];
 
       for (var timezone in chineseTimeZones) {
@@ -279,7 +281,8 @@ class SAInfoUtils {
     // final isChineseLanguage = locale.languageCode == 'zh';
 
     // 检查地区代码是否为中国大陆 (CN)，中国大陆使用简体中文
-    final isChinaRegion = locale.countryCode == 'CN';
+    final isChinaRegion =
+        locale.countryCode == 'CN' || locale.countryCode == 'HK';
 
     // 只要满足简体中文或中国大陆地区，就返回 true
     // 这样会屏蔽简体中文用户，但不会屏蔽繁体中文（台湾、香港等）
