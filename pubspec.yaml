@@ -82,6 +82,7 @@ dependencies:
   google_mobile_ads: ^7.0.0
   #运营商信息
   carrier_info: ^2.0.8
+  flutter_timezone: ^5.0.1
   
 
   # ---
