@@ -6,7 +6,8 @@ import 'package:video_player/video_player.dart';
 
 import 'widgets/sa_mak_widget.dart';
 
-class SaaiphotoController extends GetxController with GetSingleTickerProviderStateMixin {
+class SaaiphotoController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   SaaiphotoController();
 
   late List tabList;
@@ -20,14 +21,28 @@ class SaaiphotoController extends GetxController with GetSingleTickerProviderSta
   String get customPrompt => _customPrompt.value;
   set customPrompt(String value) => _customPrompt.value = value;
   VideoPlayerController? videoController;
+  RxList<ItemConfigs>? aiPhotoList = <ItemConfigs>[].obs;
 
-  _initData() async {
+  void _initData() async {
+    SALoading.show();
+    List<ItemConfigs>? data = await ImageAPI.getAiPhoto();
+    aiPhotoList!.addAll(data ?? []);
+    SALoading.close();
     update(["allphoto"]);
+  }
+
+  void handleHistory() {
+    Get.toNamed(SARouteNames.aiGenerateHistory);
+  }
+
+  void hanldeSku(from) {
+    Get.toNamed(SARouteNames.countSku, arguments: from);
   }
 
   @override
   void onInit() {
     super.onInit();
+    SAlogEvent('aiphoto_show');
     _initData();
     tabController = TabController(length: tabs.length, vsync: this);
     // 初始化数据
@@ -44,7 +59,6 @@ class SaaiphotoController extends GetxController with GetSingleTickerProviderSta
   @override
   void onReady() {
     super.onReady();
-    _initData();
   }
 
   @override

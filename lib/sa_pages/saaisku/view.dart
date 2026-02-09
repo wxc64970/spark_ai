@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spark_ai/saCommon/sa_widgets/index.dart';
 
 import 'index.dart';
 import 'widgets/widgets.dart';
@@ -17,7 +16,7 @@ class SaaiskuPage extends GetView<SaaiskuController> {
   Widget build(BuildContext context) {
     return GetBuilder<SaaiskuController>(
       builder: (_) {
-        return baseScaffold(body: _buildView());
+        return Scaffold(backgroundColor: Colors.black, body: _buildView());
       },
     );
   }

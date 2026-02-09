@@ -19,7 +19,12 @@ class DialogWidget {
     return SmartDialog.dismiss(status: SmartStatus.dialog, tag: tag);
   }
 
-  static Future<void> show({required Widget child, bool? clickMaskDismiss = true, String? tag, bool? showCloseButton = true}) async {
+  static Future<void> show({
+    required Widget child,
+    bool? clickMaskDismiss = true,
+    String? tag,
+    bool? showCloseButton = true,
+  }) async {
     final completer = Completer<void>();
 
     SmartDialog.show(
@@ -76,7 +81,12 @@ class DialogWidget {
         padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 64.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32.r),
-          gradient: LinearGradient(colors: [Color(0xffEBFFCC), Color(0xffFFFFFF)], begin: Alignment.topCenter, end: Alignment.bottomCenter, stops: [0.0, 0.3]),
+          gradient: LinearGradient(
+            colors: [Color(0xffEBFFCC), Color(0xffFFFFFF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 0.3],
+          ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +105,12 @@ class DialogWidget {
               child: Center(
                 child: Text(
                   confirmText ?? SATextData.confirm,
-                  style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontFamily: "Montserrat",
+                    color: Colors.black,
+                    fontSize: 28.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -109,7 +124,12 @@ class DialogWidget {
                 child: Center(
                   child: Text(
                     SATextData.cancel,
-                    style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontFamily: "Montserrat",
+                      color: Colors.black,
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -162,17 +182,26 @@ class DialogWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [_buildCloseButton()]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [_buildCloseButton()],
+                  ),
                   SizedBox(height: 48.w),
                   Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 68.w),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 35.w,
+                          vertical: 68.w,
+                        ),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: AlignmentDirectional.topCenter,
                             end: AlignmentDirectional.bottomCenter,
-                            colors: [const Color(0xFFEBFFCC), const Color(0xFFFFFFFF)],
+                            colors: [
+                              const Color(0xFFEBFFCC),
+                              const Color(0xFFFFFFFF),
+                            ],
                             stops: const [0.0, 0.3],
                           ),
                           borderRadius: BorderRadius.circular(32.r),
@@ -181,7 +210,8 @@ class DialogWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             _buildText(title, 34.sp, FontWeight.w600),
-                            if (title?.isNotEmpty == true) SizedBox(height: 40.w),
+                            if (title?.isNotEmpty == true)
+                              SizedBox(height: 40.w),
                             _buildText(message, 14, FontWeight.w500),
                             if (messageWidget != null) messageWidget,
                             const SizedBox(height: 16),
@@ -191,7 +221,14 @@ class DialogWidget {
                               decoration: BoxDecoration(
                                 color: const Color(0xffFFFFFF),
                                 borderRadius: BorderRadius.circular(46.r),
-                                boxShadow: [BoxShadow(color: const Color(0x61C5E7B3), offset: const Offset(0, 8), blurRadius: 46.r, spreadRadius: 0)],
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0x61C5E7B3),
+                                    offset: const Offset(0, 8),
+                                    blurRadius: 46.r,
+                                    spreadRadius: 0,
+                                  ),
+                                ],
                               ),
                               child: Center(
                                 child: TextField(
@@ -201,12 +238,19 @@ class DialogWidget {
                                   minLines: 1,
                                   maxLength: 20,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(height: 1, color: Colors.black, fontSize: 24.sp, fontWeight: FontWeight.w700),
+                                  style: TextStyle(
+                                    height: 1,
+                                    color: Colors.black,
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                   controller: textController1,
                                   decoration: InputDecoration(
                                     hintText: hintText ?? 'input',
                                     counterText: '', // 去掉字数显示
-                                    hintStyle: const TextStyle(color: Color(0xFFA5A5B9)),
+                                    hintStyle: const TextStyle(
+                                      color: Color(0xFFA5A5B9),
+                                    ),
                                     fillColor: Colors.transparent,
                                     border: InputBorder.none,
                                     filled: true,
@@ -228,7 +272,12 @@ class DialogWidget {
                                     child: Center(
                                       child: Text(
                                         SATextData.confirm,
-                                        style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                                        style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          color: Colors.black,
+                                          fontSize: 28.sp,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -255,16 +304,28 @@ class DialogWidget {
         SmartDialog.dismiss();
         onTap?.call();
       },
-      child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
+      child: Image.asset(
+        "assets/images/close.png",
+        width: 48.w,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
-  static Widget _buildText(String? text, double fontSize, FontWeight fontWeight) {
+  static Widget _buildText(
+    String? text,
+    double fontSize,
+    FontWeight fontWeight,
+  ) {
     if (text?.isNotEmpty != true) return const SizedBox.shrink();
     return Text(
       text!,
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.black, fontSize: fontSize, fontWeight: fontWeight),
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      ),
     );
   }
 
@@ -302,16 +363,27 @@ class DialogWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.6), borderRadius: BorderRadius.circular(40.r)),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.6),
+                  borderRadius: BorderRadius.circular(40.r),
+                ),
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.w),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   spacing: 8.w,
                   children: [
-                    Image.asset('assets/images/sa_09.png', width: 48.w, fit: BoxFit.contain),
+                    Image.asset(
+                      'assets/images/sa_09.png',
+                      width: 48.w,
+                      fit: BoxFit.contain,
+                    ),
                     Text(
                       '+ $rewards',
-                      style: TextStyle(fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 32.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -339,24 +411,45 @@ class DialogWidget {
             padding: EdgeInsets.only(left: 52.w, right: 72.w, top: 100.w),
             margin: EdgeInsets.only(bottom: 76.w),
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(SA.login.vipStatus.value ? 'assets/images/sa_19.png' : 'assets/images/sa_18.png'), fit: BoxFit.cover),
+              image: DecorationImage(
+                image: AssetImage(
+                  SA.login.vipStatus.value
+                      ? 'assets/images/sa_19.png'
+                      : 'assets/images/sa_18.png',
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   SATextData.dailyReward,
-                  style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w600, color: Colors.black, fontFamily: "Montserrat"),
+                  style: TextStyle(
+                    fontSize: 48.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontFamily: "Montserrat",
+                  ),
                 ),
                 SizedBox(height: 28.w),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset("assets/images/sa_20.png", width: 104.w, fit: BoxFit.contain),
+                    Image.asset(
+                      "assets/images/sa_20.png",
+                      width: 104.w,
+                      fit: BoxFit.contain,
+                    ),
                     SizedBox(width: 16.w),
                     Text(
                       SA.login.vipStatus.value ? '+50' : '+20',
-                      style: TextStyle(fontSize: 48.sp, fontWeight: FontWeight.w900, color: SAAppColors.pinkColor, fontStyle: FontStyle.italic),
+                      style: TextStyle(
+                        fontSize: 48.sp,
+                        fontWeight: FontWeight.w900,
+                        color: SAAppColors.pinkColor,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                   ],
                 ),
@@ -369,7 +462,10 @@ class DialogWidget {
                             children: [
                               Container(
                                 padding: EdgeInsets.symmetric(horizontal: 24.w),
-                                margin: EdgeInsets.only(bottom: 10.w, left: 38.w),
+                                margin: EdgeInsets.only(
+                                  bottom: 10.w,
+                                  left: 38.w,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(24.r),
@@ -383,16 +479,32 @@ class DialogWidget {
                                   children: [
                                     Text(
                                       'Pro',
-                                      style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500, color: Color(0xff1A1A1A)),
+                                      style: TextStyle(
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff1A1A1A),
+                                      ),
                                     ),
                                     Text(
                                       ' 50 ',
-                                      style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w700, color: Color(0xff1A1A1A)),
+                                      style: TextStyle(
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xff1A1A1A),
+                                      ),
                                     ),
-                                    Image.asset('assets/images/sa_09.png', width: 32.w, fit: BoxFit.contain),
+                                    Image.asset(
+                                      'assets/images/sa_09.png',
+                                      width: 32.w,
+                                      fit: BoxFit.contain,
+                                    ),
                                     Text(
                                       '/day',
-                                      style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w500, color: Color(0xff1A1A1A)),
+                                      style: TextStyle(
+                                        fontSize: 32.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xff1A1A1A),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -401,16 +513,27 @@ class DialogWidget {
                           ),
                           ButtonGradientWidget(
                             onTap: () {
-                              Get.toNamed(SARouteNames.vip, arguments: VipFrom.dailyrd);
+                              Get.toNamed(
+                                SARouteNames.vip,
+                                arguments: VipFrom.dailyrd,
+                              );
                             },
                             width: 536.w,
                             height: 88,
-                            gradientColors: [Color(0xffF77DF3), Color(0xffA67DF7)],
+                            gradientColors: [
+                              Color(0xffF77DF3),
+                              Color(0xffA67DF7),
+                            ],
                             borderRadius: BorderRadius.circular(100.r),
                             child: Center(
                               child: Text(
                                 SATextData.gotToPro,
-                                style: TextStyle(fontFamily: "Montserrat", color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                  fontFamily: "Montserrat",
+                                  color: Colors.white,
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
@@ -433,7 +556,12 @@ class DialogWidget {
                         child: Center(
                           child: Text(
                             SATextData.collect,
-                            style: TextStyle(fontFamily: "Montserrat", color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              color: Colors.white,
+                              fontSize: 28.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       )
@@ -449,12 +577,20 @@ class DialogWidget {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(100.r),
-                            border: Border.all(width: 2.w, color: Color(0xffF7F7F7)),
+                            border: Border.all(
+                              width: 2.w,
+                              color: Color(0xffF7F7F7),
+                            ),
                           ),
                           child: Center(
                             child: Text(
                               SATextData.collect,
-                              style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Color(0xff1A1A1A), fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontSize: 28.sp,
+                                color: Color(0xff1A1A1A),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
@@ -471,7 +607,11 @@ class DialogWidget {
                 onTap: () {
                   SmartDialog.dismiss();
                 },
-                child: Image.asset('assets/images/close.png', width: 48.w, fit: BoxFit.contain),
+                child: Image.asset(
+                  'assets/images/close.png',
+                  width: 48.w,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
@@ -481,7 +621,12 @@ class DialogWidget {
   }
 
   static Future showPositiveReview() async {
-    return Get.bottomSheet(positiveReviewWidget(), isDismissible: false, isScrollControlled: true, enableDrag: false);
+    return Get.bottomSheet(
+      positiveReviewWidget(),
+      isDismissible: false,
+      isScrollControlled: true,
+      enableDrag: false,
+    );
   }
 
   static Widget positiveReviewWidget() {
@@ -499,7 +644,11 @@ class DialogWidget {
               onTap: () {
                 Get.back();
               },
-              child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
+              child: Image.asset(
+                "assets/images/close.png",
+                width: 48.w,
+                fit: BoxFit.contain,
+              ),
             ),
           ],
         ),
@@ -512,9 +661,15 @@ class DialogWidget {
               height: 580.w,
               padding: EdgeInsets.symmetric(vertical: 64.w, horizontal: 58.w),
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage('assets/images/sa_10.png'), fit: BoxFit.contain),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/sa_10.png'),
+                  fit: BoxFit.contain,
+                ),
                 color: Colors.white,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(32.r), topRight: Radius.circular(32.r)),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
+                ),
               ),
               child: Obx(
                 () => Column(
@@ -522,7 +677,11 @@ class DialogWidget {
                   children: [
                     Text(
                       SATextData.positiveReviewTitle,
-                      style: TextStyle(fontSize: 40.sp, fontWeight: FontWeight.w600, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 40.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
                     ),
                     SizedBox(height: 32.w),
                     Row(
@@ -537,11 +696,26 @@ class DialogWidget {
                             height: 168.w,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.r),
-                              color: review.value == RewardType.dislike ? Color(0xffADFD32).withValues(alpha: 0.2) : Colors.white,
-                              border: Border.all(width: 2.w, color: review.value == RewardType.dislike ? Color(0xffADFD32) : Color(0xffF4F7F0)),
+                              color: review.value == RewardType.dislike
+                                  ? SAAppColors.primaryColor.withValues(
+                                      alpha: 0.2,
+                                    )
+                                  : Colors.white,
+                              border: Border.all(
+                                width: 2.w,
+                                color: review.value == RewardType.dislike
+                                    ? SAAppColors.primaryColor
+                                    : Color(0xffF4F7F0),
+                              ),
                             ),
                             child: Center(
-                              child: Image.asset(review.value == RewardType.dislike ? 'assets/images/sa_15.png' : 'assets/images/sa_12.png', width: 80.w, fit: BoxFit.contain),
+                              child: Image.asset(
+                                review.value == RewardType.dislike
+                                    ? 'assets/images/sa_15.png'
+                                    : 'assets/images/sa_12.png',
+                                width: 80.w,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                         ),
@@ -554,11 +728,26 @@ class DialogWidget {
                             height: 168.w,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.r),
-                              color: review.value == RewardType.accept ? Color(0xffADFD32).withValues(alpha: 0.2) : Colors.white,
-                              border: Border.all(width: 2.w, color: review.value == RewardType.accept ? Color(0xffADFD32) : Color(0xffF4F7F0)),
+                              color: review.value == RewardType.accept
+                                  ? SAAppColors.primaryColor.withValues(
+                                      alpha: 0.2,
+                                    )
+                                  : Colors.white,
+                              border: Border.all(
+                                width: 2.w,
+                                color: review.value == RewardType.accept
+                                    ? SAAppColors.primaryColor
+                                    : Color(0xffF4F7F0),
+                              ),
                             ),
                             child: Center(
-                              child: Image.asset(review.value == RewardType.accept ? 'assets/images/sa_16.png' : 'assets/images/sa_13.png', width: 80.w, fit: BoxFit.contain),
+                              child: Image.asset(
+                                review.value == RewardType.accept
+                                    ? 'assets/images/sa_16.png'
+                                    : 'assets/images/sa_13.png',
+                                width: 80.w,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                         ),
@@ -571,11 +760,26 @@ class DialogWidget {
                             height: 168.w,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.r),
-                              color: review.value == RewardType.like ? Color(0xffADFD32).withValues(alpha: 0.2) : Colors.white,
-                              border: Border.all(width: 2.w, color: review.value == RewardType.like ? Color(0xffADFD32) : Color(0xffF4F7F0)),
+                              color: review.value == RewardType.like
+                                  ? SAAppColors.primaryColor.withValues(
+                                      alpha: 0.2,
+                                    )
+                                  : Colors.white,
+                              border: Border.all(
+                                width: 2.w,
+                                color: review.value == RewardType.like
+                                    ? SAAppColors.primaryColor
+                                    : Color(0xffF4F7F0),
+                              ),
                             ),
                             child: Center(
-                              child: Image.asset(review.value == RewardType.like ? 'assets/images/sa_17.png' : 'assets/images/sa_14.png', width: 80.w, fit: BoxFit.contain),
+                              child: Image.asset(
+                                review.value == RewardType.like
+                                    ? 'assets/images/sa_17.png'
+                                    : 'assets/images/sa_14.png',
+                                width: 80.w,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
                         ),
@@ -589,7 +793,11 @@ class DialogWidget {
                             children: [
                               Text(
                                 getRewardTypeDesc(review.value),
-                                style: TextStyle(fontSize: 22.sp, color: Color(0xff1A1A1A), fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                  fontSize: 22.sp,
+                                  color: Color(0xff1A1A1A),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ],
                           ),
@@ -599,12 +807,25 @@ class DialogWidget {
                             height: 96.w,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100.r),
-                              gradient: LinearGradient(colors: [SAAppColors.primaryColor.withValues(alpha: 0.5), SAAppColors.yellowColor.withValues(alpha: 0.5)]),
+                              gradient: LinearGradient(
+                                colors: [
+                                  SAAppColors.primaryColor.withValues(
+                                    alpha: 0.5,
+                                  ),
+                                  SAAppColors.yellowColor.withValues(
+                                    alpha: 0.5,
+                                  ),
+                                ],
+                              ),
                             ),
                             child: Center(
                               child: Text(
                                 SATextData.submit,
-                                style: TextStyle(fontSize: 28.sp, color: Color(0xff1A1A1A), fontWeight: FontWeight.w600),
+                                style: TextStyle(
+                                  fontSize: 28.sp,
+                                  color: Color(0xff1A1A1A),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           )
@@ -622,8 +843,14 @@ class DialogWidget {
                             borderRadius: BorderRadius.circular(100.r),
                             child: Center(
                               child: Text(
-                                review.value == RewardType.like ? SATextData.submit : SATextData.subFeedback,
-                                style: TextStyle(color: Color(0xff1A1A1A), fontSize: 28.sp, fontWeight: FontWeight.w600),
+                                review.value == RewardType.like
+                                    ? SATextData.submit
+                                    : SATextData.subFeedback,
+                                style: TextStyle(
+                                  color: Color(0xff1A1A1A),
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
@@ -634,7 +861,11 @@ class DialogWidget {
             Positioned(
               right: 0,
               top: -70.w,
-              child: Image.asset("assets/images/sa_11.png", width: 200.w, fit: BoxFit.contain),
+              child: Image.asset(
+                "assets/images/sa_11.png",
+                width: 200.w,
+                fit: BoxFit.contain,
+              ),
             ),
           ],
         ),
@@ -665,7 +896,11 @@ class DialogWidget {
             margin: EdgeInsets.symmetric(horizontal: 85.w),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32.r),
-              gradient: LinearGradient(begin: AlignmentDirectional.topCenter, end: AlignmentDirectional.bottomCenter, colors: [const Color(0xFFFFFFFF), const Color(0xFFFFFFFF)]),
+              gradient: LinearGradient(
+                begin: AlignmentDirectional.topCenter,
+                end: AlignmentDirectional.bottomCenter,
+                colors: [const Color(0xFFFFFFFF), const Color(0xFFFFFFFF)],
+              ),
             ),
             child: Column(
               spacing: 10.w,
@@ -673,18 +908,32 @@ class DialogWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset("assets/images/sa_44.png", width: 470.w, fit: BoxFit.contain),
+                Image.asset(
+                  "assets/images/sa_44.png",
+                  width: 470.w,
+                  fit: BoxFit.contain,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 8.w,
                   children: [
                     Text(
                       '+$number',
-                      style: TextStyle(fontSize: 50.sp, fontWeight: FontWeight.w600, color: Color(0xff222222), fontFamily: "Montserrat", fontStyle: FontStyle.italic),
+                      style: TextStyle(
+                        fontSize: 50.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff222222),
+                        fontFamily: "Montserrat",
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                     Text(
                       SATextData.diamond,
-                      style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500, color: Color(0xff222222)),
+                      style: TextStyle(
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff222222),
+                      ),
                     ),
                   ],
                 ),
@@ -696,7 +945,11 @@ class DialogWidget {
             onTap: () {
               SmartDialog.dismiss(tag: rechargeSuccTag);
             },
-            child: Image.asset("assets/images/close.png", width: 64.w, fit: BoxFit.contain),
+            child: Image.asset(
+              "assets/images/close.png",
+              width: 64.w,
+              fit: BoxFit.contain,
+            ),
           ),
         ],
       ),
@@ -723,7 +976,11 @@ class DialogWidget {
         children: [
           InkWell(
             onTap: onCancel,
-            child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
+            child: Image.asset(
+              "assets/images/close.png",
+              width: 48.w,
+              fit: BoxFit.contain,
+            ),
           ),
           SizedBox(height: 32.w),
           Container(
@@ -742,25 +999,45 @@ class DialogWidget {
               children: [
                 Text(
                   SATextData.tips,
-                  style: TextStyle(fontSize: 40.sp, fontWeight: FontWeight.w600, color: Color(0xff000000)),
+                  style: TextStyle(
+                    fontSize: 40.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff000000),
+                  ),
                 ),
                 SizedBox(height: 32.w),
                 Stack(
                   children: [
-                    Image.asset("assets/images/sa_68.png", width: 198.w, fit: BoxFit.contain),
+                    Image.asset(
+                      "assets/images/sa_68.png",
+                      width: 198.w,
+                      fit: BoxFit.contain,
+                    ),
                     Positioned(
                       bottom: 0,
                       width: 198.w,
                       child: Center(
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 16.w),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 4.w,
+                            horizontal: 16.w,
+                          ),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(26.r), bottomRight: Radius.circular(26.r)),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(26.r),
+                              bottomRight: Radius.circular(26.r),
+                            ),
                             color: Color(0xff1A2608),
                           ),
                           child: Text(
                             SATextData.nice,
-                            style: TextStyle(fontFamily: "Montserrat", fontSize: 24.sp, color: SAAppColors.primaryColor, fontWeight: FontWeight.w600, fontStyle: FontStyle.italic),
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              fontSize: 24.sp,
+                              color: SAAppColors.primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ),
                       ),
@@ -770,7 +1047,11 @@ class DialogWidget {
                 SizedBox(height: 32.w),
                 Text(
                   message ?? '',
-                  style: TextStyle(fontSize: 28.sp, color: Color(0xff4D4D4D), fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                    fontSize: 28.sp,
+                    color: Color(0xff4D4D4D),
+                    fontWeight: FontWeight.w500,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 64.w),
@@ -780,7 +1061,12 @@ class DialogWidget {
                   child: Center(
                     child: Text(
                       confirmText ?? SATextData.confirm,
-                      style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 28.sp, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontFamily: "Montserrat",
+                        color: Colors.black,
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),

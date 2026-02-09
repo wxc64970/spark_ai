@@ -94,9 +94,31 @@ enum VipFrom {
   trans,
   dailyrd,
   scenario,
+  aiImagespeed,
+  downloadimage,
+  creations,
+  aiChar,
 }
 
-enum ConsumeFrom { home, chat, send, profile, text, audio, call, unlcokText, undr, creaimg, creavideo, album, aiphoto, img2v, mask }
+enum ConsumeFrom {
+  home,
+  chat,
+  send,
+  profile,
+  text,
+  audio,
+  call,
+  unlcokText,
+  undr,
+  creaimg,
+  creavideo,
+  album,
+  aiphoto,
+  img2v,
+  mask,
+  generateimage,
+  imageAIwrite,
+}
 
 enum RewardType { dislike, accept, like, unknown }
 
@@ -145,10 +167,23 @@ enum Gender {
   final int code;
   const Gender(this.code);
 
-  static final Map<int, Gender> _codeMap = {for (var g in Gender.values) g.code: g};
+  // 添加字符串映射 MALE,FEMALE,GENDER_FLUID,UNKNOWN
+  static const Map<Gender, String> _stringMap = {
+    Gender.male: 'MALE',
+    Gender.female: 'FEMALE',
+    Gender.nonBinary: 'GENDER_FLUID',
+    Gender.unknown: 'UNKNOWN',
+  };
+
+  static final Map<int, Gender> _codeMap = {
+    for (var g in Gender.values) g.code: g,
+  };
 
   /// 根据数值反查 Gender
   static Gender fromValue(int? code) => _codeMap[code] ?? Gender.unknown;
+
+  /// 获取字符串映射值
+  String get stringValue => _stringMap[this] ?? 'UNKNOWN';
 
   String get display {
     switch (this) {

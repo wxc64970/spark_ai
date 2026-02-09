@@ -51,4 +51,23 @@ class SAApiUrl {
   static const String sessionList = '/aiChatConversation/list';
   static const String getUserInfo = '/v2/appUser/getByDeviceId/user';
   static String resendMsg = '/v2/message/resend/h';
+  static String aiphoto = '/system/ai/photo/config';
+  static String imageStyle = '/creationStyleOptions/getAll';
+  static const String detailOptionsUrl = '/creationMoreDetails/getAll';
+  // 用户资产
+  static String userAssets = '/v2/appUser/assets';
+  // 生成头像
+  static const String generateAvatarUrl = '/aiPhoto/gen';
+  // 生成头像结果
+  static const String generateAvatarResultUrl = '/aiPhoto/getGenImg';
+  // 头像 AI写作 - 图片提示词
+  static const String aiWriteAvatarUrl = '/creationCharacter/aiWrite/img';
+  // 生成头像历史记录查询
+  static const String generateAvatarHistoryUrl = '/aiPhoto/history';
+  //生成头像历史记录总数
+  static const String generateAvatarHistoryCountUrl = '/aiPhoto/history/count';
+
+  ///生成头像历史记录删除
+  static const String generateAvatarHistoryDeleteUrl =
+      '/aiPhoto/history/delete';
 }

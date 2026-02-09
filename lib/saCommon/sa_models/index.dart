@@ -19,3 +19,7 @@ export 'sa_sku_model.dart';
 export 'sa_tag_model.dart';
 export 'sa_upl_model.dart';
 export 'sa_user_model.dart';
+export 'sa_aiphoto_model.dart';
+export 'sa_image_style_model.dart';
+export 'sa_gen_image_result.dart';
+export 'sa_creationsHistory_model.dart';

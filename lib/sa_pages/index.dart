@@ -17,3 +17,8 @@ export 'saundr/index.dart';
 export 'saaisku/index.dart';
 export 'sacall/index.dart';
 export 'sacallguide/index.dart';
+export 'saAiGenerateImage/index.dart';
+export 'saAiGenerateLoading/index.dart';
+export 'saAiGenerateResult/index.dart';
+export 'saAiImage/index.dart';
+export 'saAiGenerateHistory/index.dart';

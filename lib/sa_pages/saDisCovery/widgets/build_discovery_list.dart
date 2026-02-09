@@ -33,7 +33,11 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
               indicatorSize: TabBarIndicatorSize.label, // 下划线宽度与文字一致
               indicator: GradientUnderlineTabIndicator(
                 // 渐变颜色（可自定义）
-                gradient: LinearGradient(begin: Alignment.centerLeft, end: Alignment.centerRight, colors: [SAAppColors.primaryColor, SAAppColors.yellowColor]),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [SAAppColors.primaryColor, SAAppColors.yellowColor],
+                ),
                 // 下标线条粗细（同原方案的borderSide.width）
                 thickness: 16.w,
                 // 下标宽度/位置控制（同原方案的insets）
@@ -42,8 +46,14 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
               ),
               padding: EdgeInsets.zero,
               labelPadding: EdgeInsets.only(right: 64.w), // Tab 之间的间距
-              unselectedLabelStyle: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w400), // 未选中文字样式
-              labelStyle: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w600), // 选中文字样式
+              unselectedLabelStyle: TextStyle(
+                fontSize: 28.sp,
+                fontWeight: FontWeight.w400,
+              ), // 未选中文字样式
+              labelStyle: TextStyle(
+                fontSize: 32.sp,
+                fontWeight: FontWeight.w600,
+              ), // 选中文字样式
               tabs: List.generate(controller.categroyList.length, (index) {
                 final data = controller.categroyList[index];
 
@@ -53,7 +63,11 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                     children: [
                       Text(
                         data.title,
-                        style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.w600, color: Colors.transparent),
+                        style: TextStyle(
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.transparent,
+                        ),
                       ),
                       Text(data.title),
                     ],
@@ -67,7 +81,13 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         controller.categroyList.isEmpty
             ? const Center(child: Text("暂无数据"))
             : Expanded(
-                child: TabBarView(controller: controller.tabController, children: List.generate(controller.categroyList.length, (index) => _buildContent(index))),
+                child: TabBarView(
+                  controller: controller.tabController,
+                  children: List.generate(
+                    controller.categroyList.length,
+                    (index) => _buildContent(index),
+                  ),
+                ),
               ),
       ],
     );
@@ -88,7 +108,10 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (type != null && list[index].isEmpty) {
-                return EmptyWidget(type: controller.type.value!, physics: physics);
+                return EmptyWidget(
+                  type: controller.type.value!,
+                  physics: physics,
+                );
               }
               return _buildList(physics, list[index], index);
             });
@@ -98,7 +121,11 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
     );
   }
 
-  Widget _buildList(ScrollPhysics physics, List<ChaterModel> list, int tabIndex) {
+  Widget _buildList(
+    ScrollPhysics physics,
+    List<ChaterModel> list,
+    int tabIndex,
+  ) {
     // 只在all分类下显示广告
     controller.nativeAd ??= MyAd().nativeAd;
     final bool showAd =
@@ -136,13 +163,23 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
               ),
               child: Stack(
                 children: [
-                  Material(elevation: 0, child: AdWidget(ad: controller.nativeAd!)),
+                  Material(
+                    elevation: 0,
+                    child: AdWidget(ad: controller.nativeAd!),
+                  ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r), color: SAAppColors.pinkColor),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: SAAppColors.pinkColor,
+                    ),
                     child: Text(
                       'Ad',
-                      style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
@@ -156,7 +193,8 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         return InkWell(
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (controller.tabController.index + 1 == HomeListCategroy.video.index) {
+            if (controller.tabController.index + 1 ==
+                HomeListCategroy.video.index) {
               Get.toNamed(SARouteNames.phoneGuide, arguments: {'role': data});
               SAlogEvent('c_videochat_char');
             } else {
@@ -165,7 +203,14 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
           },
           child: DecoratedBox(
             decoration: BoxDecoration(
-              gradient: LinearGradient(begin: const Alignment(0, -0.5), end: const Alignment(1, 0.5), colors: const [SAAppColors.primaryColor, SAAppColors.yellowColor]),
+              gradient: LinearGradient(
+                begin: const Alignment(0, -0.5),
+                end: const Alignment(1, 0.5),
+                colors: const [
+                  SAAppColors.primaryColor,
+                  SAAppColors.yellowColor,
+                ],
+              ),
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Padding(
@@ -175,11 +220,22 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                 width: 336.w,
                 height: 448.w,
                 clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16.r)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
                 child: Stack(
                   children: [
                     // 背景图片
-                    SAImageWidget(url: data.avatar, width: 360.w, height: 500.w, cacheWidth: 1080, cacheHeight: 1080, borderRadius: BorderRadius.circular(16.r), shape: BoxShape.rectangle),
+                    SAImageWidget(
+                      url: data.avatar,
+                      width: 360.w,
+                      height: 500.w,
+                      cacheWidth: 1080,
+                      cacheHeight: 1080,
+                      borderRadius: BorderRadius.circular(16.r),
+                      shape: BoxShape.rectangle,
+                    ),
                     Positioned(
                       left: 0,
                       bottom: 0,
@@ -187,7 +243,14 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                         width: Get.width,
                         height: 160.w,
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [Color(0xff000000), Color(0xff000000).withValues(alpha: 0)]),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Color(0xff000000),
+                              Color(0xff000000).withValues(alpha: 0),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -206,15 +269,30 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                                     controller.onCollect(tabIndex, index, data);
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 10.w),
-                                    decoration: BoxDecoration(color: Colors.black26, borderRadius: BorderRadius.circular(8.r)),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 4.w,
+                                      horizontal: 10.w,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black26,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
                                     child: Row(
                                       children: [
-                                        Image.asset(data.collect! ? "assets/images/sa_04.png" : "assets/images/sa_03.png", width: 24.w, fit: BoxFit.contain),
+                                        Image.asset(
+                                          data.collect!
+                                              ? "assets/images/sa_04.png"
+                                              : "assets/images/sa_03.png",
+                                          width: 24.w,
+                                          fit: BoxFit.contain,
+                                        ),
                                         SizedBox(width: 4.w),
                                         Text(
                                           data.likes.toString(),
-                                          style: TextStyle(fontSize: 20.sp, color: Colors.white),
+                                          style: TextStyle(
+                                            fontSize: 20.sp,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -231,10 +309,17 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                                 Row(
                                   children: [
                                     Container(
-                                      constraints: BoxConstraints(maxWidth: 210.w),
+                                      constraints: BoxConstraints(
+                                        maxWidth: 210.w,
+                                      ),
                                       child: Text(
                                         data.name ?? "",
-                                        style: TextStyle(fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w500, height: 1),
+                                        style: TextStyle(
+                                          fontSize: 32.sp,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1,
+                                        ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -243,30 +328,65 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
                                     data.age == null
                                         ? const SizedBox()
                                         : Container(
-                                            constraints: BoxConstraints(maxWidth: 70.w),
-                                            padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 16.w),
+                                            constraints: BoxConstraints(
+                                              maxWidth: 70.w,
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 2.w,
+                                              horizontal: 16.w,
+                                            ),
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(40.r),
+                                              borderRadius:
+                                                  BorderRadius.circular(40.r),
                                               gradient: LinearGradient(
-                                                begin: Alignment(math.cos(164 * math.pi / 180), math.sin(-100 * math.pi / 180)),
-                                                end: Alignment(math.cos(164 * math.pi / 180 + math.pi), math.sin(-100 * math.pi / 180 + math.pi)),
-                                                colors: [SAAppColors.primaryColor, SAAppColors.yellowColor],
+                                                begin: Alignment(
+                                                  math.cos(164 * math.pi / 180),
+                                                  math.sin(
+                                                    -100 * math.pi / 180,
+                                                  ),
+                                                ),
+                                                end: Alignment(
+                                                  math.cos(
+                                                    164 * math.pi / 180 +
+                                                        math.pi,
+                                                  ),
+                                                  math.sin(
+                                                    -100 * math.pi / 180 +
+                                                        math.pi,
+                                                  ),
+                                                ),
+                                                colors: [
+                                                  SAAppColors.primaryColor,
+                                                  SAAppColors.yellowColor,
+                                                ],
                                               ),
                                             ),
                                             child: Text(
                                               '${data.age}',
-                                              style: TextStyle(fontFamily: "Montserrat", fontSize: 18.sp, color: Colors.black, height: 1, fontWeight: FontWeight.w600),
+                                              style: TextStyle(
+                                                fontFamily: "Montserrat",
+                                                fontSize: 18.sp,
+                                                color: Colors.black,
+                                                height: 1,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                   ],
                                 ),
-                                if (shouldShowTags) ...[SizedBox(height: 8.w), _buildTags(displayTags)],
+                                if (shouldShowTags) ...[
+                                  SizedBox(height: 8.w),
+                                  _buildTags(displayTags),
+                                ],
                                 SizedBox(height: 10.w),
                                 Text(
                                   data.aboutMe ?? "",
-                                  style: TextStyle(fontSize: 24.sp, color: Colors.white),
+                                  style: TextStyle(
+                                    fontSize: 24.sp,
+                                    color: Colors.white,
+                                  ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -296,10 +416,17 @@ class BuildDiscoveryList extends GetView<SadiscoveryController> {
         itemBuilder: (context, i) {
           return Container(
             padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 16.w),
-            decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(8.r)),
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
             child: Text(
               displayTags[i],
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w400, color: _getTagColor(displayTags[i])),
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w400,
+                color: _getTagColor(displayTags[i]),
+              ),
             ),
           );
         },

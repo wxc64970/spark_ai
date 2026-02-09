@@ -25,7 +25,10 @@ class ContentWidget extends GetView<SameController> {
               Container(
                 margin: EdgeInsets.only(bottom: 32.w),
                 padding: EdgeInsets.all(24.w),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24.r)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24.r),
+                ),
                 child: SettingItem(
                   sectionTitle: SATextData.nickname,
                   title: controller.nickname,
@@ -33,10 +36,27 @@ class ContentWidget extends GetView<SameController> {
                   top: 32,
                 ),
               ),
+              if (SA.storage.isSAB)
+                Container(
+                  margin: EdgeInsets.only(bottom: 32.w),
+                  padding: EdgeInsets.all(24.w),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24.r),
+                  ),
+                  child: SettingItem(
+                    title: SATextData.creations,
+                    onTap: controller.handleCreations,
+                    top: 0,
+                  ),
+                ),
               Container(
                 margin: EdgeInsets.only(bottom: 32.w),
                 padding: EdgeInsets.all(24.w),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24.r)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24.r),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -53,8 +73,16 @@ class ContentWidget extends GetView<SameController> {
                         top: 32,
                       );
                     }),
-                    SettingItem(title: SATextData.feedback, onTap: controller.feedback, top: 32),
-                    SettingItem(title: SATextData.setChatBackground, onTap: controller.changeChatBackground, top: 32),
+                    SettingItem(
+                      title: SATextData.feedback,
+                      onTap: controller.feedback,
+                      top: 32,
+                    ),
+                    SettingItem(
+                      title: SATextData.setChatBackground,
+                      onTap: controller.changeChatBackground,
+                      top: 32,
+                    ),
                     Obx(
                       () => SettingItem(
                         title: SATextData.appVersion,
@@ -69,7 +97,10 @@ class ContentWidget extends GetView<SameController> {
               Container(
                 margin: EdgeInsets.only(bottom: 32.w),
                 padding: EdgeInsets.all(24.w),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24.r)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24.r),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -79,7 +110,11 @@ class ContentWidget extends GetView<SameController> {
                       onTap: controller.PrivacyPolicy,
                       top: 32,
                     ),
-                    SettingItem(title: SATextData.termsOfUse, onTap: controller.TermsOfUse, top: 32),
+                    SettingItem(
+                      title: SATextData.termsOfUse,
+                      onTap: controller.TermsOfUse,
+                      top: 32,
+                    ),
                   ],
                 ),
               ),
