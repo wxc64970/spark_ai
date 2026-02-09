@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
+import 'package:spark_ai/main.dart';
 import 'package:spark_ai/saCommon/index.dart';
+import 'package:spark_ai/saCommon/sa_models/sa_account_assets.dart';
+import 'package:spark_ai/saCommon/sa_models/sa_ai_avatar_options.dart';
 
 class ImageAPI {
   /// 获取风格配置
@@ -232,5 +235,171 @@ class ImageAPI {
   /// sku 列表
   static Future<List<SASkModel>?> getSkuList() async {
     return await Api.getSkuList();
+  }
+
+  /// 获取AI Photo页配置
+  static Future<List<ItemConfigs>?> getAiPhoto() async {
+    try {
+      final res = await api.get(SAApiUrl.aiphoto);
+      var baseResponse = AiPhoto.fromJson(res.data);
+      return baseResponse.itemConfigs;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// 获取 ImageStyle 数据
+  static Future<List<ImageStyle>?> getImageStyle() async {
+    try {
+      final res = await api.get(SAApiUrl.imageStyle);
+      final data = SABaseModel.fromJson(res.data, null);
+      final list = data.data;
+      return list == null
+          ? []
+          : (list as List).map((e) {
+              return ImageStyle.fromJson(e);
+            }).toList();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // 头像 选项
+  static Future<List<AiAvatarOptions>?> getDetailOptions() async {
+    try {
+      var response = await api.get(SAApiUrl.detailOptionsUrl);
+      final result = SABaseModel.fromJson(response.data, null);
+      final data = result.data;
+      if (data != null && data is List) {
+        return data.map((e) => AiAvatarOptions.fromJson(e)).toList();
+      }
+      return null;
+    } catch (e) {
+      log.e(e);
+      return null;
+    }
+  }
+
+  // 用户资产
+  static Future<AccountAssets?> getUserAsset() async {
+    try {
+      var result = await api.get(SAApiUrl.userAssets);
+      var res = SABaseModel.fromJson(
+        result.data,
+        (data) => AccountAssets.fromJson(data),
+      );
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // 头像 AI写作 - 图片提示词
+  static Future<String?> avatarAiWriteWords(Map<String, dynamic> params) async {
+    try {
+      var response = await api.post(SAApiUrl.aiWriteAvatarUrl, data: params);
+      final result = SABaseModel.fromJson(response.data, null);
+      final data = result.data;
+      if (data != null && data is Map) {
+        return data['prompt'];
+      }
+      return null;
+    } catch (e) {
+      log.e(e);
+      return null;
+    }
+  }
+
+  // 生成头像
+  static Future<int?> avatarAiGenerate(Map<String, dynamic> params) async {
+    try {
+      var res = await api.post(SAApiUrl.generateAvatarUrl, data: params);
+      final result = SABaseModel.fromJson(res.data, null);
+      final data = result.data;
+      if (data != null && data is int) {
+        return data;
+      }
+      return null;
+    } catch (e) {
+      log.e(e);
+      return null;
+    }
+  }
+
+  // 生成头像结果
+  static Future<GenAvatarResulut?> avatarAiGenerateResult(int id) async {
+    try {
+      log.d('Requesting avatar generation result for id: $id');
+      Map<String, String> query = {"id": id.toString()};
+      var response = await api.get(
+        SAApiUrl.generateAvatarResultUrl,
+        queryParameters: query,
+      );
+      log.d('API Response success: ${response.data}');
+      var res = SABaseModel.fromJson(
+        response.data,
+        (json) => GenAvatarResulut.fromJson(json),
+      );
+      return res.data;
+    } catch (e) {
+      log.e('avatarAiGenerateResult error: $e');
+      return null;
+    }
+  }
+
+  /// AI photo 历史记录列表查询
+  static Future<List<CreationsHistory>> getAiPhotoHistoryList({
+    required int page,
+    required int size,
+    int? type,
+  }) async {
+    try {
+      var data = {'page': page, 'size': size, 'type': type};
+      var res = await api.request(
+        SAApiUrl.generateAvatarHistoryUrl,
+        data: data,
+        method: HttpMethod.post,
+      );
+
+      final baseModel = SABaseModel.fromJson(res.data, null);
+      final list = SAPagesModel.fromJson(
+        baseModel.data,
+        (json) => CreationsHistory.fromJson(json),
+      );
+      return (list.records ?? []).map((e) {
+        return e;
+      }).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // 获取AI photo 历史记录列表总数
+  static Future getAiPhotoHistoryCount() async {
+    try {
+      var response = await api.get(SAApiUrl.generateAvatarHistoryCountUrl);
+      final result = SABaseModel.fromJson(response.data, (json) => json);
+      final datas = result.data;
+
+      return datas;
+    } catch (e) {
+      log.e(e);
+      return {};
+    }
+  }
+
+  //AI photo 历史记录删除
+  static Future<bool> deleteAiPhotoHistory(List<int> ids) async {
+    try {
+      var response = await api.post(
+        SAApiUrl.generateAvatarHistoryDeleteUrl,
+        data: {'ids': ids},
+      );
+      final result = SABaseModel.fromJson(response.data, null);
+      return result.data;
+    } catch (e) {
+      log.e(e);
+      return false;
+    }
   }
 }

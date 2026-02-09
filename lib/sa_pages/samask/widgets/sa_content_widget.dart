@@ -22,9 +22,17 @@ class SAContentWidget extends GetView<SamaskController> {
           padding: EdgeInsets.symmetric(vertical: 40.w, horizontal: 144.w),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(24.r), topRight: Radius.circular(24.r)),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.r),
+              topRight: Radius.circular(24.r),
+            ),
             boxShadow: [
-              BoxShadow(color: const Color(0x1000001a), offset: const Offset(0, -2), blurRadius: 8, spreadRadius: 0),
+              BoxShadow(
+                color: const Color(0x1000001a),
+                offset: const Offset(0, -2),
+                blurRadius: 8,
+                spreadRadius: 0,
+              ),
             ],
           ),
 
@@ -35,8 +43,10 @@ class SAContentWidget extends GetView<SamaskController> {
                   onTap: controller.handleChangeMask,
                   height: 88,
                   borderRadius: BorderRadius.circular(100.r),
-                  gradientColors: controller.state.maskList.isEmpty || controller.state.selectedMask.value == null
-                      ? [Colors.grey, Colors.grey]
+                  gradientColors:
+                      controller.state.maskList.isEmpty ||
+                          controller.state.selectedMask.value == null
+                      ? [Color(0xffF7F7F7), Color(0xffF7F7F7)]
                       : [SAAppColors.primaryColor, SAAppColors.yellowColor],
                   child: Center(
                     child: Text(
@@ -71,7 +81,11 @@ class SAContentWidget extends GetView<SamaskController> {
                 constraints: BoxConstraints(maxWidth: 500.w),
                 child: Text(
                   SATextData.selectProfileMask,
-                  style: TextStyle(fontSize: 32.sp, color: Colors.black, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 32.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -85,7 +99,11 @@ class SAContentWidget extends GetView<SamaskController> {
               onTap: () {
                 Get.back();
               },
-              child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
+              child: Image.asset(
+                "assets/images/sa_06.png",
+                width: 48.w,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           Positioned(
@@ -99,7 +117,9 @@ class SAContentWidget extends GetView<SamaskController> {
                 padding: EdgeInsets.symmetric(vertical: 8.w, horizontal: 24.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(104.r),
-                  gradient: LinearGradient(colors: [SAAppColors.primaryColor, SAAppColors.yellowColor]),
+                  gradient: LinearGradient(
+                    colors: [SAAppColors.primaryColor, SAAppColors.yellowColor],
+                  ),
                 ),
                 child: Icon(Icons.add, size: 48.w, color: Colors.black),
               ),

@@ -51,4 +51,23 @@ class SAApiUrl {
   static const String sessionList = '/iodpzr/list';
   static const String getUserInfo = '/v2/ktoicn/getByDeviceId/eobllc';
   static String resendMsg = '/v2/taagbh/resend/h';
+  static String aiphoto = '/jeereb/ai/photo/kfaqxd';
+  static String imageStyle = '/mxqakc/qpwidp';
+  static const String detailOptionsUrl = '/owjdca/qpwidp';
+  // 用户资产
+  static String userAssets = '/v2/ktoicn/assets';
+  // 生成头像
+  static const String generateAvatarUrl = '/aiPhoto/gen';
+  // 生成头像结果
+  static const String generateAvatarResultUrl = '/aiPhoto/digoir';
+  // 头像 AI写作 - 图片提示词
+  static const String aiWriteAvatarUrl = '/ixhmws/lnzltt/img';
+  // 生成头像历史记录查询
+  static const String generateAvatarHistoryUrl = '/aiPhoto/hijcfy';
+  //生成头像历史记录总数
+  static const String generateAvatarHistoryCountUrl = '/aiPhoto/hijcfy/count';
+
+  ///生成头像历史记录删除
+  static const String generateAvatarHistoryDeleteUrl =
+      '/aiPhoto/history/delete';
 }

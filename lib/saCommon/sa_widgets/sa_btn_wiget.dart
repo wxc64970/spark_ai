@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 class ButtonWidget extends StatelessWidget {
@@ -59,13 +60,19 @@ class ButtonWidget extends StatelessWidget {
       width: width,
       constraints: constraints,
       padding: padding,
-      decoration: BoxDecoration(color: color, borderRadius: br, boxShadow: null),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: br,
+        boxShadow: null,
+      ),
       child: child ?? const SizedBox.shrink(),
     );
 
     // 如果没有点击事件，直接返回容器，避免InkWell开销
     if (onTap == null) {
-      return margin != null ? Padding(padding: margin!, child: buttonChild) : buttonChild;
+      return margin != null
+          ? Padding(padding: margin!, child: buttonChild)
+          : buttonChild;
     }
 
     buttonChild = InkWell(
@@ -77,7 +84,9 @@ class ButtonWidget extends StatelessWidget {
       child: buttonChild,
     );
 
-    return margin != null ? Padding(padding: margin!, child: buttonChild) : buttonChild;
+    return margin != null
+        ? Padding(padding: margin!, child: buttonChild)
+        : buttonChild;
   }
 }
 
@@ -94,7 +103,10 @@ class ButtonGradientWidget extends StatelessWidget {
     this.onTap,
     this.padding,
     this.margin,
-    this.gradientColors = const [SAAppColors.primaryColor, SAAppColors.yellowColor],
+    this.gradientColors = const [
+      SAAppColors.primaryColor,
+      SAAppColors.yellowColor,
+    ],
     this.hasShadow = false,
   });
 
@@ -140,7 +152,9 @@ class ButtonGradientWidget extends StatelessWidget {
 
     // 如果没有点击事件，直接返回容器，避免InkWell开销
     if (onTap == null) {
-      return margin != null ? Padding(padding: margin!, child: buttonChild) : buttonChild;
+      return margin != null
+          ? Padding(padding: margin!, child: buttonChild)
+          : buttonChild;
     }
 
     buttonChild = Center(
@@ -155,7 +169,9 @@ class ButtonGradientWidget extends StatelessWidget {
       ),
     );
 
-    return margin != null ? Padding(padding: margin!, child: buttonChild) : buttonChild;
+    return margin != null
+        ? Padding(padding: margin!, child: buttonChild)
+        : buttonChild;
   }
 }
 
@@ -172,7 +188,10 @@ class ButtonGradientWidget2 extends StatelessWidget {
     this.onTap,
     this.padding,
     this.margin,
-    this.gradientColors = const [SAAppColors.primaryColor, SAAppColors.yellowColor],
+    this.gradientColors = const [
+      SAAppColors.primaryColor,
+      SAAppColors.yellowColor,
+    ],
     this.hasShadow = false,
   });
 
@@ -201,16 +220,24 @@ class ButtonGradientWidget2 extends StatelessWidget {
       height: height?.w,
       width: width,
       padding: padding,
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: br,
-        gradient: LinearGradient(colors: gradientColors, begin: const Alignment(-0.9563, 0.2924), end: const Alignment(0.9563, -0.2924), stops: const [0.6312, 1.1721]),
+        gradient: LinearGradient(
+          colors: gradientColors,
+          begin: const Alignment(-0.9563, 0.2924),
+          end: const Alignment(0.9563, -0.2924),
+          stops: const [0.6312, 1.1721],
+        ),
       ),
-      child: child ?? const SizedBox.shrink(),
+      child: Shimmer(child: child ?? const SizedBox.shrink()),
     );
 
     // 如果没有点击事件，直接返回容器，避免InkWell开销
     if (onTap == null) {
-      return margin != null ? Padding(padding: margin!, child: buttonChild) : buttonChild;
+      return margin != null
+          ? Padding(padding: margin!, child: buttonChild)
+          : buttonChild;
     }
 
     buttonChild = Center(
@@ -225,6 +252,8 @@ class ButtonGradientWidget2 extends StatelessWidget {
       ),
     );
 
-    return margin != null ? Padding(padding: margin!, child: buttonChild) : buttonChild;
+    return margin != null
+        ? Padding(padding: margin!, child: buttonChild)
+        : buttonChild;
   }
 }

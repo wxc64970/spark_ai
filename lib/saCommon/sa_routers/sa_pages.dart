@@ -16,16 +16,78 @@ class RoutePages {
   // 列表
   static List<GetPage> routes = [
     GetPage(name: SARouteNames.launch, page: () => const SalaunchscreenPage()),
-    GetPage(name: SARouteNames.application, page: () => const SaapplicationPage(), binding: SaapplicationBinding()),
-    GetPage(name: SARouteNames.search, page: () => const SasearchPage(), binding: SasearchBinding()),
-    GetPage(name: SARouteNames.message, page: () => const MessagePage(), binding: MessageBinding()),
-    GetPage(name: SARouteNames.profile, page: () => const SaprofilePage(), binding: SaprofileBinding()),
-    GetPage(name: SARouteNames.mask, page: () => const SamaskPage(), binding: SamaskBinding()),
-    GetPage(name: SARouteNames.gems, page: () => const SagemsPage(), binding: SagemsBinding()),
-    GetPage(name: SARouteNames.editMask, page: () => const SaeditmaskPage(), binding: SaeditmaskBinding()),
-    GetPage(name: SARouteNames.language, page: () => const SalanguagePage(), binding: SalanguageBinding()),
-    GetPage(name: SARouteNames.undr, page: () => const SaundrPage(), binding: SaundrBinding()),
-    GetPage(name: SARouteNames.imagePreview, page: () => const ImagePreviewScreen(), transition: Transition.zoom, fullscreenDialog: true, preventDuplicates: true),
+    GetPage(
+      name: SARouteNames.application,
+      page: () => const SaapplicationPage(),
+      binding: SaapplicationBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.search,
+      page: () => const SasearchPage(),
+      binding: SasearchBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.message,
+      page: () => const MessagePage(),
+      binding: MessageBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.profile,
+      page: () => const SaprofilePage(),
+      binding: SaprofileBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.mask,
+      page: () => const SamaskPage(),
+      binding: SamaskBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.gems,
+      page: () => const SagemsPage(),
+      binding: SagemsBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.editMask,
+      page: () => const SaeditmaskPage(),
+      binding: SaeditmaskBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.language,
+      page: () => const SalanguagePage(),
+      binding: SalanguageBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.undr,
+      page: () => const SaundrPage(),
+      binding: SaundrBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.aiGenerateImage,
+      page: () => const SaaigenerateimagePage(),
+      binding: SaaigenerateimageBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.imagePreview,
+      page: () => const ImagePreviewScreen(),
+      transition: Transition.zoom,
+      fullscreenDialog: true,
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: SARouteNames.aiGenerateLoading,
+      page: () => const SaaigenerateloadingPage(),
+    ),
+    GetPage(name: SARouteNames.aiImage, page: () => const SaaiimagePage()),
+    GetPage(
+      name: SARouteNames.aiGenerateResult,
+      page: () => const SaaigenerateresultPage(),
+      binding: SaaigenerateresultBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.aiGenerateHistory,
+      page: () => const SaaigeneratehistoryPage(),
+      binding: SaaigeneratehistoryBinding(),
+    ),
     GetPage(
       name: SARouteNames.vip,
       page: () => const PopScope(
@@ -36,10 +98,30 @@ class RoutePages {
       preventDuplicates: true,
       binding: SasubscribeBinding(),
     ),
-    GetPage(name: SARouteNames.videoPreview, page: () => const SAVideoPreviewScreen(), fullscreenDialog: true, preventDuplicates: true),
+    GetPage(
+      name: SARouteNames.videoPreview,
+      page: () => const SAVideoPreviewScreen(),
+      fullscreenDialog: true,
+      preventDuplicates: true,
+    ),
 
-    GetPage(name: SARouteNames.phone, page: () => const SacallPage(), transition: Transition.downToUp, popGesture: false, preventDuplicates: true, fullscreenDialog: true, binding: SacallBinding()),
-    GetPage(name: SARouteNames.phoneGuide, page: () => const SacallguidePage(), transition: Transition.downToUp, popGesture: false, preventDuplicates: true, fullscreenDialog: true),
+    GetPage(
+      name: SARouteNames.phone,
+      page: () => const SacallPage(),
+      transition: Transition.downToUp,
+      popGesture: false,
+      preventDuplicates: true,
+      fullscreenDialog: true,
+      binding: SacallBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.phoneGuide,
+      page: () => const SacallguidePage(),
+      transition: Transition.downToUp,
+      popGesture: false,
+      preventDuplicates: true,
+      fullscreenDialog: true,
+    ),
     GetPage(
       name: SARouteNames.countSku,
       page: () => const SaaiskuPage(),
@@ -51,7 +133,10 @@ class RoutePages {
     ),
   ];
 
-  static Future<void> pushChat(String? roleId, {bool showLoading = true}) async {
+  static Future<void> pushChat(
+    String? roleId, {
+    bool showLoading = true,
+  }) async {
     if (roleId == null) {
       SAToast.show('roleId is null, please check!');
       return;
@@ -82,24 +167,44 @@ class RoutePages {
       }
 
       SALoading.close();
-      Get.toNamed(SARouteNames.message, arguments: {'role': role, 'session': session});
+      Get.toNamed(
+        SARouteNames.message,
+        arguments: {'role': role, 'session': session},
+      );
     } catch (e) {
       SALoading.close();
       SAToast.show(e.toString());
     }
   }
 
-  static Future<T?>? pushPhone<T>({required int sessionId, required ChaterModel role, required bool showVideo, CallState callState = CallState.calling}) async {
+  static Future<T?>? pushPhone<T>({
+    required int sessionId,
+    required ChaterModel role,
+    required bool showVideo,
+    CallState callState = CallState.calling,
+  }) async {
     // 检查 Mic 权限 和 语音权限
     if (!await checkPermissions()) {
       showNoPermissionDialog();
       return null;
     }
 
-    return Get.toNamed(SARouteNames.phone, arguments: {'sessionId': sessionId, 'role': role, 'callState': callState, 'showVideo': showVideo});
+    return Get.toNamed(
+      SARouteNames.phone,
+      arguments: {
+        'sessionId': sessionId,
+        'role': role,
+        'callState': callState,
+        'showVideo': showVideo,
+      },
+    );
   }
 
-  static Future<T?>? offPhone<T>({required ChaterModel role, required bool showVideo, CallState callState = CallState.calling}) async {
+  static Future<T?>? offPhone<T>({
+    required ChaterModel role,
+    required bool showVideo,
+    CallState callState = CallState.calling,
+  }) async {
     // 检查 Mic 权限 和 语音权限
     if (!await checkPermissions()) {
       showNoPermissionDialog();
@@ -112,7 +217,15 @@ class RoutePages {
       return null;
     }
 
-    return Get.offNamed(SARouteNames.phone, arguments: {'sessionId': sessionId, 'role': role, 'callState': callState, 'showVideo': showVideo});
+    return Get.offNamed(
+      SARouteNames.phone,
+      arguments: {
+        'sessionId': sessionId,
+        'role': role,
+        'callState': callState,
+        'showVideo': showVideo,
+      },
+    );
   }
 
   /// 检查麦克风和语音识别权限，返回是否已授予所有权限
@@ -150,7 +263,9 @@ class RoutePages {
   static Future<void> openAppStoreReview() async {
     if (Platform.isIOS) {
       String appId = EnvConfig.appId;
-      final Uri url = Uri.parse('https://apps.apple.com/app/id$appId?action=write-review');
+      final Uri url = Uri.parse(
+        'https://apps.apple.com/app/id$appId?action=write-review',
+      );
 
       if (await canLaunchUrl(url)) {
         await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -159,7 +274,9 @@ class RoutePages {
       }
     } else if (Platform.isAndroid) {
       String packageName = await SAInfoUtils.packageName();
-      final Uri url = Uri.parse('https://play.google.com/store/apps/details?id=$packageName');
+      final Uri url = Uri.parse(
+        'https://play.google.com/store/apps/details?id=$packageName',
+      );
 
       if (await canLaunchUrl(url)) {
         await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -183,7 +300,9 @@ class RoutePages {
         }
       } else if (Platform.isAndroid) {
         String packageName = await SAInfoUtils.packageName();
-        final Uri url = Uri.parse('https://play.google.com/store/apps/details?id=$packageName');
+        final Uri url = Uri.parse(
+          'https://play.google.com/store/apps/details?id=$packageName',
+        );
 
         if (await canLaunchUrl(url)) {
           await launchUrl(url, mode: LaunchMode.externalApplication);
@@ -206,7 +325,8 @@ class RoutePages {
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: EnvConfig.email, // 收件人
-      query: "subject=Feedback&body=version: $version\ndevice: $device\nuid: $uid\nPlease input your problem:\n", // 设置默认主题和正文内容
+      query:
+          "subject=Feedback&body=version: $version\ndevice: $device\nuid: $uid\nPlease input your problem:\n", // 设置默认主题和正文内容
     );
 
     if (await canLaunchUrl(emailUri)) {

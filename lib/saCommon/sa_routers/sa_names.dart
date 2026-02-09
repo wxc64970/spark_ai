@@ -22,4 +22,9 @@ class SARouteNames {
   static const String phoneGuide = '/wrtyu';
   static const String countSku = '/fvbnm';
   static const String undr = '/asagd';
+  static const String aiGenerateImage = '/fagklw';
+  static const String aiGenerateLoading = '/kkugyta';
+  static const String aiGenerateResult = '/dgkoac';
+  static const String aiImage = '/swgwatx';
+  static const String aiGenerateHistory = '/ahgkwxw';
 }

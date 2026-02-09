@@ -31,7 +31,12 @@ class SameController extends GetxController {
     Get.toNamed(SARouteNames.vip, arguments: VipFrom.mevip);
   }
 
-  changeNickName() {
+  void handleCreations() {
+    SAlogEvent('me_creations_click');
+    Get.toNamed(SARouteNames.aiGenerateHistory);
+  }
+
+  void changeNickName() {
     nickname = SA.login.currentUser?.nickname ?? '';
     _textEditingController = TextEditingController(text: nickname);
 
@@ -54,7 +59,7 @@ class SameController extends GetxController {
     );
   }
 
-  feedback() async {
+  void feedback() async {
     final version = await SAInfoUtils.version();
     final device = await SA.storage.getDeviceId();
     final uid = SA.login.currentUser?.id;
@@ -62,7 +67,8 @@ class SameController extends GetxController {
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: EnvConfig.email, // 收件人
-      query: "subject=Feedback&body=version: $version\ndevice: $device\nuid: $uid\nPlease input your problem:\n", // 设置默认主题和正文内容
+      query:
+          "subject=Feedback&body=version: $version\ndevice: $device\nuid: $uid\nPlease input your problem:\n", // 设置默认主题和正文内容
     );
     if (await canLaunchUrl(emailUri)) {
       launchUrl(emailUri);
@@ -71,9 +77,13 @@ class SameController extends GetxController {
     }
   }
 
-  changeChatBackground() {
+  void changeChatBackground() {
     DialogWidget.show(
-      child: SettingMessageBackground(onTapUpload: uploadImage, onTapUseChat: resetChatBackground, isUseChater: chatbgImagePath.isEmpty),
+      child: SettingMessageBackground(
+        onTapUpload: uploadImage,
+        onTapUseChat: resetChatBackground,
+        isUseChater: chatbgImagePath.isEmpty,
+      ),
     );
   }
 
@@ -102,7 +112,9 @@ class SameController extends GetxController {
       final directory = await getApplicationDocumentsDirectory();
       final fileName = path.basename(pickedFile.path);
       final cachedImagePath = path.join(directory.path, fileName);
-      final File cachedImage = await File(pickedFile.path).copy(cachedImagePath);
+      final File cachedImage = await File(
+        pickedFile.path,
+      ).copy(cachedImagePath);
       SA.storage.setChatBgImagePath(cachedImage.path);
       chatbgImagePath.value = cachedImage.path;
       await Future.delayed(const Duration(seconds: 2));
@@ -123,7 +135,9 @@ class SameController extends GetxController {
         }
       } else if (Platform.isAndroid) {
         String packageName = await SAInfoUtils.packageName();
-        final Uri url = Uri.parse('https://play.google.com/store/apps/details?id=$packageName');
+        final Uri url = Uri.parse(
+          'https://play.google.com/store/apps/details?id=$packageName',
+        );
 
         if (await canLaunchUrl(url)) {
           await launchUrl(url, mode: LaunchMode.externalApplication);

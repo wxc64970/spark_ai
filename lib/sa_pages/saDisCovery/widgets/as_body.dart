@@ -31,13 +31,18 @@ class ASBodyWidget extends GetView<SadiscoveryController> {
                     ),
                     // 关键2：实现 box-shadow + 背景半透（需嵌套 Container）
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 27.w),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20.w,
+                        horizontal: 27.w,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(46.r),
                         color: Colors.white,
                         boxShadow: const [
                           BoxShadow(
-                            color: Color(0x61c5e7b3), // #c5e7b361 → 0x61(透明度) + c5e7b3(颜色)
+                            color: Color(
+                              0x61c5e7b3,
+                            ), // #c5e7b361 → 0x61(透明度) + c5e7b3(颜色)
                             offset: Offset(0, 8), // 0 8px（x=0，y=8）
                             blurRadius: 8, // 8px 模糊半径
                             spreadRadius: 0, // 0 扩散半径（对应 CSS 的第4个值）
@@ -46,11 +51,18 @@ class ASBodyWidget extends GetView<SadiscoveryController> {
                       ),
                       child: Row(
                         children: [
-                          Image.asset("assets/images/sa_05.png", width: 40.w, fit: BoxFit.contain),
+                          Image.asset(
+                            "assets/images/sa_05.png",
+                            width: 40.w,
+                            fit: BoxFit.contain,
+                          ),
                           SizedBox(width: 16.w),
                           Text(
                             SATextData.seach,
-                            style: TextStyle(fontSize: 28.sp, color: Color(0xffD9D9D9)),
+                            style: TextStyle(
+                              fontSize: 28.sp,
+                              color: Color(0xffD9D9D9),
+                            ),
                           ),
                         ],
                       ),
@@ -64,7 +76,11 @@ class ASBodyWidget extends GetView<SadiscoveryController> {
                     SizedBox(width: 32.w),
                     InkWell(
                       onTap: () => controller.handleFilter(),
-                      child: Image.asset("assets/images/sa_02.png", width: 48.w, fit: BoxFit.contain),
+                      child: Image.asset(
+                        "assets/images/sa_02.png",
+                        width: 48.w,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ],
                 ),

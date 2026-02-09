@@ -50,13 +50,15 @@ class _SacallguideViewGetX extends GetView<SacallguideController> {
           FutureBuilder(
             future: controller.initializeVideoPlayerFuture,
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done && controller.videoPlayerController != null) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  controller.videoPlayerController != null) {
                 return Positioned.fill(
                   child: FittedBox(
                     fit: BoxFit.cover,
                     child: SizedBox(
                       width: controller.videoPlayerController?.value.size.width,
-                      height: controller.videoPlayerController?.value.size.height,
+                      height:
+                          controller.videoPlayerController?.value.size.height,
                       child: VideoPlayer(controller.videoPlayerController!),
                     ),
                   ),
@@ -68,7 +70,11 @@ class _SacallguideViewGetX extends GetView<SacallguideController> {
             },
           ),
           Positioned.fill(
-            child: Container(width: Get.width, height: Get.height, color: Colors.black38),
+            child: Container(
+              width: Get.width,
+              height: Get.height,
+              color: Colors.black38,
+            ),
           ),
           Positioned(
             top: 0,
@@ -120,18 +126,34 @@ class _SacallguideViewGetX extends GetView<SacallguideController> {
       children: [
         Container(
           padding: EdgeInsets.symmetric(vertical: 16.w, horizontal: 24.w),
-          decoration: BoxDecoration(color: const Color(0xff212121).withValues(alpha: 0.15), borderRadius: BorderRadius.circular(42.r)),
+          decoration: BoxDecoration(
+            color: const Color(0xff212121).withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(42.r),
+          ),
           child: Text(
             SATextData.invitesYouToVideoCall,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 32.sp, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 32.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SACallButton(icon: 'assets/images/call_hangup.png', bgColor: Color(0xffEB5C46), onTap: () => Get.back()),
-            if (controller.playState.value == PlayState.finish) SACallButton(icon: 'assets/images/call_answer.png', bgColor: SAAppColors.primaryColor, onTap: controller.phoneAccept),
+            SACallButton(
+              icon: 'assets/images/call_hangup.png',
+              bgColor: Color(0xffEB5C46),
+              onTap: () => Get.back(),
+            ),
+            if (controller.playState.value == PlayState.finish)
+              SACallButton(
+                icon: 'assets/images/call_answer.png',
+                bgColor: SAAppColors.primaryColor,
+                onTap: controller.phoneAccept,
+              ),
           ],
         ),
         const SizedBox(height: 32),
@@ -143,20 +165,37 @@ class _SacallguideViewGetX extends GetView<SacallguideController> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 40.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(32.r), topRight: Radius.circular(32.r)),
-        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [const Color(0xffEBFFCC), const Color(0xffFFFFFF)], stops: [0.0, 0.3]),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(32.r),
+          topRight: Radius.circular(32.r),
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [const Color(0xffEBFFCC), const Color(0xffFFFFFF)],
+          stops: [0.0, 0.3],
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             SATextData.activateBenefits,
-            style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontSize: 40.sp, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontFamily: "Montserrat",
+              color: Colors.black,
+              fontSize: 40.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           SizedBox(height: 24.w),
           Text(
             SATextData.getAiInteractiveVideoChat,
-            style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500, color: Colors.black),
+            style: TextStyle(
+              fontSize: 28.sp,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
           ),
           SizedBox(height: 56.w),
           ButtonGradientWidget(
@@ -167,7 +206,12 @@ class _SacallguideViewGetX extends GetView<SacallguideController> {
             child: Center(
               child: Text(
                 SATextData.unlockNow,
-                style: TextStyle(fontFamily: "Montserrat", color: Colors.black, fontWeight: FontWeight.w600, fontSize: 28.sp),
+                style: TextStyle(
+                  fontFamily: "Montserrat",
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 28.sp,
+                ),
               ),
             ),
           ),

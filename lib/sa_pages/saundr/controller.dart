@@ -14,6 +14,7 @@ class SaundrController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    SAlogEvent('chat_undress_show');
     if (Get.arguments != null) {
       role = Get.arguments;
     }

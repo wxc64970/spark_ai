@@ -10,10 +10,27 @@ class SAPricesModel {
   final int? generateVideo;
   final int? profileChange;
   final int? callAiCharacters;
+  final int? infoAiWritePrice;
+  final int? imgAiWritePrice;
+  final int? imgAvatarPrice;
 
-  SAPricesModel({this.sceneChange, this.textMessage, this.audioMessage, this.photoMessage, this.videoMessage, this.generateImage, this.generateVideo, this.profileChange, this.callAiCharacters});
+  SAPricesModel({
+    this.sceneChange,
+    this.textMessage,
+    this.audioMessage,
+    this.photoMessage,
+    this.videoMessage,
+    this.generateImage,
+    this.generateVideo,
+    this.profileChange,
+    this.callAiCharacters,
+    this.infoAiWritePrice,
+    this.imgAiWritePrice,
+    this.imgAvatarPrice,
+  });
 
-  factory SAPricesModel.fromRawJson(String str) => SAPricesModel.fromJson(json.decode(str));
+  factory SAPricesModel.fromRawJson(String str) =>
+      SAPricesModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -27,6 +44,9 @@ class SAPricesModel {
     generateVideo: json["bzplez"],
     profileChange: json["bjxoft"],
     callAiCharacters: json["aeduie"],
+    infoAiWritePrice: json["info_ai_write_price"],
+    imgAiWritePrice: json["img_ai_write_price"],
+    imgAvatarPrice: json["img_avatar_price"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -39,5 +59,8 @@ class SAPricesModel {
     "bzplez": generateVideo,
     "bjxoft": profileChange,
     "aeduie": callAiCharacters,
+    "info_ai_write_price": infoAiWritePrice,
+    "img_ai_write_price": imgAiWritePrice,
+    "img_avatar_price": imgAvatarPrice,
   };
 }

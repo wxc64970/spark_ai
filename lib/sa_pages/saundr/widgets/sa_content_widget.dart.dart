@@ -16,11 +16,15 @@ class SaContentWidget extends GetView<SaundrController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         appBar(),
-        SizedBox(height: 20.w),
+        SizedBox(height: 40.w),
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.w),
-            child: SAMakWidget(key: const ValueKey('page'), role: controller.role, type: SAAiViewType.role),
+            child: SAMakWidget(
+              key: const ValueKey('page'),
+              role: controller.role,
+              type: SAAiViewType.role,
+            ),
           ),
         ),
       ],
@@ -30,29 +34,82 @@ class SaContentWidget extends GetView<SaundrController> {
   Widget appBar() {
     return Padding(
       padding: EdgeInsets.only(left: 32.w, right: 32.w),
-      child: Stack(
-        children: [
-          SizedBox(
-            height: 64.w,
-            child: Center(
-              child: Text(
-                SATextData.createProfileMask,
-                style: TextStyle(fontSize: 32.sp, color: Colors.black, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: InkWell(
+      child: Obx(
+        () => Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
               onTap: () {
                 Get.back();
               },
-              child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
+              child: Image.asset(
+                "assets/images/sa_06.png",
+                width: 48.w,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
-        ],
+            InkWell(
+              onTap: () => Get.toNamed(
+                SARouteNames.countSku,
+                arguments: ConsumeFrom.aiphoto,
+              ),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 6.w, horizontal: 16.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40.r),
+                  color: SAAppColors.primaryColor,
+                ),
+                child: Row(
+                  spacing: 8.w,
+                  children: [
+                    Image.asset(
+                      "assets/images/sa_75.png",
+                      width: 32.w,
+                      fit: BoxFit.contain,
+                    ),
+                    Text(
+                      SA.login.imgCreationCount.value.toString(),
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Image.asset(
+                      "assets/images/sa_76.png",
+                      width: 32.w,
+                      fit: BoxFit.contain,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
+      // child: Stack(
+      //   children: [
+      //     SizedBox(
+      //       height: 64.w,
+      //       child: Center(
+      //         child: Text(
+      //           SATextData.createProfileMask,
+      //           style: TextStyle(fontSize: 32.sp, color: Colors.black, fontWeight: FontWeight.w600),
+      //         ),
+      //       ),
+      //     ),
+      //     Positioned(
+      //       left: 0,
+      //       top: 0,
+      //       child: InkWell(
+      //         onTap: () {
+      //           Get.back();
+      //         },
+      //         child: Image.asset("assets/images/sa_06.png", width: 48.w, fit: BoxFit.contain),
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
