@@ -386,7 +386,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
     return Text(
       '${(_progress * 100).toInt()}% Generating...',
       style: TextStyle(
-        color: Colors.white,
+        color: SAAppColors.primaryColor,
         fontSize: 28.sp,
         fontWeight: FontWeight.w500,
       ),

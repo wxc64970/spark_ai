@@ -127,22 +127,62 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                         )
                       : SizedBox.shrink(),
                   Positioned(
-                    right: 24.w,
+                    left: 24.w,
                     bottom: 56.w,
-                    child: ButtonGradientWidget(
-                      width: 280.w,
-                      height: 64,
-                      child: Center(
-                        child: Text(
-                          SATextData.tryIt,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 28.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
+                    width: 638.w,
+                    child: Row(
+                      spacing: 10.w,
+                      children: [
+                        Expanded(
+                          child: index != 0
+                              ? Column(
+                                  spacing: 2.w,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title ?? '',
+                                      style: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 26.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      item.text ?? '',
+                                      style: TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontSize: 18.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                        ),
+                        ButtonGradientWidget(
+                          width: 280.w,
+                          height: 64,
+                          child: Center(
+                            child: Text(
+                              SATextData.tryIt,
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontSize: 28.sp,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ],

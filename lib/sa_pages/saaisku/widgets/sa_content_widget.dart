@@ -119,7 +119,7 @@ class _SAContentWidgetState extends State<SAContentWidget>
                         color: Color(0xff808080),
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w500,
-                        height: 1.5,
+                        height: 1.6,
                       ),
                     ),
                   ),
