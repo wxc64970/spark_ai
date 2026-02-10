@@ -32,7 +32,12 @@ class SagemsController extends GetxController {
     SALoading.close();
 
     state.list.addAll(SAPayUtils().consumableList);
-    state.chooseProduct.value = state.list.firstWhereOrNull((e) => e.defaultSku == true)!;
+    if (SA.storage.isSAB) {
+      state.list.removeWhere((element) => element.displayHide == true);
+    }
+    state.chooseProduct.value = state.list.firstWhereOrNull(
+      (e) => e.defaultSku == true,
+    )!;
     update();
   }
 
@@ -42,7 +47,9 @@ class SagemsController extends GetxController {
   }
 
   help() {
-    final str = SA.storage.isSAB ? SATextData.textMessageCost : SATextData.textMessageCallCost;
+    final str = SA.storage.isSAB
+        ? SATextData.textMessageCost
+        : SATextData.textMessageCallCost;
     final processedStr = str.replaceAll('\\n', '\n');
     List<String> strList = processedStr.split('\n');
     SmartDialog.show(
@@ -59,7 +66,11 @@ class SagemsController extends GetxController {
                     onTap: () {
                       SmartDialog.dismiss(tag: "help_dialog");
                     },
-                    child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
+                    child: Image.asset(
+                      "assets/images/close.png",
+                      width: 48.w,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   Expanded(child: SizedBox.shrink()),
                 ],
@@ -72,7 +83,11 @@ class SagemsController extends GetxController {
                   gradient: LinearGradient(
                     begin: AlignmentGeometry.topCenter,
                     end: AlignmentGeometry.bottomCenter,
-                    colors: [Color(0xffEBFFCC), Color(0xffFFFFFF), Color(0xffFFFFFF)],
+                    colors: [
+                      Color(0xffEBFFCC),
+                      Color(0xffFFFFFF),
+                      Color(0xffFFFFFF),
+                    ],
                   ),
                   borderRadius: BorderRadius.circular(32.r),
                 ),
@@ -91,7 +106,11 @@ class SagemsController extends GetxController {
                           // padding: EdgeInsets.symmetric(horizontal: 40.w),
                           child: Row(
                             children: [
-                              Image.asset("assets/images/sa_20.png", width: 48.w, fit: BoxFit.contain),
+                              Image.asset(
+                                "assets/images/sa_20.png",
+                                width: 48.w,
+                                fit: BoxFit.contain,
+                              ),
                               SizedBox(width: 16.w),
                               Expanded(
                                 child: Text(

@@ -23,6 +23,9 @@ class SASkModel {
   /// 是否上架
   final bool? shelf;
 
+  //是否显示
+  final bool? displayHide;
+
   ///  @VL(value = "1", label = "Best Value"),
   /// @VL(value = "2", label = "Most Popular"),
   /// @VL(value = "3", label = "\uD83D\uDD25Save 75%")
@@ -30,9 +33,24 @@ class SASkModel {
 
   ProductDetails? productDetails;
 
-  SASkModel({this.id, this.sku, this.name, this.number, this.defaultSku, this.lifetime, this.skuType, this.createImg, this.createVideo, this.shelf, this.tag, this.orderNum});
+  SASkModel({
+    this.id,
+    this.sku,
+    this.name,
+    this.number,
+    this.defaultSku,
+    this.lifetime,
+    this.skuType,
+    this.createImg,
+    this.createVideo,
+    this.shelf,
+    this.tag,
+    this.orderNum,
+    this.displayHide,
+  });
 
-  factory SASkModel.fromRawJson(String str) => SASkModel.fromJson(json.decode(str));
+  factory SASkModel.fromRawJson(String str) =>
+      SASkModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -49,6 +67,7 @@ class SASkModel {
     shelf: json["shelf"],
     tag: json["tag"],
     orderNum: json["order_num"],
+    displayHide: json["display_hide"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -64,5 +83,6 @@ class SASkModel {
     "shelf": shelf,
     "tag": tag,
     "order_num": orderNum,
+    "display_hide": displayHide,
   };
 }
