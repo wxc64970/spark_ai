@@ -48,7 +48,7 @@ class SaaigeneratehistoryController extends GetxController
   final state = SaaigeneratehistoryState();
 
   int page = 1;
-  int size = 10;
+  int size = 15;
   final EasyRefreshController refreshCtr = EasyRefreshController(
     controlFinishRefresh: true,
     controlFinishLoad: true,
