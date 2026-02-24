@@ -24,6 +24,7 @@ class SaaigenerateresultController extends GetxController {
     super.onInit();
     state.reslut = Get.arguments;
     state.imageUrls = state.reslut?.imageList ?? [];
+    SA.login.fetchUserInfo();
   }
 
   bool _isDebouncedClick(DateTime? lastClickAt) {
