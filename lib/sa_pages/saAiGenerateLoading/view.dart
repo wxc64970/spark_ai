@@ -386,7 +386,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
     return Text(
       '${(_progress * 100).toInt()}% Generating...',
       style: TextStyle(
-        color: SAAppColors.primaryColor,
+        color: Colors.white,
         fontSize: 28.sp,
         fontWeight: FontWeight.w500,
       ),
@@ -411,7 +411,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
               child: Text(
                 'Pro uers will be prioritized~',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: SAAppColors.primaryColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
