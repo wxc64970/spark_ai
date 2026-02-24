@@ -14,6 +14,10 @@ class SaaigenerateresultController extends GetxController {
 
   final state = SaaigenerateresultState();
 
+  static const Duration _actionDebounceDuration = Duration(milliseconds: 800);
+  DateTime? _lastDownloadClickAt;
+  bool _isDownloading = false;
+
   /// 在 widget 内存中分配后立即调用。
   @override
   void onInit() {
@@ -22,7 +26,19 @@ class SaaigenerateresultController extends GetxController {
     state.imageUrls = state.reslut?.imageList ?? [];
   }
 
+  bool _isDebouncedClick(DateTime? lastClickAt) {
+    if (lastClickAt == null) {
+      return false;
+    }
+    return DateTime.now().difference(lastClickAt) < _actionDebounceDuration;
+  }
+
   Future<void> downloadImageToGallery() async {
+    if (_isDownloading || _isDebouncedClick(_lastDownloadClickAt)) {
+      return;
+    }
+    _lastDownloadClickAt = DateTime.now();
+    _isDownloading = true;
     try {
       // 检查权限
       final hasPermission = await _requestPermission();

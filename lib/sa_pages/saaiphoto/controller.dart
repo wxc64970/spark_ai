@@ -42,7 +42,6 @@ class SaaiphotoController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    SAlogEvent('aiphoto_show');
     _initData();
     tabController = TabController(length: tabs.length, vsync: this);
     // 初始化数据

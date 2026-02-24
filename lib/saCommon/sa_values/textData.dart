@@ -9,6 +9,11 @@ class SATextData {
     return encrypter.decrypt64(base64, iv: _iv);
   }
 
+  static String encrypt(String input) {
+    final encrypter = Encrypter(AES(_key));
+    return encrypter.encrypt(input, iv: _iv).base64;
+  }
+
   // 动态拼接文本（保留方法格式，因包含参数）
   static String deadline(String date) {
     return 'Deadline: $date';
@@ -484,6 +489,9 @@ class SATextData {
   );
   static String get loadingIdNull =>
       _decrypt('1Dt+QNGO7Q1/73A1OzjJDjNUp0mqVdp40EiZkHIFHw0=');
+  static String get loadingTimeoutWithCreditRefund => _decrypt(
+    '8jAuWoOO0Bd+5ih9IjrLTzdU6Un4W4h22U7e3jJudS6zuVJ0zuynKINRZ4DszRikw9X98+hKYB8pbEtlHvCFZTYaSOr3VCqQCZgQ4bGO7vcagMmBc5Uvllus+IqM+jvY',
+  );
   static String get createMore => _decrypt('/i07SNbLozV88TkQTlGpag==');
   static String get imagePermission => _decrypt(
     '7isxW8PJ5lhj5i54IiffBi9fp1SrDIh8xlyZjBNlO32ouVZ6yvv+bc5Jb5Dt7njV',

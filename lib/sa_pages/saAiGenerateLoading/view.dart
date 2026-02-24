@@ -27,6 +27,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
   GenAvatarResulut? _cachedResult;
   bool _hasResult = false;
   bool _isDisposed = false; // 页面是否已销毁的标志
+  bool _isTimeoutHandled = false;
   int _currentStep = 0;
   int? genImgId;
   @override
@@ -83,7 +84,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
       _startProgressAnimation();
       _timeoutTimer = Timer(_timeoutDuration, () {
         log.d('Generation timeout');
-        Get.back();
+        _handleGenerationTimeout();
       });
 
       await _checkGenerationResult(id);
@@ -106,9 +107,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
     if (retryCount >= _maxRetries) {
       _timeoutTimer?.cancel();
       log.d('Generation timeout after $_maxRetries attempts');
-      if (!_isDisposed) {
-        Get.back();
-      }
+      _handleGenerationTimeout();
       return;
     }
 
@@ -316,6 +315,19 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
       setState(() {
         _progress = progress;
       });
+    }
+  }
+
+  void _handleGenerationTimeout() {
+    if (_isDisposed || _isTimeoutHandled) {
+      return;
+    }
+    _isTimeoutHandled = true;
+    _timeoutTimer?.cancel();
+    _progressTimer?.cancel();
+    SAToast.show(SATextData.loadingTimeoutWithCreditRefund);
+    if (Get.currentRoute == SARouteNames.aiGenerateLoading) {
+      Get.back();
     }
   }
 

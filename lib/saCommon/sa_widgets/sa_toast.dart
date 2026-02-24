@@ -15,8 +15,14 @@ class SAToast {
       builder: (_) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
-          child: Text(msg, style: const TextStyle(color: Colors.white, fontSize: 14)),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            msg,
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+          ),
         );
       },
     );
