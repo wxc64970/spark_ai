@@ -27,7 +27,7 @@ class DescribeWidget extends GetView<SaaigenerateimageController> {
               fontWeight: FontWeight.w600,
             ),
             SaAiWriteWidget(
-              gemCost: SA.login.configPrice?.imgAvatarPrice ?? 40,
+              gemCost: SA.login.configPrice?.imgAiWritePrice ?? 40,
               onTap: controller.useAIWrite,
             ),
           ],

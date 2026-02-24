@@ -356,6 +356,8 @@ class SATextData {
       'Failed to generate image. Please try again.';
   static String get errorGenerate => 'An error occurred. Please try again.';
   static String get loadingIdNull => 'id is null, please try again';
+  static String get loadingTimeoutWithCreditRefund =>
+      "Oops! Something went wrong. Don't worry, your credits have been returned to your account.";
   static String get createMore => 'Create More';
   static String get imagePermission =>
       'Storage permission is required to save images';

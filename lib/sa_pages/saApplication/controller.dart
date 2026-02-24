@@ -5,7 +5,8 @@ import 'package:spark_ai/saCommon/index.dart';
 
 import 'index.dart';
 
-class SaapplicationController extends GetxController with WidgetsBindingObserver {
+class SaapplicationController extends GetxController
+    with WidgetsBindingObserver {
   SaapplicationController();
 
   final state = SaapplicationState();
@@ -25,6 +26,9 @@ class SaapplicationController extends GetxController with WidgetsBindingObserver
   void handleNavBarTap(int index) {
     // pageController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.ease);
     pageController.jumpToPage(index);
+    if (index == 2) {
+      SAlogEvent('aiphoto_show');
+    }
     SA.login.fetchUserInfo();
   }
 
@@ -56,19 +60,68 @@ class SaapplicationController extends GetxController with WidgetsBindingObserver
     WidgetsBinding.instance.addObserver(this);
 
     bottomTabs = [
-      {'icon': Image.asset("assets/tabbar/sa_chat_inactive.png", width: 52.w, fit: BoxFit.contain), 'activeIcon': Image.asset("assets/tabbar/sa_chat_active.png", width: 52.w, fit: BoxFit.contain)},
-      {'icon': Image.asset("assets/tabbar/sa_home_inactive.png", width: 52.w, fit: BoxFit.contain), 'activeIcon': Image.asset("assets/tabbar/sa_home_active.png", width: 52.w, fit: BoxFit.contain)},
+      {
+        'icon': Image.asset(
+          "assets/tabbar/sa_chat_inactive.png",
+          width: 52.w,
+          fit: BoxFit.contain,
+        ),
+        'activeIcon': Image.asset(
+          "assets/tabbar/sa_chat_active.png",
+          width: 52.w,
+          fit: BoxFit.contain,
+        ),
+      },
+      {
+        'icon': Image.asset(
+          "assets/tabbar/sa_home_inactive.png",
+          width: 52.w,
+          fit: BoxFit.contain,
+        ),
+        'activeIcon': Image.asset(
+          "assets/tabbar/sa_home_active.png",
+          width: 52.w,
+          fit: BoxFit.contain,
+        ),
+      },
       if (SA.storage.isSAB)
         {
-          'icon': Image.asset("assets/tabbar/sa_aiphoto_inactive.png", width: 52.w, fit: BoxFit.contain),
-          'activeIcon': Image.asset("assets/tabbar/sa_aiphoto_active.png", width: 52.w, fit: BoxFit.contain),
+          'icon': Image.asset(
+            "assets/tabbar/sa_aiphoto_inactive.png",
+            width: 52.w,
+            fit: BoxFit.contain,
+          ),
+          'activeIcon': Image.asset(
+            "assets/tabbar/sa_aiphoto_active.png",
+            width: 52.w,
+            fit: BoxFit.contain,
+          ),
         },
       if (SA.storage.isSAB)
         {
-          'icon': Image.asset("assets/tabbar/sa_moments_inactive.png", width: 52.w, fit: BoxFit.contain),
-          'activeIcon': Image.asset("assets/tabbar/sa_moments_active.png", width: 52.w, fit: BoxFit.contain),
+          'icon': Image.asset(
+            "assets/tabbar/sa_moments_inactive.png",
+            width: 52.w,
+            fit: BoxFit.contain,
+          ),
+          'activeIcon': Image.asset(
+            "assets/tabbar/sa_moments_active.png",
+            width: 52.w,
+            fit: BoxFit.contain,
+          ),
         },
-      {'icon': Image.asset("assets/tabbar/sa_me_inactive.png", width: 52.w, fit: BoxFit.contain), 'activeIcon': Image.asset("assets/tabbar/sa_me_active.png", width: 52.w, fit: BoxFit.contain)},
+      {
+        'icon': Image.asset(
+          "assets/tabbar/sa_me_inactive.png",
+          width: 52.w,
+          fit: BoxFit.contain,
+        ),
+        'activeIcon': Image.asset(
+          "assets/tabbar/sa_me_active.png",
+          width: 52.w,
+          fit: BoxFit.contain,
+        ),
+      },
     ];
     if (Get.arguments != null) {
       state.page = Get.arguments['page'];

@@ -70,6 +70,11 @@ class SaaigeneratehistoryController extends GetxController
 
   //选中视频/图片 ID 数组
   final selectedIDs = <int>[].obs;
+  static const Duration _actionDebounceDuration = Duration(milliseconds: 800);
+  DateTime? _lastDownloadClickAt;
+  DateTime? _lastDeleteClickAt;
+  bool _isDownloading = false;
+  bool _isDeleting = false;
 
   // 当前选中索引
   final currentIndex = 0.obs;
@@ -263,27 +268,41 @@ class SaaigeneratehistoryController extends GetxController
     selectedIDs.clear();
   }
 
+  bool _isDebouncedClick(DateTime? lastClickAt) {
+    if (lastClickAt == null) {
+      return false;
+    }
+    return DateTime.now().difference(lastClickAt) < _actionDebounceDuration;
+  }
+
   //下载历史记录
   void downloadSelected() async {
-    if (selectedIDs.isEmpty) {
-      SAToast.show(SATextData.selectItem);
+    if (_isDownloading || _isDebouncedClick(_lastDownloadClickAt)) {
       return;
     }
-    await SA.login.fetchUserInfo();
-    if (!SA.login.vipStatus.value) {
-      Get.toNamed(SARouteNames.vip, arguments: VipFrom.creations);
-      return;
-    }
+    _lastDownloadClickAt = DateTime.now();
+    _isDownloading = true;
 
     try {
-      // 检查权限
-      final hasPermission = await _requestPermission();
-      if (!hasPermission) {
-        SAToast.show(SATextData.imagePermission);
+      if (selectedIDs.isEmpty) {
+        SAToast.toastDebounce(SATextData.selectItem);
+        return;
+      }
+      SALoading.show();
+      await SA.login.fetchUserInfo();
+      if (!SA.login.vipStatus.value) {
+        SALoading.close();
+        Get.toNamed(SARouteNames.vip, arguments: VipFrom.creations);
         return;
       }
 
-      SALoading.show();
+      // 检查权限
+      final hasPermission = await _requestPermission();
+      if (!hasPermission) {
+        SALoading.close();
+        SAToast.show(SATextData.imagePermission);
+        return;
+      }
 
       SAlogEvent('creations_save_click');
 
@@ -359,6 +378,8 @@ class SaaigeneratehistoryController extends GetxController
       SALoading.close();
       log.e('Error: ${e.toString()}');
       SAToast.show('Error: ${e.toString()}');
+    } finally {
+      _isDownloading = false;
     }
   }
 
@@ -396,20 +417,30 @@ class SaaigeneratehistoryController extends GetxController
 
   //删除历史记录
   void deleteHistory() async {
-    if (selectedIDs.isEmpty) {
-      SAToast.show(SATextData.selectItem);
+    if (_isDeleting || _isDebouncedClick(_lastDeleteClickAt)) {
       return;
     }
+    _lastDeleteClickAt = DateTime.now();
+    _isDeleting = true;
 
-    var res = await ImageAPI.deleteAiPhotoHistory(selectedIDs);
-    if (res) {
-      selectedIDs.clear();
-      isEdit.value = false;
-      // 只刷新当前 tab 的数据
-      refreshCurrentPage();
-      SAToast.show('Deleted successfully');
-    } else {
-      SAToast.show('Delete failed');
+    try {
+      if (selectedIDs.isEmpty) {
+        SAToast.toastDebounce(SATextData.selectItem);
+        return;
+      }
+
+      var res = await ImageAPI.deleteAiPhotoHistory(selectedIDs);
+      if (res) {
+        selectedIDs.clear();
+        isEdit.value = false;
+        // 只刷新当前 tab 的数据
+        refreshCurrentPage();
+        SAToast.show('Deleted successfully');
+      } else {
+        SAToast.show('Delete failed');
+      }
+    } finally {
+      _isDeleting = false;
     }
   }
 
