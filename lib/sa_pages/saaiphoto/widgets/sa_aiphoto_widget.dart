@@ -45,6 +45,7 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
     _controller = VideoPlayerController.file(File(_localVideoPath!));
     _controller?.initialize().then((_) {
       _controller?.setLooping(true);
+      _controller?.setVolume(0);
       _controller?.play();
       setState(() {});
     });
