@@ -1,4 +1,3 @@
-import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spark_ai/saCommon/index.dart';
@@ -39,11 +38,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
 
   String? imageUrl;
 
-  late final Throttle<void> _throttler = Throttle<void>(
-    const Duration(seconds: 1),
-    initialValue: null,
-    checkEquality: false,
-  );
+  late SimpleThrottler throttler = SimpleThrottler();
 
   bool get isVideo => widget.type == SAAiViewType.video;
 
@@ -52,10 +47,6 @@ class _SAMakWidgetState extends State<SAMakWidget> {
     super.initState();
 
     role = widget.role;
-    _throttler.values.listen((_) {
-      // 这里的代码会在节流时间窗内被执行一次。
-      onTapGenDebounce();
-    });
 
     fetchStyles();
     if (widget.role != null) {
@@ -121,15 +112,15 @@ class _SAMakWidgetState extends State<SAMakWidget> {
   }
 
   void onTapGen() async {
+    throttler.run(action: onTapGenDebounce);
+  }
+
+  void onTapGenDebounce() async {
     if (isLoading) return;
     SAlogEvent('c_un_generate');
     SALoading.show();
     await SA.login.fetchUserInfo();
     SALoading.close();
-    _throttler.value = null;
-  }
-
-  void onTapGenDebounce() {
     if (widget.type == SAAiViewType.video) {
       genVideo();
     } else {
@@ -354,7 +345,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
 
   @override
   void dispose() {
-    _throttler.cancel();
+    throttler.dispose();
     super.dispose();
   }
 
