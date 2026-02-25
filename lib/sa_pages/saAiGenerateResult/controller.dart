@@ -68,6 +68,8 @@ class SaaigenerateresultController extends GetxController {
     } catch (e) {
       log.e('Error: ${e.toString()}');
       SAToast.show('Error: ${e.toString()}');
+    } finally {
+      _isDownloading = false;
     }
   }
 
