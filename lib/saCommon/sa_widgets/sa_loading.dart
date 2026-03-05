@@ -4,7 +4,7 @@ import 'package:spark_ai/saCommon/index.dart';
 
 class SALoading {
   static Future show() async {
-    await SmartDialog.showLoading(msg: "加载中...");
+    await SmartDialog.showLoading(msg: "loading...");
   }
 
   static void showText(String text) {
