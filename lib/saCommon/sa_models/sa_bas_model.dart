@@ -8,17 +8,33 @@ class SABaseModel<T> {
 
   SABaseModel({this.success, this.code, this.message, this.data});
 
-  factory SABaseModel.fromRawJson(String str, T Function(dynamic json)? fromJsonT) {
+  factory SABaseModel.fromRawJson(
+    String str,
+    T Function(dynamic json)? fromJsonT,
+  ) {
     return SABaseModel.fromJson(json.decode(str), fromJsonT);
   }
 
   String toRawJson() => json.encode(toJson());
 
-  factory SABaseModel.fromJson(Map<String, dynamic> json, T Function(dynamic json)? fromJsonT) {
-    return SABaseModel(success: json["success"], code: json["code"], message: json["cnainu"], data: _parseData<T>(json["data"], fromJsonT));
+  factory SABaseModel.fromJson(
+    Map<String, dynamic> json,
+    T Function(dynamic json)? fromJsonT,
+  ) {
+    return SABaseModel(
+      success: json["success"],
+      code: json["code"],
+      message: json["message"],
+      data: _parseData<T>(json["data"], fromJsonT),
+    );
   }
 
-  Map<String, dynamic> toJson() => {"success": success, "code": code, "cnainu": message, "data": data};
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "code": code,
+    "message": message,
+    "data": data,
+  };
 
   static T? _parseData<T>(Object? json, T Function(dynamic json)? fromJsonT) {
     if (json == null) {
