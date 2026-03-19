@@ -35,10 +35,14 @@ extension HomeListCategoryExtension on HomeListCategroy {
   int get index => HomeListCategroy.values.indexOf(this);
 }
 
-class SadiscoveryController extends GetxController with GetSingleTickerProviderStateMixin {
+class SadiscoveryController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   SadiscoveryController();
 
-  final EasyRefreshController refreshCtr = EasyRefreshController(controlFinishRefresh: true, controlFinishLoad: true);
+  final EasyRefreshController refreshCtr = EasyRefreshController(
+    controlFinishRefresh: true,
+    controlFinishLoad: true,
+  );
 
   var categroyList = <HomeListCategroy>[].obs;
   var categroy = HomeListCategroy.all.obs;
@@ -101,7 +105,9 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
 
   Future<void> _loadAd() async {
     try {
-      final success = await MyAd().loadNativeAd(placement: PlacementType.homelist);
+      final success = await MyAd().loadNativeAd(
+        placement: PlacementType.homelist,
+      );
       if (success) {
         nativeAd = MyAd().nativeAd;
         update();
@@ -132,7 +138,11 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
         final ids = tags.map((e) => e.id!).toList();
         tagIds = ids;
         SALoading.show();
-        await Future.wait(categroyList.asMap().entries.map((entry) async => await onRefresh(entry.key)));
+        await Future.wait(
+          categroyList.asMap().entries.map(
+            (entry) async => await onRefresh(entry.key),
+          ),
+        );
         SALoading.close();
       }
     });
@@ -141,7 +151,9 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
       try {
         final e = even.$1;
         final id = even.$2;
-        final index = list[tabController.index].indexWhere((element) => element.id == id);
+        final index = list[tabController.index].indexWhere(
+          (element) => element.id == id,
+        );
         if (index != -1) {
           list[tabController.index][index].collect = e == FollowEvent.follow;
           list[tabController.index].refresh();
@@ -213,7 +225,9 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
 
       await Future.delayed(const Duration(milliseconds: 50));
       refreshCtr.finishRefresh();
-      refreshCtr.finishLoad(isNoMoreData[index] ? IndicatorResult.noMore : IndicatorResult.none);
+      refreshCtr.finishLoad(
+        isNoMoreData[index] ? IndicatorResult.noMore : IndicatorResult.none,
+      );
     } finally {
       if (index == 0) {
         SALoading.close();
@@ -239,7 +253,9 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
       await _fetchData(index);
 
       await Future.delayed(const Duration(milliseconds: 50));
-      refreshCtr.finishLoad(isNoMoreData[index] ? IndicatorResult.noMore : IndicatorResult.none);
+      refreshCtr.finishLoad(
+        isNoMoreData[index] ? IndicatorResult.noMore : IndicatorResult.none,
+      );
     } catch (e) {
       page--;
       refreshCtr.finishLoad(IndicatorResult.fail);
@@ -319,13 +335,21 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
       SALoading.close();
     }
     selectTags.assignAll(cjSelectTags);
-    Get.bottomSheet(SAFilterWidget(), isScrollControlled: true, enableDrag: false, isDismissible: false);
+    Get.bottomSheet(
+      SAFilterWidget(),
+      isScrollControlled: true,
+      enableDrag: false,
+      isDismissible: false,
+    );
   }
 
   handleFilterSubmit() {
     Get.back();
     cjSelectTags.assignAll(selectTags);
-    filterEvent.value = (Set<TagModel>.from(cjSelectTags), DateTime.now().millisecondsSinceEpoch);
+    filterEvent.value = (
+      Set<TagModel>.from(cjSelectTags),
+      DateTime.now().millisecondsSinceEpoch,
+    );
     filterEvent.refresh();
     update();
   }
@@ -349,7 +373,9 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
     final isAfterSecondDay =
         now.year > installTime.year ||
         (now.year == installTime.year && now.month > installTime.month) ||
-        (now.year == installTime.year && now.month == installTime.month && now.day > installTime.day);
+        (now.year == installTime.year &&
+            now.month == installTime.month &&
+            now.day > installTime.day);
 
     if (!isAfterSecondDay) {
       return false;
@@ -359,10 +385,14 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
     await SA.storage.setLastRewardDate(0);
     final lastRewardDateMillis = SA.storage.lastRewardDate;
     if (lastRewardDateMillis > 0) {
-      final lastRewardDate = DateTime.fromMillisecondsSinceEpoch(lastRewardDateMillis);
+      final lastRewardDate = DateTime.fromMillisecondsSinceEpoch(
+        lastRewardDateMillis,
+      );
 
       // 如果今天已经发过奖励，则不弹窗
-      if (now.year == lastRewardDate.year && now.month == lastRewardDate.month && now.day == lastRewardDate.day) {
+      if (now.year == lastRewardDate.year &&
+          now.month == lastRewardDate.month &&
+          now.day == lastRewardDate.day) {
         return false;
       }
     }
@@ -378,7 +408,10 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
   }
 
   void jumpVip(bool isFirstLaunch) async {
-    Get.toNamed(SARouteNames.vip, arguments: SA.storage.isRestart ? VipFrom.relaunch : VipFrom.launch);
+    Get.toNamed(
+      SARouteNames.vip,
+      arguments: SA.storage.isRestart ? VipFrom.relaunch : VipFrom.launch,
+    );
 
     var event = SA.storage.isSAB ? 't_vipb' : 't_vipa';
 
@@ -458,7 +491,11 @@ class SadiscoveryController extends GetxController with GetSingleTickerProviderS
 
         list[tabIndex].refresh();
       }
-      followEvent.value = (FollowEvent.unfollow, chatId, DateTime.now().millisecondsSinceEpoch);
+      followEvent.value = (
+        FollowEvent.unfollow,
+        chatId,
+        DateTime.now().millisecondsSinceEpoch,
+      );
     } else {
       final res = await Api.collectRole(chatId);
       if (res) {

@@ -19,6 +19,7 @@ class SASkModel {
   final int? skuType;
   final int? createImg;
   final int? createVideo;
+  final int? star;
 
   /// 是否上架
   final bool? shelf;
@@ -47,6 +48,7 @@ class SASkModel {
     this.tag,
     this.orderNum,
     this.displayHide,
+    this.star,
   });
 
   factory SASkModel.fromRawJson(String str) =>
@@ -68,6 +70,7 @@ class SASkModel {
     tag: json["tag"],
     orderNum: json["order_num"],
     displayHide: json["display_hide"],
+    star: json["star"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -84,5 +87,6 @@ class SASkModel {
     "tag": tag,
     "order_num": orderNum,
     "display_hide": displayHide,
+    "star": star,
   };
 }

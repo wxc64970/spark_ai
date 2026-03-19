@@ -934,4 +934,55 @@ class Api {
       return null;
     }
   }
+
+  static Future<StyleConfig?> getStyleConfig() async {
+    try {
+      var res = await api.post(SAApiUrl.getStyleConfigUrl);
+      final result = SABaseModel<StyleConfig>.fromJson(
+        res.data,
+        (json) => StyleConfig.fromJson(json),
+      );
+      return result.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<String?> getAIWrite() async {
+    try {
+      var res = await api.post(SAApiUrl.aiWriteAUrl, data: {});
+      final result = SABaseModel.fromJson(res.data, null);
+      return result.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<int?> avatarAiGenerateStar(Map<String, dynamic> params) async {
+    try {
+      var res = await api.post(SAApiUrl.generateAvatarUrlStar, data: params);
+      final result = SABaseModel.fromJson(res.data, null);
+      final data = result.data;
+      if (data != null && data is int) {
+        return data;
+      }
+      return null;
+    } catch (e) {
+      log.e(e);
+      return null;
+    }
+  }
+
+  static Future<PriceConfig?> getPriceConfigs() async {
+    try {
+      var result = await api.get(SAApiUrl.getPriceConfigs);
+      var res = SABaseModel.fromJson(
+        result.data,
+        (json) => PriceConfig.fromJson(json),
+      );
+      return res.data;
+    } catch (e) {
+      return null;
+    }
+  }
 }

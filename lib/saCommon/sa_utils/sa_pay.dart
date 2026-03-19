@@ -453,6 +453,13 @@ class SAPayUtils {
       path = 'gems';
       from = _consFrom?.name ?? '';
       SAlogEvent('suc_gems');
+      if (_consFrom == ConsumeFrom.aiphoto ||
+          _consFrom == ConsumeFrom.undr ||
+          _consFrom == ConsumeFrom.creaimg ||
+          _consFrom == ConsumeFrom.creavideo ||
+          _consFrom == ConsumeFrom.img2v) {
+        SAlogEvent('buycoin_sku_success');
+      }
       final name = 'suc_${path}_${id}_$from';
       log.d('[iap] report: $name');
       SAlogEvent(name);

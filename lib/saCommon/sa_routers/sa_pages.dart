@@ -89,6 +89,16 @@ class RoutePages {
       binding: SaaigeneratehistoryBinding(),
     ),
     GetPage(
+      name: SARouteNames.chooseVideo,
+      page: () => const SachoosevideoPage(),
+      binding: SachoosevideoBinding(),
+    ),
+    GetPage(
+      name: SARouteNames.textToImage,
+      page: () => const SatexttoimagePage(),
+      binding: SatexttoimageBinding(),
+    ),
+    GetPage(
       name: SARouteNames.vip,
       page: () => const PopScope(
         canPop: false, // 禁止返回键

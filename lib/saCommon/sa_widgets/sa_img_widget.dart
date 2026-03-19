@@ -3,7 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SAImageWidget extends StatelessWidget {
-  const SAImageWidget({super.key, this.url, this.width, this.height, this.shape, this.border, this.borderRadius, this.color, this.cacheWidth, this.cacheHeight});
+  const SAImageWidget({
+    super.key,
+    this.url,
+    this.width,
+    this.height,
+    this.shape,
+    this.border,
+    this.borderRadius,
+    this.color,
+    this.cacheWidth,
+    this.cacheHeight,
+    this.alignment,
+  });
 
   final String? url;
   final double? width;
@@ -14,6 +26,7 @@ class SAImageWidget extends StatelessWidget {
   final Color? color;
   final int? cacheWidth;
   final int? cacheHeight;
+  final Alignment? alignment;
 
   String get urlSuffix => '?x-oss-process=image/resize,p_50';
 
@@ -24,11 +37,14 @@ class SAImageWidget extends StatelessWidget {
     }
 
     var imageUrl = url!;
-    if ((cacheHeight != null || cacheWidth != null) && !imageUrl.contains('.gif') && !imageUrl.contains('.webp')) {
+    if ((cacheHeight != null || cacheWidth != null) &&
+        !imageUrl.contains('.gif') &&
+        !imageUrl.contains('.webp')) {
       imageUrl += urlSuffix;
     }
 
     Widget imageWidget = CachedNetworkImage(
+      alignment: alignment ?? Alignment.center,
       imageUrl: imageUrl,
       width: width,
       height: height,
@@ -44,11 +60,23 @@ class SAImageWidget extends StatelessWidget {
       imageWidget = Container(
         width: width,
         height: height,
-        decoration: BoxDecoration(shape: shape ?? BoxShape.rectangle, border: border, borderRadius: shape == BoxShape.circle ? null : borderRadius),
-        child: ClipRRect(borderRadius: shape == BoxShape.circle ? BorderRadius.circular((width ?? height ?? 0) / 2) : (borderRadius ?? BorderRadius.zero), child: imageWidget),
+        decoration: BoxDecoration(
+          shape: shape ?? BoxShape.rectangle,
+          border: border,
+          borderRadius: shape == BoxShape.circle ? null : borderRadius,
+        ),
+        child: ClipRRect(
+          borderRadius: shape == BoxShape.circle
+              ? BorderRadius.circular((width ?? height ?? 0) / 2)
+              : (borderRadius ?? BorderRadius.zero),
+          child: imageWidget,
+        ),
       );
     } else {
-      imageWidget = ClipRRect(borderRadius: borderRadius ?? BorderRadius.zero, child: imageWidget);
+      imageWidget = ClipRRect(
+        borderRadius: borderRadius ?? BorderRadius.zero,
+        child: imageWidget,
+      );
     }
 
     return imageWidget;
@@ -59,9 +87,17 @@ class SAImageWidget extends StatelessWidget {
       width: width,
       height: height,
       alignment: Alignment.center,
-      decoration: BoxDecoration(color: const Color.fromARGB(255, 200, 200, 200), borderRadius: borderRadius, border: border),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 200, 200, 200),
+        borderRadius: borderRadius,
+        border: border,
+      ),
       // child: const Icon(Icons.image_rounded, size: 26, color: Color(0xFF808080)),
-      child: Image.asset("assets/images/sa_70.png", width: 52.w, fit: BoxFit.contain),
+      child: Image.asset(
+        "assets/images/sa_70.png",
+        width: 52.w,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }

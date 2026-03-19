@@ -32,4 +32,7 @@ class MessageState {
   SAMessageModel? tmpSendMsg;
 
   bool isRecieving = false; // 正在接收消息
+  RxBool isUndress = false.obs;
+  final selectedStyle = ''.obs;
+  final genType = ''.obs;
 }

@@ -14,6 +14,8 @@ class MessageController extends GetxController {
 
   late AutoScrollController autoController;
   String get languageCode => SA.login.sessionLang.value?.value ?? 'en';
+  int maxRetryCount = 20;
+  bool isDispose = false;
 
   /// 在 widget 内存中分配后立即调用。
   @override
@@ -31,7 +33,11 @@ class MessageController extends GetxController {
 
     loadChatLevel();
 
-    autoController = AutoScrollController(viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, Get.mediaQuery.padding.bottom), axis: Axis.vertical);
+    autoController = AutoScrollController(
+      viewportBoundaryGetter: () =>
+          Rect.fromLTRB(0, 0, 0, Get.mediaQuery.padding.bottom),
+      axis: Axis.vertical,
+    );
 
     SA.login.loadPriceConfig();
     SA.login.fetchUserInfo();
@@ -40,9 +46,19 @@ class MessageController extends GetxController {
   void setupTease() {
     state.inputTags.clear();
     if (SA.storage.isSAB) {
-      state.inputTags.add({'id': 0, 'name': SATextData.tease, 'color': 0xFFFFFFFFF, "list": SATextData.inputTagsTest});
+      state.inputTags.add({
+        'id': 0,
+        'name': SATextData.tease,
+        'color': 0xFFFFFFFFF,
+        "list": SATextData.inputTagsTest,
+      });
     }
-    state.inputTags.add({'id': 3, 'name': SATextData.mask, 'color': 0xFFFFFFFFF, 'list': []});
+    state.inputTags.add({
+      'id': 3,
+      'name': SATextData.mask,
+      'color': 0xFFFFFFFFF,
+      'list': [],
+    });
     if (SA.storage.isSAB) {
       final count = SA.storage.sendMsgCount;
       final showClothingCount = SAThirdPartyService.showClothingCount;
@@ -74,7 +90,8 @@ class MessageController extends GetxController {
       if (msg.id != null && ids.contains(msg.id)) {
         msg.showTranslate = true;
       }
-      if (SA.login.currentUser?.autoTranslate == true && msg.translateAnswer != null) {
+      if (SA.login.currentUser?.autoTranslate == true &&
+          msg.translateAnswer != null) {
         msg.showTranslate = true;
       }
     }
@@ -135,7 +152,12 @@ class MessageController extends GetxController {
       state.chatLevelConfigs = configs.isEmpty
           ? state.chatLevelList
           : configs.map((c) {
-              return {'icon': c.title ?? '👋', 'level': c.level ?? 1, 'text': 'Level ${c.level} Reward', 'gems': c.reward ?? 0};
+              return {
+                'icon': c.title ?? '👋',
+                'level': c.level ?? 1,
+                'text': 'Level ${c.level} Reward',
+                'gems': c.reward ?? 0,
+              };
             }).toList();
 
       final roleId = state.role.id;
@@ -209,7 +231,14 @@ class MessageController extends GetxController {
     return true;
   }
 
-  Future<void> sendMsgRequest({required String path, String? text, bool? isLoading, String? msgId}) async {
+  Future<void> sendMsgRequest({
+    required String path,
+    String? text,
+    bool? isLoading,
+    String? msgId,
+    String? styleName,
+    String? genType,
+  }) async {
     try {
       final charId = state.role.id;
       final conversationId = state.sessionId ?? 0;
@@ -219,12 +248,24 @@ class MessageController extends GetxController {
         return;
       }
 
-      var body = {'character_id': charId, 'conversation_id': conversationId, 'user_id': uid, 'auto_translate': true, 'target_language': languageCode};
+      var body = {
+        'character_id': charId,
+        'conversation_id': conversationId,
+        'user_id': uid,
+        'auto_translate': true,
+        'target_language': languageCode,
+      };
       if (text != null) {
         body['message'] = text;
       }
       if (msgId != null) {
         body['msg_id'] = msgId;
+      }
+      if (styleName != null) {
+        body['style_name'] = styleName;
+      }
+      if (genType != null) {
+        body['gen_type'] = genType;
       }
 
       state.isRecieving = true;
@@ -255,7 +296,10 @@ class MessageController extends GetxController {
   void progressSSEError() {
     state.tmpSendMsg?.onAnswer = false;
 
-    SAMessageModel msg = SAMessageModel(id: DateTime.now().millisecondsSinceEpoch.toString(), answer: SATextData.someErrorTryAgain);
+    SAMessageModel msg = SAMessageModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      answer: SATextData.someErrorTryAgain,
+    );
     msg.source = MessageSource.error;
     msg.answer = SATextData.someErrorTryAgain;
     state.list.add(msg);
@@ -265,6 +309,8 @@ class MessageController extends GetxController {
     if (msg.conversationId != state.sessionId) {
       return;
     }
+
+    queryStatusApi();
     if (msg.textLock == MsgLockLevel.private.value) {
       msg.typewriterAnimated = SA.login.vipStatus.value;
     } else {
@@ -272,7 +318,9 @@ class MessageController extends GetxController {
     }
 
     // 删除最后一条tmpSendMsg
-    if (state.list.isNotEmpty && state.list.last.id == state.tmpSendId && msg.question == state.list.last.question) {
+    if (state.list.isNotEmpty &&
+        state.list.last.id == state.tmpSendId &&
+        msg.question == state.list.last.question) {
       state.list.removeLast();
     }
 
@@ -287,6 +335,65 @@ class MessageController extends GetxController {
     await SA.login.fetchUserInfo();
 
     state.tmpSendMsg = null;
+  }
+
+  Future<void> queryStatusApi() async {
+    int currentCount = 0;
+
+    // 异步循环：效果=递归，无栈溢出
+    while (!isDispose && currentCount < maxRetryCount) {
+      currentCount++;
+      debugPrint('第 $currentCount 次请求接口');
+      try {
+        // 调用接口
+        var res = await Api.messageList(1, 10000, state.sessionId!) ?? [];
+        state.list.addAll(res);
+
+        final isSuccess = checkMessageList(res);
+        if (isSuccess) {
+          print("✅ 全部数据合规，停止轮询");
+          break; // 结束递归/轮询
+        } else {
+          print("❌ 数据不全，2秒后重试");
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      } catch (e) {
+        // 接口报错：停止/重试
+        debugPrint('接口请求失败：$e');
+        break;
+      }
+    }
+
+    // 超过最大次数，自动停止
+    if (currentCount >= maxRetryCount) {
+      debugPrint('🔴 达到最大请求次数，自动停止');
+    }
+  }
+
+  bool checkMessageList(List<SAMessageModel> res) {
+    // 只要有任意一个元素不合规 → 返回false；全部合规 → 返回true
+    return !res.any(
+      (msg) =>
+          (msg.source == MessageSource.i2i && msg.imgUrl == null) ||
+          (msg.source == MessageSource.i2v && msg.videoUrl == null),
+    );
+    // for (var i = 0; i < res.length; i++) {
+    //   final msg = res[i];
+    //   // 打印核心字段，看真实值
+    //   debugPrint(
+    //     "第$i条 → src: ${msg.src}, imgUrl: ${msg.imgUrl}, videoUrl: ${msg.videoUrl}",
+    //   );
+
+    //   // 你的判断条件
+    //   if ((msg.src == MessageSource.i2i && msg.imgUrl == null) ||
+    //       (msg.src == MessageSource.i2v && msg.videoUrl == null)) {
+    //     debugPrint("❌ 找到不合规数据，直接返回 false");
+    //     return false;
+    //   }
+    // }
+
+    // debugPrint("✅ 所有数据合规，返回 true");
+    // return true;
   }
 
   void _checkChatLevel(SAMessageModel msg) async {
@@ -329,7 +436,10 @@ class MessageController extends GetxController {
           clickMaskDismiss: false,
           onConfirm: () {
             DialogWidget.dismiss();
-            Get.toNamed(SARouteNames.undr, arguments: state.role);
+            // Get.toNamed(SARouteNames.undr, arguments: state.role);
+            SAlogEvent('chat_undress_show');
+            state.isUndress.value = true;
+            SA.login.fetchUserInfo();
           },
           onCancel: () {
             DialogWidget.dismiss();
@@ -425,7 +535,10 @@ class MessageController extends GetxController {
     if (content == null || content.isEmpty) return;
 
     // 定义更新消息的方法
-    Future<void> updateMessage({required bool showTranslate, String? translate}) async {
+    Future<void> updateMessage({
+      required bool showTranslate,
+      String? translate,
+    }) async {
       msg.showTranslate = showTranslate;
 
       if (id != null) {
@@ -541,7 +654,9 @@ class MessageController extends GetxController {
     var data = await Api.editMsg(id: id, text: content);
     if (data != null) {
       // 查找上一个 sendtext 消息  如果存在question一样的，将它删除
-      SAMessageModel? pre = state.list.firstWhereOrNull((element) => element.question == data.question);
+      SAMessageModel? pre = state.list.firstWhereOrNull(
+        (element) => element.question == data.question,
+      );
       state.list.remove(pre);
       // 替换就消息
       state.list.removeWhere((element) => element.id == id);
@@ -562,7 +677,11 @@ class MessageController extends GetxController {
         return;
       }
 
-      bool res = await Api.editScene(convId: conversationId, scene: scene, roleId: charId);
+      bool res = await Api.editScene(
+        convId: conversationId,
+        scene: scene,
+        roleId: charId,
+      );
       if (res) {
         state.session.scene = scene;
         state.list.clear();
@@ -608,7 +727,10 @@ class MessageController extends GetxController {
   Future<bool> changeMask(int maskId) async {
     SALoading.show();
     final conversationId = state.session.id;
-    final res = await Api.changeMask(conversationId: conversationId, maskId: maskId);
+    final res = await Api.changeMask(
+      conversationId: conversationId,
+      maskId: maskId,
+    );
     SALoading.close();
     if (res) {
       state.session.profileId = maskId;
@@ -641,6 +763,26 @@ class MessageController extends GetxController {
     addTemSendMsg(text);
 
     await sendMsgRequest(path: SAApiUrl.sendMsg, text: text);
+  }
+
+  Future<void> sendMsgUndress({
+    String? text,
+    String? styleName,
+    String? genType,
+  }) async {
+    if (text != null) {
+      bool canSend = await canSendMsg(text);
+      if (!canSend) {
+        return;
+      }
+      addTemSendMsg(text);
+    }
+    await sendMsgRequest(
+      path: SAApiUrl.sendMsg,
+      text: text,
+      styleName: styleName,
+      genType: genType,
+    );
   }
 
   Future<bool> resetConv() async {
@@ -679,7 +821,14 @@ class MessageController extends GetxController {
     }
 
     // 临时发送显示的消息
-    final msg = SAMessageModel(id: state.tmpSendId, question: text, userId: SA.login.currentUser?.id, conversationId: conversationId, characterId: charId, onAnswer: true);
+    final msg = SAMessageModel(
+      id: state.tmpSendId,
+      question: text,
+      userId: SA.login.currentUser?.id,
+      conversationId: conversationId,
+      characterId: charId,
+      onAnswer: true,
+    );
     msg.source = MessageSource.sendText;
     state.list.add(msg);
     state.tmpSendMsg = msg;
@@ -707,6 +856,7 @@ class MessageController extends GetxController {
   /// 在 [onDelete] 方法之前调用。
   @override
   void onClose() {
+    isDispose = true;
     super.onClose();
   }
 
@@ -714,6 +864,7 @@ class MessageController extends GetxController {
   @override
   void dispose() {
     autoController.dispose();
+    isDispose = true;
     super.dispose();
   }
 }

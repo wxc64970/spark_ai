@@ -19,6 +19,7 @@ class MessagePage extends GetView<MessageController> {
         return GestureDetector(
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
+            controller.state.isUndress.value = false;
           },
           child: Scaffold(body: _buildView()),
         );

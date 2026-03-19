@@ -19,6 +19,7 @@ class SAUsersModel {
   String? targetLanguage;
   int createImg;
   int createVideo;
+  int star;
 
   SAUsersModel({
     this.id,
@@ -39,9 +40,11 @@ class SAUsersModel {
     this.targetLanguage,
     this.createImg = 0,
     this.createVideo = 0,
+    this.star = 0,
   });
 
-  factory SAUsersModel.fromRawJson(String str) => SAUsersModel.fromJson(json.decode(str));
+  factory SAUsersModel.fromRawJson(String str) =>
+      SAUsersModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -64,6 +67,7 @@ class SAUsersModel {
     targetLanguage: json["target_language"],
     createImg: json["create_img"] ?? 0,
     createVideo: json["create_video"] ?? 0,
+    star: json["star"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -85,5 +89,6 @@ class SAUsersModel {
     "target_language": targetLanguage,
     "create_img": createImg,
     "create_video": createVideo,
+    "star": star,
   };
 }

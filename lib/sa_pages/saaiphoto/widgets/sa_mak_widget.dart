@@ -28,8 +28,9 @@ class _SAMakWidgetState extends State<SAMakWidget> {
   bool isLoading = false;
   bool undressRole = false;
 
-  List<SAImgStyle> styles = [];
-  SAImgStyle? selectedStyel;
+  // List<SAImgStyle> styles = [];
+  List<StyleConfigItem?> imagesStyles = [];
+  StyleConfigItem? selectedStyel;
 
   List<SAImageHistroy>? records;
   bool hasHistory = false;
@@ -52,13 +53,18 @@ class _SAMakWidgetState extends State<SAMakWidget> {
     if (widget.role != null) {
       fetchHistory();
     }
+
     SA.login.fetchUserInfo();
   }
 
   Future fetchStyles() async {
     try {
-      final list = await ImageAPI.fetchStyleConf();
-      styles.assignAll(list);
+      // final list = await ImageAPI.fetchStyleConf();
+      if (SA.login.imageToImage.isEmpty) {
+        await SA.login.getStyleConfig();
+      }
+      imagesStyles.assignAll(SA.login.imageToImage);
+
       setState(() {});
     } catch (e) {
       debugPrint('fetchStyles ❌: $e');
@@ -79,18 +85,19 @@ class _SAMakWidgetState extends State<SAMakWidget> {
   }
 
   void onTapUpload() async {
+    SAlogEvent('i2i_upload_click');
     SALoading.show();
     var file = await SAImageUtils.pickImageFromGallery();
     SALoading.close();
     if (file == null) return;
     imagePath = file.path;
 
-    if (styles.isEmpty) {
+    if (imagesStyles.isEmpty) {
       await fetchStyles();
     }
     step = SAAiStep.step2;
     undressRole = false;
-    selectedStyel = styles.firstOrNull;
+    selectedStyel = imagesStyles.firstOrNull;
     setState(() {});
   }
 
@@ -106,7 +113,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       if (roleId == null) return;
       undressRole = true;
       step = SAAiStep.step2;
-      selectedStyel = styles.firstOrNull;
+      selectedStyel = imagesStyles.firstOrNull;
       setState(() {});
     }
   }
@@ -117,7 +124,8 @@ class _SAMakWidgetState extends State<SAMakWidget> {
 
   void onTapGenDebounce() async {
     if (isLoading) return;
-    SAlogEvent('c_un_generate');
+    // SAlogEvent('c_un_generate');
+    SAlogEvent('i2i_upload_click');
     SALoading.show();
     await SA.login.fetchUserInfo();
     SALoading.close();
@@ -148,22 +156,23 @@ class _SAMakWidgetState extends State<SAMakWidget> {
   void buySku() async {
     stopLoading();
 
-    final from = isVideo ? ConsumeFrom.img2v : ConsumeFrom.aiphoto;
-    Get.toNamed(SARouteNames.countSku, arguments: from);
+    // final from = isVideo ? ConsumeFrom.img2v : ConsumeFrom.aiphoto;
+    // Get.toNamed(SARouteNames.countSku, arguments: from);
+    SASheetBottom.show(ConsumeFrom.aiphoto);
   }
 
   void genImage() {
-    var undressCount = SA.login.imgCreationCount.value;
-    if (undressCount <= 0) {
+    var starCount = SA.login.starCount.value;
+    if (starCount <= SA.login.priceConfig!.i2i!) {
       buySku();
       return;
     }
-    // SA.login.imgCreationCount.value -= 1;
-    if (undressRole) {
-      undrRole();
-    } else {
-      undreImg();
-    }
+    undreImg();
+    // if (undressRole) {
+    //   undrRole();
+    // } else {
+    //   undreImg();
+    // }
   }
 
   Future<String> getStyle() async {
@@ -172,7 +181,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       String? enText = await Api.translateText(customPrompt!, tlan: 'en');
       style = enText ?? '';
     } else {
-      style = selectedStyel?.style ?? '';
+      style = selectedStyel?.name ?? '';
     }
     return style;
   }
@@ -242,7 +251,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       });
 
       // 上传图片
-      final uploadRes = await ImageAPI.uploadAiImage(
+      final uploadRes = await ImageAPI.uploadAiImageV2(
         imagePath: imagePath,
         style: await getStyle(),
       );
@@ -267,7 +276,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
       final estimateTime = uploadRes.estimatedTime ?? 0 + 10;
       await Future.delayed(Duration(seconds: estimateTime));
 
-      final res = await ImageAPI.getImageResult(taskId);
+      final res = await ImageAPI.getImageResultV2(taskId);
       imageUrl = res?.results?.first;
 
       if (imageUrl == null) {
@@ -353,7 +362,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(child: SafeArea(top: false, child: _body())),
+        Positioned.fill(child: _body()),
         // if (isLoading) const SAMakLoading(),
       ],
     );
@@ -361,12 +370,15 @@ class _SAMakWidgetState extends State<SAMakWidget> {
 
   Widget _body() {
     if (step == SAAiStep.step1) {
-      return SAMakste1(
-        role: widget.role,
-        isVideo: isVideo,
-        hasHistory: hasHistory,
-        onTapGenRole: onTapGenRole,
-        onTapUpload: onTapUpload,
+      return SafeArea(
+        top: false,
+        child: SAMakste1(
+          role: widget.role,
+          isVideo: isVideo,
+          hasHistory: hasHistory,
+          onTapGenRole: onTapGenRole,
+          onTapUpload: onTapUpload,
+        ),
       );
     }
     if (step == SAAiStep.step2) {
@@ -383,7 +395,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
         onInputTextFinish: (String text) {
           customPrompt = text;
         },
-        styles: styles,
+        styles: imagesStyles,
         onChooseStyles: (value) {
           selectedStyel = value;
         },

@@ -11,118 +11,95 @@ class SaaiimagePage extends GetView<SaaiimageController> {
 
   // 主视图
   Widget _buildView() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Image.asset(
-                    "assets/images/sa_06.png",
-                    width: 48.w,
-                    fit: BoxFit.contain,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: 32.w, right: 32.w),
+          child: Stack(
+            children: [
+              Center(
+                child: Text(
+                  SATextData.undress,
+                  style: TextStyle(
+                    fontSize: 32.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                Row(
-                  spacing: 24.w,
+              ),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    controller.type == SAAiViewType.image
-                        ? InkWell(
-                            onTap: () =>
-                                controller.hanldeSku(ConsumeFrom.aiphoto),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 6.w,
-                                horizontal: 16.w,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.r),
-                                color: SAAppColors.primaryColor,
-                              ),
-                              child: Row(
-                                spacing: 8.w,
-                                children: [
-                                  Image.asset(
-                                    "assets/images/sa_75.png",
-                                    width: 32.w,
-                                    fit: BoxFit.contain,
-                                  ),
-                                  Text(
-                                    SA.login.imgCreationCount.value.toString(),
-                                    style: TextStyle(
-                                      fontSize: 24.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Image.asset(
-                                    "assets/images/sa_76.png",
-                                    width: 32.w,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ],
-                              ),
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        "assets/images/sa_06.png",
+                        width: 48.w,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    Row(
+                      spacing: 24.w,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // SAlogEvent('aiphoto_photobalance_click');
+                            controller.hanldeSku(ConsumeFrom.aiphoto);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 6.w,
+                              horizontal: 16.w,
                             ),
-                          )
-                        : InkWell(
-                            onTap: () =>
-                                controller.hanldeSku(ConsumeFrom.img2v),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8.w,
-                                horizontal: 12.w,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40.r),
-                                color: SAAppColors.yellowColor,
-                              ),
-                              child: Row(
-                                spacing: 8.w,
-                                children: [
-                                  Image.asset(
-                                    "assets/images/sa_77.png",
-                                    width: 32.w,
-                                    fit: BoxFit.contain,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40.r),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              spacing: 8.w,
+                              children: [
+                                Image.asset(
+                                  "assets/images/sa_89.png",
+                                  width: 32.w,
+                                  fit: BoxFit.contain,
+                                ),
+                                Text(
+                                  SA.login.starCount.value.toString(),
+                                  style: TextStyle(
+                                    fontSize: 24.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                  Text(
-                                    SA.login.videoCreationCount.value
-                                        .toString(),
-                                    style: TextStyle(
-                                      fontSize: 24.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Image.asset(
-                                    "assets/images/sa_76.png",
-                                    width: 32.w,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                Image.asset(
+                                  "assets/images/sa_76.png",
+                                  width: 32.w,
+                                  fit: BoxFit.contain,
+                                ),
+                              ],
                             ),
                           ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          SizedBox(height: 32.w),
-          Expanded(
-            child: SAMakWidget(
-              key: ValueKey(controller.type),
-              type: controller.type,
-            ),
+        ),
+        SizedBox(height: 32.w),
+        Expanded(
+          child: SAMakWidget(
+            key: ValueKey(controller.type),
+            type: controller.type,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -7,6 +7,7 @@ class CreationsHistory {
   int? genImgId;
   String? taskId;
   int? createTime;
+  String? genStatus;
 
   CreationsHistory({
     this.id,
@@ -17,6 +18,7 @@ class CreationsHistory {
     this.genImgId,
     this.taskId,
     this.createTime,
+    this.genStatus,
   });
 
   CreationsHistory.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class CreationsHistory {
     genImgId = json['gen_img_id'];
     taskId = json['task_id'];
     createTime = json['create_time'];
+    genStatus = json['gen_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +43,7 @@ class CreationsHistory {
     data['gen_img_id'] = genImgId;
     data['task_id'] = taskId;
     data['create_time'] = createTime;
+    data['gen_status'] = genStatus;
     return data;
   }
 }

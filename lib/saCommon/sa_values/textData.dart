@@ -116,6 +116,7 @@ class SATextData {
       'Click the "Save" button to confirm that it takes effect';
 
   static String get noSubscriptionAvailable => 'No subscription available';
+  static String get noProductsAvailable => "No available products";
   static String get save => 'Save';
   static String get maxInputLength => 'Maximum input length: 500 characters';
   static String get feedback => 'Feedback';
@@ -191,6 +192,8 @@ class SATextData {
   static String get selectProfileMask => 'Select Your Profile Mask';
   static String get uploadAPhoto => 'Upload a photo';
   static String get description => 'Description';
+  static String get inputDescription => 'Input Description';
+  static String get clear => 'Clear';
   static String get setting => 'Setting';
   static String get explore => 'Explore';
   static String get vipGet =>
@@ -209,6 +212,7 @@ class SATextData {
       'How do you want your AI girlfriend to call you?';
   static String get SALoading => 'Loading';
   static String get ai_video_label => 'Video';
+  static String get ai_image_label => 'Image';
   static String get ai_prompt_examples_video =>
       'e.g: A woman takes off her clothes, exposing her breasts and nipples, naked, undressed, nude';
   static String get restore => 'Restore';
@@ -368,6 +372,26 @@ class SATextData {
       "Let's start creating~\nYour creations will be stored here.";
   static String get delete => "Delete";
   static String get selectItem => "Please select an item first.";
+  static String get chooseVideo => "Choose Video";
+  static String get fantasyDescription =>
+      "A girl with blue curly hair, large breasts, wearing glasses, and a seductive expression; upper body portrait.";
+  static String get realDescription =>
+      "A girl with long blonde hair, large breasts, and a slender figure, wearing see-through clothing; full-body photo.";
+  static String get numberOfImages => "Number of images";
+  static String get imageRatio => "Image Ratio";
+  static String get news => "New";
+  static String get videoHelp =>
+      "1.Upload a front-face photo，then click generate.\n2.No support for photos of minors.\n3.Your privacy is fully protected";
+  static String get plaseUploadImage => "Please upload image";
+  static String get included => "What’s included";
+  static String get skuStar =>
+      '{{icon}} 😃 Undressing feature,costume\n{{icon}} 🥳 Video mode\n{{icon}} 👏 High quality';
+  // 动态拼接文本
+  static String get vipGet3 =>
+      '{{icon}}😄 Call your AI Girlfriend\n{{icon}}🥰 Spicy Photo, Video & Audio\n{{icon}}👏🏻 Unlimited messages & NSFW chats\n{{icon}}🔥 All access to premium features\n{{icon}}❤️ No ads';
+  static String get buyingCoins =>
+      "By buying coins, you agree to our privacy policy and terms of service. You can find this Information in the relevant sections of our platform.";
+  static String get custom => "Custom";
   static List<String> get inputTagsTest => [
     "What’s the most cherished intimate memory you’ve ever made with another person?",
     "How much hands-on experience do you have with romantic and physical relationships?",

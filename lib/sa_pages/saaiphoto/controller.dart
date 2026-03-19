@@ -36,7 +36,8 @@ class SaaiphotoController extends GetxController
   }
 
   void hanldeSku(from) {
-    Get.toNamed(SARouteNames.countSku, arguments: from);
+    SASheetBottom.show(from);
+    // Get.toNamed(SARouteNames.countSku, arguments: from);
   }
 
   @override

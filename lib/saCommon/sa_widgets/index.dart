@@ -14,3 +14,5 @@ export 'sa_toast.dart';
 export 'sa_img_widget.dart';
 export 'sa_loading.dart';
 export 'sa_scroll_text.dart';
+export 'sa_sheet_widget.dart';
+export 'sa_switch.dart';

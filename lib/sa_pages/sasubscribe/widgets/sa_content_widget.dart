@@ -16,7 +16,9 @@ class SaContentWidget extends GetView<SasubscribeController> {
     return Stack(
       children: [
         Image.asset(
-          SA.storage.isSAB ? "assets/images/sa_65.png" : "assets/images/sa_45.png",
+          SA.storage.isSAB
+              ? "assets/images/sa_65.png"
+              : "assets/images/sa_45.png",
           width: Get.width,
           height: Get.height,
           fit: BoxFit.cover,
@@ -26,7 +28,11 @@ class SaContentWidget extends GetView<SasubscribeController> {
           height: Get.height,
           width: Get.width,
           child: Padding(
-            padding: EdgeInsets.only(left: 32.w, right: 32.w, top: Get.mediaQuery.padding.top + 16.w),
+            padding: EdgeInsets.only(
+              left: 32.w,
+              right: 32.w,
+              top: Get.mediaQuery.padding.top + 16.w,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -37,18 +43,32 @@ class SaContentWidget extends GetView<SasubscribeController> {
                       () => controller.showBackButton.value
                           ? InkWell(
                               onTap: () => Get.back(),
-                              child: Image.asset("assets/images/close.png", width: 48.w, fit: BoxFit.contain),
+                              child: Image.asset(
+                                "assets/images/close.png",
+                                width: 48.w,
+                                fit: BoxFit.contain,
+                              ),
                             )
                           : const SizedBox(),
                     ),
                     GestureDetector(
                       onTap: () => SAPayUtils().restore(),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.w),
-                        decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(24.r)),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                          vertical: 8.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white10,
+                          borderRadius: BorderRadius.circular(24.r),
+                        ),
                         child: Text(
                           SATextData.restore,
-                          style: TextStyle(fontSize: 28.sp, color: Color(0xFFFFFFFF), fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                            fontSize: 28.sp,
+                            color: Color(0xFFFFFFFF),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -61,13 +81,22 @@ class SaContentWidget extends GetView<SasubscribeController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SA.storage.isSAB ? SizedBox(height: 84.w) : SizedBox(height: 326.w),
-                        if (SA.storage.isSAB) Image.asset("assets/images/sa_63.png", width: 556.w, fit: BoxFit.contain),
+                        SA.storage.isSAB
+                            ? SizedBox(height: 84.w)
+                            : SizedBox(height: 326.w),
+                        if (SA.storage.isSAB)
+                          Image.asset(
+                            "assets/images/sa_63.png",
+                            width: 556.w,
+                            fit: BoxFit.contain,
+                          ),
                         if (SA.storage.isSAB) SizedBox(height: 32.w),
                         Stack(
                           children: [
                             Image.asset(
-                              SA.storage.isSAB ? "assets/images/sa_64.png" : "assets/images/sa_46.png",
+                              SA.storage.isSAB
+                                  ? "assets/images/sa_93.png"
+                                  : "assets/images/sa_46.png",
                               width: Get.width,
                               fit: BoxFit.contain,
                             ),
@@ -79,9 +108,13 @@ class SaContentWidget extends GetView<SasubscribeController> {
                                   children: [
                                     SizedBox(height: 48.w),
                                     Text(
-                                      SA.storage.isSAB ? SATextData.bestChatExperience : SATextData.vipUpgrade,
+                                      SA.storage.isSAB
+                                          ? SATextData.bestChatExperience
+                                          : SATextData.vipUpgrade,
                                       style: TextStyle(
-                                        fontSize: SA.storage.isSAB ? 24.sp : 40.sp,
+                                        fontSize: SA.storage.isSAB
+                                            ? 24.sp
+                                            : 40.sp,
                                         color: Color(0xffDF9A44),
                                         fontFamily: "Montserrat",
                                         fontWeight: FontWeight.w900,
@@ -93,7 +126,8 @@ class SaContentWidget extends GetView<SasubscribeController> {
                                         textKey: controller.contentText.value,
                                         placeholders: {
                                           'icon': WidgetSpan(
-                                            alignment: PlaceholderAlignment.middle,
+                                            alignment:
+                                                PlaceholderAlignment.middle,
                                             child: Image.asset(
                                               'assets/images/sa_47.png',
                                               width: 32.w,
@@ -127,7 +161,11 @@ class SaContentWidget extends GetView<SasubscribeController> {
                 SizedBox(height: 16.w),
                 _buildPurchaseButton(),
                 SizedBox(height: 16.w),
-                PolicyWidget(type: SA.storage.isSAB ? SAPolicyBottomType.vip2 : SAPolicyBottomType.vip1),
+                PolicyWidget(
+                  type: SA.storage.isSAB
+                      ? SAPolicyBottomType.vip2
+                      : SAPolicyBottomType.vip1,
+                ),
                 SizedBox(height: Get.mediaQuery.padding.bottom + 16.w),
               ],
             ),

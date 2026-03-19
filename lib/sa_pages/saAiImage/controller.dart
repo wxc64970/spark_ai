@@ -12,12 +12,14 @@ class SaaiimageController extends GetxController {
   }
 
   void hanldeSku(ConsumeFrom from) {
-    Get.toNamed(SARouteNames.countSku, arguments: from);
+    // Get.toNamed(SARouteNames.countSku, arguments: from);
+    SASheetBottom.show(from);
   }
 
   @override
   void onInit() {
     super.onInit();
+    SAlogEvent('i2i_show');
     if (Get.arguments != null) {
       type = Get.arguments;
     }

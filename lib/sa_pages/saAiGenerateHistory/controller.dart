@@ -41,6 +41,26 @@ enum CreationsType {
   }
 }
 
+enum GenStatus {
+  finish('FINISH'),
+  unfinish('UNFINISHED'),
+  failed('FAILED');
+
+  const GenStatus(this.apiValue);
+
+  final String apiValue;
+  String get displayName {
+    switch (this) {
+      case GenStatus.finish:
+        return 'FINISH';
+      case GenStatus.unfinish:
+        return 'UNFINISHED';
+      case GenStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
 class SaaigeneratehistoryController extends GetxController
     with GetTickerProviderStateMixin, WidgetsBindingObserver {
   SaaigeneratehistoryController();
@@ -75,6 +95,9 @@ class SaaigeneratehistoryController extends GetxController
   DateTime? _lastDeleteClickAt;
   bool _isDownloading = false;
   bool _isDeleting = false;
+  bool isonRefreshVideo = false;
+  bool isonRefreshImage = false;
+  bool isDispose = false;
 
   // 当前选中索引
   final currentIndex = 0.obs;
@@ -111,7 +134,6 @@ class SaaigeneratehistoryController extends GetxController
     //获取历史记录数量统计
     await historyCount();
 
-    onRefresh(0);
     tabController.addListener(() {
       currentIndex.value = tabController.index;
       // 避免重复触发（Tab 切换动画过程中索引会变化）
@@ -125,14 +147,60 @@ class SaaigeneratehistoryController extends GetxController
       isEdit.value = false;
 
       final tabState = list[currentIndex.value];
-      // if (tabController.index + 1 == HomeListCategroy.video.index) {
-      //   SAlogEvent('c_videochat');
-      // }
+      if (currentIndex.value == 1) {
+        queryStatusApi(30, 'images');
+      }
       // 首次切换且未加载过数据 → 加载初始数据
       if (tabState.isEmpty && !isLoading[currentIndex.value].value) {
         onRefresh(currentIndex.value);
       }
     });
+    await onRefresh(0);
+    queryStatusApi(30, 'videos');
+  }
+
+  Future<void> queryStatusApi(int maxRetryCount, type) async {
+    if (type == 'images' && !isonRefreshImage) {
+      whileStarted(maxRetryCount, type);
+      isonRefreshImage = true;
+    } else if (type == 'videos' && !isonRefreshVideo) {
+      whileStarted(maxRetryCount, type);
+      isonRefreshVideo = true;
+    }
+  }
+
+  Future<void> whileStarted(int maxRetryCount, String type) async {
+    int currentCount = 0;
+    // 异步循环：效果=递归，无栈溢出
+    while (!isDispose && currentCount < maxRetryCount) {
+      currentCount++;
+      debugPrint('第 $currentCount 次请求$type接口');
+      try {
+        // 调用接口
+        var res = await _fetchDatas(type);
+        if (res) {
+          if (type == 'videos') {
+            isonRefreshVideo = false;
+          } else if (type == 'images') {
+            isonRefreshImage = false;
+          }
+          print("✅ 全部数据合规，停止轮询");
+          break; // 结束递归/轮询
+        } else {
+          print("❌ 数据不全，10秒后重试");
+          await Future.delayed(const Duration(seconds: 10));
+        }
+      } catch (e) {
+        // 接口报错：停止/重试
+        debugPrint('接口请求失败：$e');
+        break;
+      }
+    }
+
+    // 超过最大次数，自动停止
+    if (currentCount >= maxRetryCount) {
+      debugPrint('🔴 达到最大请求次数，自动停止');
+    }
   }
 
   Future<void> historyCount() async {
@@ -194,6 +262,47 @@ class SaaigeneratehistoryController extends GetxController
     } finally {
       isLoading[index].value = false;
     }
+  }
+
+  Future _fetchDatas(String type) async {
+    var types = 0;
+    if (type == 'videos') {
+      types = 1;
+    } else if (type == 'images') {
+      types = 0;
+    }
+    try {
+      final res = await ImageAPI.getAiPhotoHistoryList(
+        page: 1,
+        size: size,
+        type: types,
+      );
+      replaceFirstItems(res, type == 'videos' ? 0 : 1);
+      return !res.any((item) => item.genStatus == GenStatus.unfinish.apiValue);
+    } catch (e) {
+      return true;
+    } finally {
+      // SALoading.close();
+    }
+  }
+
+  void replaceFirstItems(List<CreationsHistory> newData, index) {
+    // // 1. 最多只取前10条新数据（防止数据过多）
+    // final replaceData = newData.take(10).toList();
+
+    // 2. 计算替换长度（自动兼容不足10条的情况）
+    final replaceLength = newData.length;
+
+    // 3. 核心：替换前 N 条数据（自动处理边界）
+    if (list[index].length >= replaceLength) {
+      // 原列表足够长 → 直接覆盖前 replaceLength 条
+      list[index].setRange(0, replaceLength, newData);
+    } else {
+      // 原列表不足 → 清空原有前几条，全部替换
+      list[index].removeRange(0, list[index].length);
+      list[index].insertAll(0, newData);
+    }
+    update();
   }
 
   Future _fetchData(int index) async {
@@ -469,12 +578,14 @@ class SaaigeneratehistoryController extends GetxController
     WidgetsBinding.instance.removeObserver(this);
     tabController.dispose();
     refreshCtr.dispose();
+    isDispose = true;
     super.onClose();
   }
 
   /// dispose 释放内存
   @override
   void dispose() {
+    isDispose = true;
     super.dispose();
   }
 }

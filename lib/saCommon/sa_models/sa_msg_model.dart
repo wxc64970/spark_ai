@@ -7,6 +7,8 @@ enum MessageSource {
   photo('PHOTO'),
   gift('GIFT'),
   clothe('CLOTHE'),
+  i2i('I2I'),
+  i2v('I2V'),
 
   sendText('sendText'),
   waitAnswer('waitAnswer'),
@@ -20,7 +22,9 @@ enum MessageSource {
   final String value;
   const MessageSource(this.value);
 
-  static final Map<String, MessageSource> _map = {for (var e in MessageSource.values) e.value: e};
+  static final Map<String, MessageSource> _map = {
+    for (var e in MessageSource.values) e.value: e,
+  };
 
   static MessageSource? fromSource(String? source) => _map[source];
 }
@@ -123,7 +127,8 @@ class SAMessageModel {
     this.src,
   });
 
-  factory SAMessageModel.fromRawJson(String str) => SAMessageModel.fromJson(json.decode(str));
+  factory SAMessageModel.fromRawJson(String str) =>
+      SAMessageModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -155,7 +160,9 @@ class SAMessageModel {
     thumbLink: json["thumb_link"] ?? json["thumbnail_url"],
     voiceUrl: json["voice_link"],
     voiceDur: json["voice_dur"],
-    appUserChatLevel: json["app_user_chat_level"] == null ? null : ChatAnserLevel.fromJson(json["app_user_chat_level"]),
+    appUserChatLevel: json["app_user_chat_level"] == null
+        ? null
+        : ChatAnserLevel.fromJson(json["app_user_chat_level"]),
     upgrade: json["upgrade"],
     rewards: json["rewards"],
     translateAnswer: json["translate_answer"],
@@ -222,9 +229,27 @@ class ChatAnserLevel {
   final double? upgradeRequirements;
   final int? rewards;
 
-  ChatAnserLevel({this.id, this.userId, this.conversationId, this.charId, this.level, this.progress, this.upgradeRequirements, this.rewards});
+  ChatAnserLevel({
+    this.id,
+    this.userId,
+    this.conversationId,
+    this.charId,
+    this.level,
+    this.progress,
+    this.upgradeRequirements,
+    this.rewards,
+  });
 
-  ChatAnserLevel copyWith({int? id, String? userId, int? conversationId, String? charId, int? level, double? progress, double? upgradeRequirements, int? rewards}) => ChatAnserLevel(
+  ChatAnserLevel copyWith({
+    int? id,
+    String? userId,
+    int? conversationId,
+    String? charId,
+    int? level,
+    double? progress,
+    double? upgradeRequirements,
+    int? rewards,
+  }) => ChatAnserLevel(
     id: id ?? this.id,
     userId: userId ?? this.userId,
     conversationId: conversationId ?? this.conversationId,
@@ -235,7 +260,8 @@ class ChatAnserLevel {
     rewards: rewards ?? this.rewards,
   );
 
-  factory ChatAnserLevel.fromRawJson(String str) => ChatAnserLevel.fromJson(json.decode(str));
+  factory ChatAnserLevel.fromRawJson(String str) =>
+      ChatAnserLevel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
