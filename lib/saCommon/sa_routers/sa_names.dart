@@ -27,4 +27,6 @@ class SARouteNames {
   static const String aiGenerateResult = '/dgkoac';
   static const String aiImage = '/swgwatx';
   static const String aiGenerateHistory = '/ahgkwxw';
+  static const String chooseVideo = '/qweasdzx';
+  static const String textToImage = '/qwertzuiop';
 }

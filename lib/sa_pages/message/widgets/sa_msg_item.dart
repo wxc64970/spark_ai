@@ -6,19 +6,24 @@ import 'widgets.dart';
 class SAMsgContainerFactory {
   SAMsgContainerFactory._();
 
-  static final Map<MessageSource, Widget Function(SAMessageModel)> _containerBuilders = {
+  static final Map<MessageSource, Widget Function(SAMessageModel)>
+  _containerBuilders = {
     MessageSource.tips: (msg) => SATipItem(msg: msg),
     MessageSource.maskTips: (msg) => SATipItem(msg: msg),
     MessageSource.error: (msg) => SATipItem(msg: msg),
     MessageSource.welcome: (msg) => SATItem(msg: msg),
-    MessageSource.scenario: (msg) => SATItem(msg: msg, title: "${SATextData.scenario}:"),
-    MessageSource.intro: (msg) => SATItem(msg: msg, title: "${SATextData.intro}:"),
+    MessageSource.scenario: (msg) =>
+        SATItem(msg: msg, title: "${SATextData.scenario}:"),
+    MessageSource.intro: (msg) =>
+        SATItem(msg: msg, title: "${SATextData.intro}:"),
     MessageSource.sendText: (msg) => SATItem(msg: msg),
     MessageSource.text: (msg) => SATItem(msg: msg),
     MessageSource.photo: (msg) => SAImgItem(msg: msg),
     MessageSource.clothe: (msg) => SAImgItem(msg: msg),
     MessageSource.video: (msg) => SAVItem(msg: msg),
     MessageSource.audio: (msg) => SAAudItem(msg: msg, key: ValueKey(msg.id)),
+    MessageSource.i2i: (msg) => SALoadingWidget(msg: msg),
+    MessageSource.i2v: (msg) => SALoadingWidget(msg: msg),
   };
 
   /// 创建消息容器widget

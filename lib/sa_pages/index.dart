@@ -22,3 +22,5 @@ export 'saAiGenerateLoading/index.dart';
 export 'saAiGenerateResult/index.dart';
 export 'saAiImage/index.dart';
 export 'saAiGenerateHistory/index.dart';
+export 'saChooseVideo/index.dart';
+export 'saTextToImage/index.dart';

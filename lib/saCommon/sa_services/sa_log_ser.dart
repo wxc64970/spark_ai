@@ -15,6 +15,14 @@ class SALoginService extends GetxService {
 
   final imgCreationCount = 0.obs;
   final videoCreationCount = 0.obs;
+  final starCount = 0.obs;
+
+  PriceConfig? priceConfig;
+
+  StyleConfigItem? exampleImage;
+  final textToImage = RxList(<StyleConfigItem?>[]);
+  final imageToImage = RxList(<StyleConfigItem?>[]);
+  final imageToVideo = RxList(<StyleConfigItem?>[]);
 
   SAUsersModel? _currentUser;
 
@@ -46,6 +54,31 @@ class SALoginService extends GetxService {
       }
     } catch (e) {
       log.e('performRegister error: $e');
+    }
+  }
+
+  Future<void> getStyleConfig() async {
+    try {
+      final res = await Api.getStyleConfig();
+      if (res != null) {
+        exampleImage = res.example;
+        textToImage.value = res.text2img ?? [];
+        imageToImage.value = res.image ?? [];
+        imageToVideo.value = res.video ?? [];
+      }
+    } catch (e) {
+      log.e('getStyleConfig error: $e');
+    }
+  }
+
+  Future<void> getPriceConfigs() async {
+    try {
+      final res = await Api.getPriceConfigs();
+      if (res != null) {
+        priceConfig = res;
+      }
+    } catch (e) {
+      log.e('getPriceConfigs error: $e');
     }
   }
 
@@ -101,6 +134,7 @@ class SALoginService extends GetxService {
     translateAuto.value = user.autoTranslate ?? false;
     imgCreationCount.value = user.createImg;
     videoCreationCount.value = user.createVideo;
+    starCount.value = user.star;
     sessionLang.value = matchUserLang();
   }
 

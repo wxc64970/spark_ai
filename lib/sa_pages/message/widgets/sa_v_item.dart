@@ -46,11 +46,17 @@ class SAVItem extends StatelessWidget {
 
     return Obx(() {
       var isHide = !SA.login.vipStatus.value && isLockImage;
-      return isHide ? _buildCover(imageWidth, imageHeight, imageWidget) : _buildVideoButton(videoUrl, imageWidget);
+      return isHide
+          ? _buildCover(imageWidth, imageHeight, imageWidget)
+          : _buildVideoButton(videoUrl, imageWidget);
     });
   }
 
-  Widget _buildCover(double imageWidth, double imageHeight, Widget imageWidget) {
+  Widget _buildCover(
+    double imageWidth,
+    double imageHeight,
+    Widget imageWidget,
+  ) {
     return GestureDetector(
       onTap: _onTapUnlock,
       child: Container(
@@ -73,7 +79,9 @@ class SAVItem extends StatelessWidget {
                   alignment: Alignment.center,
                   height: double.infinity,
                   width: double.infinity,
-                  decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.1)),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF000000).withValues(alpha: 0.1),
+                  ),
                 ),
               ),
             ),
@@ -82,14 +90,26 @@ class SAVItem extends StatelessWidget {
               spacing: 40.w,
               children: [
                 // const Icon(Icons.play_circle, size: 32, color: Colors.white),
-                Image.asset('assets/images/sa_74.png', width: 64.w, fit: BoxFit.contain),
+                Image.asset(
+                  'assets/images/sa_74.png',
+                  width: 64.w,
+                  fit: BoxFit.contain,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 17.w),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 80.w,
+                        vertical: 17.w,
+                      ),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [SAAppColors.primaryColor, SAAppColors.yellowColor]),
+                        gradient: LinearGradient(
+                          colors: [
+                            SAAppColors.primaryColor,
+                            SAAppColors.yellowColor,
+                          ],
+                        ),
                         borderRadius: BorderRadius.all(Radius.circular(40.r)),
                       ),
                       child: Row(
@@ -121,7 +141,13 @@ class SAVItem extends StatelessWidget {
       onTap: () {
         Get.toNamed(SARouteNames.videoPreview, arguments: videoUrl);
       },
-      child: Stack(alignment: Alignment.center, children: [imageWidget, const Icon(Icons.play_circle, size: 32)]),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          imageWidget,
+          const Icon(Icons.play_circle, size: 32, color: Colors.white),
+        ],
+      ),
     );
   }
 

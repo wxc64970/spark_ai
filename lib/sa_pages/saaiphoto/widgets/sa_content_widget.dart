@@ -28,7 +28,7 @@ class SaContentWidget extends GetView<SaaiphotoController> {
                     children: [
                       InkWell(
                         onTap: () {
-                          SAlogEvent('aiphoto_photobalance_click');
+                          SAlogEvent('aiphoto_coin_click');
                           controller.hanldeSku(ConsumeFrom.aiphoto);
                         },
                         child: Container(
@@ -38,57 +38,18 @@ class SaContentWidget extends GetView<SaaiphotoController> {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40.r),
-                            color: SAAppColors.primaryColor,
+                            color: Colors.white,
                           ),
                           child: Row(
                             spacing: 8.w,
                             children: [
                               Image.asset(
-                                "assets/images/sa_75.png",
+                                "assets/images/sa_89.png",
                                 width: 32.w,
                                 fit: BoxFit.contain,
                               ),
                               Text(
-                                SA.login.imgCreationCount.value.toString(),
-                                style: TextStyle(
-                                  fontSize: 24.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/images/sa_76.png",
-                                width: 32.w,
-                                fit: BoxFit.contain,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          SAlogEvent('aiphoto_videobalance_click');
-                          controller.hanldeSku(ConsumeFrom.img2v);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 8.w,
-                            horizontal: 12.w,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40.r),
-                            color: SAAppColors.yellowColor,
-                          ),
-                          child: Row(
-                            spacing: 8.w,
-                            children: [
-                              Image.asset(
-                                "assets/images/sa_77.png",
-                                width: 32.w,
-                                fit: BoxFit.contain,
-                              ),
-                              Text(
-                                SA.login.videoCreationCount.value.toString(),
+                                SA.login.starCount.value.toString(),
                                 style: TextStyle(
                                   fontSize: 24.sp,
                                   color: Colors.black,

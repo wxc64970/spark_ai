@@ -1,6 +1,7 @@
 class SAApiUrl {
   static const String collectRole = '/v2/woydtu/collect';
   static const String aiImageResult = '/v2/lkmgim';
+  static const String aiImageResultV2 = '/lkmgim/star';
   static const String addSession = '/iodpzr/add';
   static String editMask = '/yajhqe/update';
   static String editMode = '/iodpzr/editMode';
@@ -29,6 +30,7 @@ class SAApiUrl {
   static const String getRoleById = '/v2/woydtu/getById';
   static String saveMsg = '/v2/hijcfy/bxkbaw';
   static const String upImageForAiImage = '/v2/ihpzvy';
+  static const String upImageForAiImageV2 = '/v2/ihpzvy/star';
   static const String undrCharacter = '/zwxuax/zxaocc';
   static String createMask = '/yajhqe/add';
   static String addGems = '/v2/ktoicn/plusGems';
@@ -63,11 +65,20 @@ class SAApiUrl {
   // 头像 AI写作 - 图片提示词
   static const String aiWriteAvatarUrl = '/ixhmws/lnzltt/img';
   // 生成头像历史记录查询
-  static const String generateAvatarHistoryUrl = '/aiPhoto/hijcfy';
+  static const String generateAvatarHistoryUrl = '/aiPhoto/hijcfy/v2';
   //生成头像历史记录总数
-  static const String generateAvatarHistoryCountUrl = '/aiPhoto/hijcfy/count';
+  static const String generateAvatarHistoryCountUrl =
+      '/aiPhoto/history/count/v2';
 
   ///生成头像历史记录删除
   static const String generateAvatarHistoryDeleteUrl =
       '/aiPhoto/history/delete';
+
+  //获取风格配置
+  static const String getStyleConfigUrl = '/skifon/v2';
+  static const String aiWriteAUrl = '/aiPhoto/lnzltt';
+  static const String generateAvatarUrlStar = '/aiPhoto/gen/star';
+  static const String getPriceConfigs = '/aiPhoto2/kusfxw';
+  static const String upImageForAiVideoStar = '/dqjodh/star';
+  static const String generateAvatarResultUrlStar = '/aiPhoto/digoir/star';
 }

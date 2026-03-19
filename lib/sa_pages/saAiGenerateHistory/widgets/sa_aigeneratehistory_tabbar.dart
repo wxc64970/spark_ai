@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/sa_pages/saDisCovery/widgets/gradient_underline_tabIndicator.dart';
 import 'package:spark_ai/sa_pages/saaiphoto/widgets/sa_mak_widget.dart';
@@ -200,6 +203,9 @@ class SaAiGenerateHistoryTabbar extends GetView<SaaigeneratehistoryController> {
   Widget _buildItemCard(CreationsHistory item) {
     return GestureDetector(
       onTap: () {
+        if (item.genStatus == GenStatus.unfinish.apiValue) {
+          return;
+        }
         if (controller.isEdit.value) {
           // 编辑模式下切换选中状态
           if (item.id != null) {
@@ -226,17 +232,7 @@ class SaAiGenerateHistoryTabbar extends GetView<SaaigeneratehistoryController> {
                   url: item.type == 1 ? item.originUrl : item.resultUrl ?? '',
                 ),
               ),
-              Positioned(
-                left: 8.w,
-                top: 8.w,
-                child: Image.asset(
-                  item.type == 1
-                      ? "assets/images/sa_83.png"
-                      : "assets/images/sa_84.png",
-                  width: 24.w,
-                  fit: BoxFit.contain,
-                ),
-              ),
+
               if (controller.isEdit.value)
                 Positioned(
                   left: 0,
@@ -252,6 +248,40 @@ class SaAiGenerateHistoryTabbar extends GetView<SaaigeneratehistoryController> {
                     ),
                   ),
                 ),
+              if (item.genStatus == GenStatus.unfinish.apiValue)
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 24.w, sigmaY: 24.w),
+                      child: Container(
+                        color: const Color(0xff000000).withValues(alpha: 0.2),
+                        child: Center(
+                          child: SizedBox(
+                            width: 88.w,
+                            height: 88.w,
+                            child: LoadingAnimationWidget.hexagonDots(
+                              color: Colors.white,
+                              size: 88.w,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+              Positioned(
+                left: 8.w,
+                top: 8.w,
+                child: Image.asset(
+                  item.type == 1
+                      ? "assets/images/sa_83.png"
+                      : "assets/images/sa_84.png",
+                  width: 24.w,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ],
           ),
         );

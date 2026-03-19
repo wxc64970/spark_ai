@@ -71,8 +71,9 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
               highlightColor: Colors.transparent,
               onTap: () {
                 if (index == 0) {
-                  SAlogEvent('aiphoto_t2i_click');
-                  Get.toNamed(SARouteNames.aiGenerateImage);
+                  SAlogEvent('aiphoto_i2v_click');
+                  // Get.toNamed(SARouteNames.aiGenerateImage);
+                  Get.toNamed(SARouteNames.textToImage);
                 } else if (index == 1) {
                   SAlogEvent('aiphoto_i2i_click');
                   Get.toNamed(
@@ -80,11 +81,12 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                     arguments: SAAiViewType.image,
                   );
                 } else {
-                  SAlogEvent('aiphoto_i2v_click');
-                  Get.toNamed(
-                    SARouteNames.aiImage,
-                    arguments: SAAiViewType.video,
-                  );
+                  SAlogEvent('aiphoto_t2i_click');
+                  // Get.toNamed(
+                  //   SARouteNames.aiImage,
+                  //   arguments: SAAiViewType.video,
+                  // );
+                  Get.toNamed(SARouteNames.chooseVideo);
                 }
               },
               child: Stack(
@@ -168,21 +170,21 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                                 )
                               : SizedBox.shrink(),
                         ),
-                        ButtonGradientWidget(
-                          width: 280.w,
-                          height: 64,
-                          child: Center(
-                            child: Text(
-                              SATextData.tryIt,
-                              style: TextStyle(
-                                fontFamily: "Montserrat",
-                                fontSize: 28.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // ButtonGradientWidget(
+                        //   width: 280.w,
+                        //   height: 64,
+                        //   child: Center(
+                        //     child: Text(
+                        //       SATextData.tryIt,
+                        //       style: TextStyle(
+                        //         fontFamily: "Montserrat",
+                        //         fontSize: 28.sp,
+                        //         color: Colors.black,
+                        //         fontWeight: FontWeight.w600,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

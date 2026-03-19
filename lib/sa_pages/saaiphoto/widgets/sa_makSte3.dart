@@ -7,7 +7,14 @@ import 'package:spark_ai/saCommon/index.dart';
 import 'package:video_player/video_player.dart';
 
 class SAMakste3 extends StatefulWidget {
-  const SAMakste3({super.key, this.role, required this.onTapGen, this.onDeleteImage, required this.resultUrl, required this.isVideo});
+  const SAMakste3({
+    super.key,
+    this.role,
+    required this.onTapGen,
+    this.onDeleteImage,
+    required this.resultUrl,
+    required this.isVideo,
+  });
 
   final ChaterModel? role;
   final VoidCallback onTapGen;
@@ -80,27 +87,47 @@ class _CjMakste3State extends State<SAMakste3> {
                     child: InkWell(
                       child: widget.isVideo
                           ? (_controller?.value.isInitialized ?? false)
-                                ? AspectRatio(aspectRatio: _controller!.value.aspectRatio, child: VideoPlayer(_controller!))
+                                ? AspectRatio(
+                                    aspectRatio: _controller!.value.aspectRatio,
+                                    child: VideoPlayer(_controller!),
+                                  )
                                 : const Center(
                                     child: SizedBox(
                                       width: 20,
                                       height: 20,
-                                      child: CircularProgressIndicator(strokeWidth: 2, backgroundColor: Colors.white, valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFFDCA4))),
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        backgroundColor: Colors.white,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Color(0xFFFFDCA4),
+                                            ),
+                                      ),
                                     ),
                                   )
                           : SAImageWidget(url: widget.resultUrl),
                       onTap: () {
                         if (widget.isVideo) {
-                          Get.toNamed(SARouteNames.videoPreview, arguments: widget.resultUrl);
+                          Get.toNamed(
+                            SARouteNames.videoPreview,
+                            arguments: widget.resultUrl,
+                          );
                         } else {
-                          Get.toNamed(SARouteNames.imagePreview, arguments: widget.resultUrl);
+                          Get.toNamed(
+                            SARouteNames.imagePreview,
+                            arguments: widget.resultUrl,
+                          );
                         }
                       },
                     ),
                   ),
                   IconButton(
                     onPressed: widget.onDeleteImage,
-                    icon: Image.asset("assets/images/close1.png", width: 48.w, fit: BoxFit.contain),
+                    icon: Image.asset(
+                      "assets/images/close1.png",
+                      width: 48.w,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ],
               ),
@@ -108,20 +135,57 @@ class _CjMakste3State extends State<SAMakste3> {
           ),
         ),
         const Spacer(),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 112.w),
-          child: ButtonGradientWidget(
-            onTap: widget.onTapGen,
-            height: 96,
-            child: Center(
-              child: Text(
-                SATextData.ai_generate_another,
-                style: TextStyle(fontFamily: "Montserrat", fontSize: 28.sp, color: Colors.black, fontWeight: FontWeight.w600),
-              ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 40.w),
+          width: Get.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.r),
+              topRight: Radius.circular(24.r),
             ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0x1000001a),
+                offset: const Offset(0, -2),
+                blurRadius: 8,
+                spreadRadius: 0,
+              ),
+            ],
+            color: Color(0xffF7F7F7),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonWidget(
+                    width: 462.w,
+                    height: 88.w,
+                    onTap: widget.onTapGen,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(134.r),
+                        color: Colors.black,
+                      ),
+                      child: Center(
+                        child: Text(
+                          SATextData.ai_generate_another,
+                          style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: Colors.white,
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: Get.mediaQuery.padding.bottom),
+            ],
           ),
         ),
-        SizedBox(height: 24.w),
       ],
     );
   }

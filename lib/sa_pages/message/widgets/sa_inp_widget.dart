@@ -152,47 +152,46 @@ class _InputBarState extends State<SAInpBar> {
               ? const SizedBox()
               : MsgInputButtons(tags: ctr.state.inputTags, onTap: onTapTag),
           Container(
-            padding: EdgeInsets.only(bottom: 28.w),
+            // padding: EdgeInsets.only(bottom: 28.w),
             child: Stack(
               children: [
-                SafeArea(
-                  top: false,
-                  left: false,
-                  right: false,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(56.r),
-                    child: Container(
-                      color: const Color(0xff212121).withValues(alpha: 0.3),
-                      constraints: BoxConstraints(maxHeight: 96.w),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 16.w),
-                          _buildSpecialButton(),
-                          Flexible(child: _buildTextField()),
-                          SizedBox(width: 16.w),
-                          ButtonWidget(
-                            onTap: onSend,
-                            width: 64.w,
-                            color: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            child: Center(
-                              child: Image.asset(
-                                isSend ? 'assets/images/sa_62.png' : 'assets/images/sa_22.png',
-                                width: 64.w,
-                                fit: BoxFit.contain,
-                              ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(56.r),
+                  child: Container(
+                    color: const Color(0xff212121).withValues(alpha: 0.3),
+                    constraints: BoxConstraints(maxHeight: 96.w),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 16.w),
+                        _buildSpecialButton(),
+                        Flexible(child: _buildTextField()),
+                        SizedBox(width: 16.w),
+                        ButtonWidget(
+                          onTap: onSend,
+                          width: 64.w,
+                          color: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          child: Center(
+                            child: Image.asset(
+                              isSend
+                                  ? 'assets/images/sa_62.png'
+                                  : 'assets/images/sa_22.png',
+                              width: 64.w,
+                              fit: BoxFit.contain,
                             ),
                           ),
-                          SizedBox(width: 16.w),
-                        ],
-                      ),
+                        ),
+                        SizedBox(width: 16.w),
+                      ],
                     ),
                   ),
                 ),
                 // 第一次使用时的覆盖层
                 if (SA.storage.firstClickChatInputBox)
-                  Positioned.fill(child: GestureDetector(onTap: firstClickChatInputBox)),
+                  Positioned.fill(
+                    child: GestureDetector(onTap: firstClickChatInputBox),
+                  ),
               ],
             ),
           ),
@@ -236,7 +235,16 @@ class _InputBarState extends State<SAInpBar> {
     String content = textEditingController.text.trim();
     if (content.isNotEmpty) {
       focusNode.unfocus();
-      ctr.sendMsg(content);
+      if (ctr.state.isUndress.value) {
+        ctr.sendMsgUndress(
+          text: content,
+          styleName: ctr.state.selectedStyle.value,
+          genType: ctr.state.genType.value,
+        );
+      } else {
+        ctr.sendMsg(content);
+      }
+
       textEditingController.clear();
     } else {
       textEditingController.clear();
@@ -259,7 +267,9 @@ class _InputBarState extends State<SAInpBar> {
         // Update the text and set the cursor between the two asterisks
         textEditingController.value = TextEditingValue(
           text: newText,
-          selection: TextSelection.fromPosition(TextPosition(offset: selection.start + 1)),
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: selection.start + 1),
+          ),
         );
       },
       child: Container(
@@ -269,7 +279,11 @@ class _InputBarState extends State<SAInpBar> {
         child: Center(
           child: Text(
             '*',
-            style: TextStyle(color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -285,6 +299,7 @@ class MsgInputButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MessageController ctr = Get.find<MessageController>();
     return Container(
       margin: EdgeInsets.only(bottom: 24.w, top: 24.w),
       alignment: Alignment.bottomCenter,
@@ -301,6 +316,24 @@ class MsgInputButtons extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = tags[index];
                   int color = item['color'] ?? Colors.black;
+                  if (item['name'] == SATextData.undress) {
+                    return Obx(
+                      () => SASwitchGradient(
+                        value: ctr.state.isUndress.value,
+                        text: item['name'],
+                        onChanged: (value) {
+                          if (value) {
+                            SAlogEvent('chat_undress_show');
+                          }
+                          ctr.state.isUndress.value = value;
+                          SA.login.fetchUserInfo();
+                        },
+                        thumbColor: ctr.state.isUndress.value
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                    );
+                  }
 
                   return GestureDetector(
                     onTap: () => onTap(index),
@@ -309,7 +342,10 @@ class MsgInputButtons extends StatelessWidget {
                       child: Container(
                         color: const Color(0xff212121).withValues(alpha: 0.2),
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.symmetric(vertical: 8.w, horizontal: 24.w),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8.w,
+                          horizontal: 24.w,
+                        ),
                         child: Text(
                           item['name'],
                           maxLines: 1,
@@ -334,14 +370,22 @@ class MsgInputButtons extends StatelessWidget {
             onTap: () {
               onTap(100);
             },
-            child: Image.asset('assets/images/sa_28.png', width: 64.w, fit: BoxFit.contain),
+            child: Image.asset(
+              'assets/images/sa_28.png',
+              width: 64.w,
+              fit: BoxFit.contain,
+            ),
           ),
           SizedBox(width: 32.w),
           GestureDetector(
             onTap: () {
               onTap(101);
             },
-            child: Image.asset('assets/images/sa_27.png', width: 64.w, fit: BoxFit.contain),
+            child: Image.asset(
+              'assets/images/sa_27.png',
+              width: 64.w,
+              fit: BoxFit.contain,
+            ),
           ),
         ],
       ),

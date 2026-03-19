@@ -175,8 +175,7 @@ class SAContentWidget extends GetView<SaaigenerateresultController> {
               onTap: () {
                 SAlogEvent('imageresult_createmore_click');
                 Get.until(
-                  (route) =>
-                      route.settings.name == SARouteNames.aiGenerateImage,
+                  (route) => route.settings.name == SARouteNames.textToImage,
                 );
               },
               width: 558.w,

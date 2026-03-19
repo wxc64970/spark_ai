@@ -1,14 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 class SAMakStylesWidget extends StatelessWidget {
-  const SAMakStylesWidget({super.key, required this.list, required this.onChooseed, this.selectedStyel});
+  const SAMakStylesWidget({
+    super.key,
+    required this.list,
+    required this.onChooseed,
+    this.selectedStyel,
+  });
 
-  final List<SAImgStyle> list;
-  final SAImgStyle? selectedStyel;
-  final void Function(SAImgStyle data) onChooseed;
+  final List<StyleConfigItem?> list;
+  final StyleConfigItem? selectedStyel;
+  final void Function(StyleConfigItem data) onChooseed;
 
   @override
   Widget build(BuildContext context) {
@@ -16,67 +20,102 @@ class SAMakStylesWidget extends StatelessWidget {
       return const SizedBox();
     }
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            SATextData.ai_styles,
-            style: TextStyle(color: Color(0xFF222222), fontSize: 28.sp, fontWeight: FontWeight.w500),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          SATextData.ai_styles,
+          style: TextStyle(
+            color: Color(0xFF222222),
+            fontSize: 28.sp,
+            fontWeight: FontWeight.w500,
           ),
-          SizedBox(height: 8.w),
-          SizedBox(
-            width: 686.w,
-            height: 152.w,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.zero,
-              itemCount: list.length,
-              itemBuilder: (_, index) {
-                final item = list[index];
-                final isSelected = item.style == selectedStyel?.style;
-                return _buildItem(item, isSelected);
-              },
-            ),
+        ),
+        SizedBox(height: 8.w),
+        SizedBox(
+          // width: 686.w,
+          height: 160.w,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (_, index) {
+              final item = list[index];
+              final isSelected = item!.style == selectedStyel?.style;
+              return _buildItem(item, isSelected);
+            },
+            separatorBuilder: (context, index) => SizedBox(width: 16.w),
+            itemCount: list.length,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _buildItem(SAImgStyle item, bool isSelected) {
+  Widget _buildItem(StyleConfigItem item, bool isSelected) {
     return GestureDetector(
       onTap: () {
         onChooseed(item);
       },
-      child: SizedBox(
+      child: Container(
         width: 120.w,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        height: 160.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.r),
+          image: DecorationImage(
+            image: NetworkImage(item.url ?? ''),
+            fit: BoxFit.cover,
+          ),
+          color: Colors.white,
+          border: Border.all(
+            width: 2.w,
+            color: isSelected
+                ? SAAppColors.primaryColor
+                : const Color(0xFFFFFFFF),
+          ),
+        ),
+        child: Stack(
           children: [
-            Container(
-              width: 84.w,
-              height: 84.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.r),
-                color: Colors.white,
-                border: Border.all(width: 2.w, color: isSelected ? SAAppColors.pinkColor : const Color(0xFFFFFFFF)),
-              ),
-              child: Center(
-                child: CachedNetworkImage(imageUrl: item.icon ?? '', width: 48.w, color: const Color(0xFF6D6C6E)),
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.6),
+                      Colors.black.withValues(alpha: 0.0),
+                    ],
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 8.w),
-            SizedBox(
-              height: 56.w,
-              child: Text(
-                item.name ?? '',
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: isSelected ? SAAppColors.pinkColor : const Color(0xFF666666), fontSize: 20.sp, fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400, height: 1),
+            isSelected
+                ? Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: SAAppColors.primaryColor.withValues(alpha: 0.13),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+            Positioned(
+              bottom: 8.w,
+              left: 0,
+              width: 120.w,
+              child: Center(
+                child: Text(
+                  item.name ?? '',
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w500,
+                    height: 1,
+                  ),
+                ),
               ),
             ),
           ],

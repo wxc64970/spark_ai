@@ -31,11 +31,11 @@ class SAMakste2 extends StatefulWidget {
   final ChaterModel? role;
   final bool isVideo;
   final Function(String text) onInputTextFinish;
-  final List<SAImgStyle> styles;
-  final Function(SAImgStyle? style) onChooseStyles;
+  final List<StyleConfigItem?> styles;
+  final Function(StyleConfigItem? style) onChooseStyles;
   final String? imagePath;
   final bool undressRole;
-  final SAImgStyle? selectedStyel;
+  final StyleConfigItem? selectedStyel;
   final bool isLoading;
 
   @override
@@ -43,7 +43,7 @@ class SAMakste2 extends StatefulWidget {
 }
 
 class _CjMakste2State extends State<SAMakste2> {
-  SAImgStyle? style;
+  StyleConfigItem? style;
   String? customPrompt;
 
   @override
@@ -69,7 +69,7 @@ class _CjMakste2State extends State<SAMakste2> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.only(left: 32.w, right: 32.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -181,69 +181,73 @@ class _CjMakste2State extends State<SAMakste2> {
         ),
         Positioned(
           left: 0,
-          right: 0,
           bottom: 10,
+          width: Get.width,
           child: Container(
-            color: const Color(0xFFF7F7F7),
+            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 40.w),
+            width: Get.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.r),
+                topRight: Radius.circular(24.r),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0x1000001a),
+                  offset: const Offset(0, -2),
+                  blurRadius: 8,
+                  spreadRadius: 0,
+                ),
+              ],
+              color: Color(0xffF7F7F7),
+            ),
             child: Column(
               children: [
-                const SizedBox(height: 8),
-                Obx(() {
-                  var createImg = SA.login.imgCreationCount.value;
-                  var createVideo = SA.login.videoCreationCount.value;
-                  return Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: SATextData.ai_balance,
-                          style: TextStyle(
-                            color: Color(0xFF222222),
-                            fontSize: 24.w,
-                            fontWeight: FontWeight.w400,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ButtonWidget(
+                      width: 462.w,
+                      height: 88.w,
+                      onTap: widget.onTapGen,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(134.r),
+                          color: Colors.black,
                         ),
-                        WidgetSpan(child: SizedBox(width: 8.w)),
-                        TextSpan(
-                          text: widget.isVideo ? '$createVideo' : '$createImg',
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: Color(0xFF1A1A1A),
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.italic,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 8.w,
+                          children: [
+                            Text(
+                              SATextData.ai_generate,
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: Colors.white,
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Image.asset(
+                              "assets/images/sa_89.png",
+                              width: 32.w,
+                              fit: BoxFit.contain,
+                            ),
+                            Text(
+                              SA.login.priceConfig!.i2i.toString(),
+                              style: TextStyle(
+                                color: SAAppColors.yellowColor,
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
-                        const WidgetSpan(child: SizedBox(width: 4)),
-                        TextSpan(
-                          text: widget.isVideo
-                              ? SATextData.ai_videos
-                              : SATextData.ai_photos,
-                          style: TextStyle(
-                            color: Color(0xFF222222),
-                            fontSize: 24.w,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-                const SizedBox(height: 8),
-                ButtonGradientWidget(
-                  onTap: widget.onTapGen,
-                  height: 96,
-                  child: Center(
-                    child: Text(
-                      SATextData.ai_generate,
-                      style: TextStyle(
-                        fontFamily: "Montserrat",
-                        fontSize: 28.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
+                  ],
                 ),
+                SizedBox(height: Get.mediaQuery.padding.bottom),
               ],
             ),
           ),
@@ -290,7 +294,7 @@ class _CjMakste2State extends State<SAMakste2> {
     );
   }
 
-  void onChooseedStyle(SAImgStyle data) {
+  void onChooseedStyle(StyleConfigItem data) {
     if (widget.isLoading) return;
     style = data;
     customPrompt = null;

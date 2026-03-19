@@ -104,6 +104,46 @@ class ImageAPI {
     }
   }
 
+  static Future<SAImgUpModle?> uploadAiImageV2({
+    required String imagePath,
+    required String style,
+  }) async {
+    try {
+      // 选择图片
+      final file = File(imagePath);
+
+      // 压缩和转换后的文件
+      final processedFile = await SAImageUtils.processImage(file);
+      if (processedFile == null) {
+        return null;
+      }
+
+      // 上传图片
+      final formData = dio.FormData.fromMap({
+        'file': await dio.MultipartFile.fromFile(
+          processedFile.path,
+          filename: 'img_${DateTime.now().millisecondsSinceEpoch}.jpg',
+        ),
+        'style': style,
+      });
+
+      final ops = dio.Options(
+        receiveTimeout: const Duration(seconds: 180),
+        contentType: 'multipart/form-data',
+        method: 'POST',
+      );
+
+      const path = SAApiUrl.upImageForAiImageV2;
+
+      var response = await api.uploadFile(path, data: formData, options: ops);
+      final json = response.data['data'];
+      final data = SAImgUpModle.fromJson(json);
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   /// 获取任务结果 ai 图片
   static Future<ImageResultRes?> getImageResult(
     String taskId, {
@@ -132,6 +172,46 @@ class ImageAPI {
         } else if (attempt < maxAttempts) {
           await Future.delayed(const Duration(seconds: 15));
           return await getImageResult(
+            taskId,
+            attempt: attempt + 1,
+            maxAttempts: maxAttempts,
+          );
+        } else {
+          return null; // 达到最大递归次数后返回null
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<ImageResultRes?> getImageResultV2(
+    String taskId, {
+    int attempt = 0,
+    int maxAttempts = 30,
+  }) async {
+    try {
+      final res = await api.post(
+        SAApiUrl.aiImageResultV2,
+        queryParameters: {'taskId': taskId},
+      );
+      var baseResponse = SABaseModel.fromJson(res.data, null);
+      final json = baseResponse.data;
+
+      if (json == null) {
+        await Future.delayed(const Duration(seconds: 15));
+        return await getImageResultV2(
+          taskId,
+          attempt: attempt + 1,
+          maxAttempts: maxAttempts,
+        );
+      } else {
+        final data = ImageResultRes.fromJson(json);
+        if (data.status == 2) {
+          return data;
+        } else if (attempt < maxAttempts) {
+          await Future.delayed(const Duration(seconds: 15));
+          return await getImageResultV2(
             taskId,
             attempt: attempt + 1,
             maxAttempts: maxAttempts,
@@ -347,6 +427,26 @@ class ImageAPI {
     }
   }
 
+  static Future<GenAvatarResulut?> avatarAiGenerateResultV2(int id) async {
+    try {
+      log.d('Requesting avatar generation result for id: $id');
+      Map<String, String> query = {"id": id.toString()};
+      var response = await api.get(
+        SAApiUrl.generateAvatarResultUrlStar,
+        queryParameters: query,
+      );
+      log.d('API Response success: ${response.data}');
+      var res = SABaseModel.fromJson(
+        response.data,
+        (json) => GenAvatarResulut.fromJson(json),
+      );
+      return res.data;
+    } catch (e) {
+      log.e('avatarAiGenerateResult error: $e');
+      return null;
+    }
+  }
+
   /// AI photo 历史记录列表查询
   static Future<List<CreationsHistory>> getAiPhotoHistoryList({
     required int page,
@@ -400,6 +500,51 @@ class ImageAPI {
     } catch (e) {
       log.e(e);
       return false;
+    }
+  }
+
+  ///aiphoto2.0 上传图片, ai 视频
+  static Future<SAImgUpModle?> uploadImgToVideoV2({
+    required String imagePath,
+    required String enText,
+  }) async {
+    try {
+      // 选择图片
+      final file = File(imagePath);
+
+      /// 文件 md5
+      var md5 = await SAImageUtils.calculateMd5(file);
+
+      // 压缩和转换后的文件
+      final processedFile = await SAImageUtils.processImage(file);
+      if (processedFile == null) {
+        return null;
+      }
+
+      // 上传图片
+      final formData = dio.FormData.fromMap({
+        'file': await dio.MultipartFile.fromFile(
+          processedFile.path,
+          filename: 'img_${DateTime.now().millisecondsSinceEpoch}.jpg',
+        ),
+        'style': enText,
+        'fileMd5': md5,
+      });
+
+      final ops = dio.Options(
+        receiveTimeout: const Duration(seconds: 180),
+        contentType: 'multipart/form-data',
+        method: 'POST',
+      );
+
+      const path = SAApiUrl.upImageForAiVideoStar;
+
+      final response = await api.uploadFile(path, data: formData, options: ops);
+      final json = response.data['data'];
+      final data = SAImgUpModle.fromJson(json);
+      return data;
+    } catch (e) {
+      return null;
     }
   }
 }

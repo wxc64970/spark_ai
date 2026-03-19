@@ -18,7 +18,10 @@ class SAVListWidget extends GetView<SasubscribeController> {
         return _buildEmptyState();
       }
 
-      return Column(mainAxisAlignment: MainAxisAlignment.start, children: [_buildSkuList(skuList)]);
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [_buildSkuList(skuList)],
+      );
     });
   }
 
@@ -81,7 +84,9 @@ class SAVListWidget extends GetView<SasubscribeController> {
                 borderRadius: BorderRadius.circular(24.r),
                 border: Border.all(
                   width: 2.w,
-                  color: isSelected ? Color(0xffDF9A44) : Color(0xffFFFFFF).withValues(alpha: 0.15),
+                  color: isSelected
+                      ? Color(0xffDF9A44)
+                      : Color(0xffFFFFFF).withValues(alpha: 0.15),
                 ),
                 color: isSelected
                     ? Color(0xffDF9A44).withValues(alpha: 0.4)
@@ -105,7 +110,11 @@ class SAVListWidget extends GetView<SasubscribeController> {
       children: [
         Text(
           getSkuTitle,
-          style: TextStyle(fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: 32.sp,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Row(
           children: [
@@ -138,7 +147,9 @@ class SAVListWidget extends GetView<SasubscribeController> {
       double num = nums is double ? nums : double.parse(nums.toString());
       String numString = num.toStringAsFixed(position);
 
-      return numString.endsWith('.0') ? numString.substring(0, numString.lastIndexOf('.')) : numString;
+      return numString.endsWith('.0')
+          ? numString.substring(0, numString.lastIndexOf('.'))
+          : numString;
     }
 
     final rawPrice = sku.productDetails?.rawPrice ?? 0;
@@ -153,7 +164,11 @@ class SAVListWidget extends GetView<SasubscribeController> {
           children: [
             Text(
               title,
-              style: TextStyle(fontSize: 32.sp, color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: 32.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             SizedBox(height: 8.w),
             Text(
@@ -173,25 +188,29 @@ class SAVListWidget extends GetView<SasubscribeController> {
         Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Image.asset("assets/images/sa_20.png", width: 40.w, fit: BoxFit.contain),
-                SizedBox(width: 8.w),
-                Text(
-                  '+${sku.number}',
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 32.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Image.asset("assets/images/sa_20.png", width: 40.w, fit: BoxFit.contain),
+            //     SizedBox(width: 8.w),
+            //     Text(
+            //       '+${sku.number}',
+            //       style: TextStyle(
+            //         fontFamily: "Montserrat",
+            //         fontSize: 32.sp,
+            //         color: Colors.white,
+            //         fontWeight: FontWeight.w600,
+            //         fontStyle: FontStyle.italic,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Text(
               price,
-              style: TextStyle(fontSize: 24.sp, color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: 24.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
 
             //  SizedBox(width: 2),
@@ -206,7 +225,9 @@ class SAVListWidget extends GetView<SasubscribeController> {
       double num = nums is double ? nums : double.parse(nums.toString());
       String numString = num.toStringAsFixed(position);
 
-      return numString.endsWith('.0') ? numString.substring(0, numString.lastIndexOf('.')) : numString;
+      return numString.endsWith('.0')
+          ? numString.substring(0, numString.lastIndexOf('.'))
+          : numString;
     }
 
     final rawPrice = sku.productDetails?.rawPrice ?? 0;
@@ -232,7 +253,11 @@ class SAVListWidget extends GetView<SasubscribeController> {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.white, fontSize: 32.sp, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -261,7 +286,11 @@ class SAVListWidget extends GetView<SasubscribeController> {
                   child: Text(
                     '/${SATextData.week}',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -269,7 +298,11 @@ class SAVListWidget extends GetView<SasubscribeController> {
             Text(
               originalPrice,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

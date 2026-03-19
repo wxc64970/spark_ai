@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/saCommon/sa_widgets/sa_network_error_page.dart';
 
@@ -16,6 +17,8 @@ void main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      MediaKit.ensureInitialized();
       // 广告初始化
       try {
         MobileAds.instance.initialize();

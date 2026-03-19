@@ -114,7 +114,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
     try {
       log.d('Checking generation result, attempt: ${retryCount + 1}');
 
-      final result = await ImageAPI.avatarAiGenerateResult(generateId);
+      final result = await ImageAPI.avatarAiGenerateResultV2(generateId);
       final imageList = result?.imageList;
 
       if (imageList != null && imageList.isNotEmpty) {

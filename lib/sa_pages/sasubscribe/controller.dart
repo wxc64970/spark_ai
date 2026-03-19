@@ -49,7 +49,9 @@ class SasubscribeController extends GetxController {
       skuList.value = SAPayUtils().subscriptionList;
 
       // 选择默认商品
-      selectedProduct.value = skuList.firstWhereOrNull((e) => e.defaultSku == true);
+      selectedProduct.value = skuList.firstWhereOrNull(
+        (e) => e.defaultSku == true,
+      );
       _updateContentText();
     } catch (e) {
       debugPrint('加载订阅数据失败: $e');
@@ -62,8 +64,8 @@ class SasubscribeController extends GetxController {
   /// 更新内容文本
   void _updateContentText() {
     if (SA.storage.isSAB) {
-      final gems = selectedProduct.value?.number ?? 150;
-      contentText.value = SATextData.vipGet2(gems.toString());
+      // final gems = selectedProduct.value?.number ?? 150;
+      contentText.value = SATextData.vipGet3;
     } else {
       contentText.value = SATextData.vipGet;
     }
@@ -121,7 +123,8 @@ class SasubscribeController extends GetxController {
   }
 
   /// 获取价格信息
-  String get currentPrice => selectedProduct.value?.productDetails?.price ?? '0.0';
+  String get currentPrice =>
+      selectedProduct.value?.productDetails?.price ?? '0.0';
 
   /// 获取单位信息
   String get currentUnit {
@@ -174,7 +177,11 @@ class SasubscribeController extends GetxController {
     if (index == 0) {
       // 滚动到最左边
       if (animated) {
-        scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
       } else {
         scrollController.jumpTo(0);
       }
@@ -182,7 +189,11 @@ class SasubscribeController extends GetxController {
       // 滚动到最右边
       final maxScrollExtent = scrollController.position.maxScrollExtent;
       if (animated) {
-        scrollController.animateTo(maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+        scrollController.animateTo(
+          maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
       } else {
         scrollController.jumpTo(maxScrollExtent);
       }
@@ -191,11 +202,20 @@ class SasubscribeController extends GetxController {
       try {
         final screenWidth = Get.width;
         final itemWidth = (screenWidth - 32 - 40) / 2 + 8;
-        final offset = index * itemWidth - (scrollController.position.viewportDimension - itemWidth) / 2;
-        final clampedOffset = offset.clamp(0.0, scrollController.position.maxScrollExtent);
+        final offset =
+            index * itemWidth -
+            (scrollController.position.viewportDimension - itemWidth) / 2;
+        final clampedOffset = offset.clamp(
+          0.0,
+          scrollController.position.maxScrollExtent,
+        );
 
         if (animated) {
-          scrollController.animateTo(clampedOffset, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          scrollController.animateTo(
+            clampedOffset,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
         } else {
           scrollController.jumpTo(clampedOffset);
         }

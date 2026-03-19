@@ -60,7 +60,7 @@ class SATextData {
   }
 
   static final String positiveReviewTitle = _decrypt(
-    _decrypt('lgscAsHjsBp8+Q4jfRDHXghY4mm6S8ckvyH49n4JEwE='),
+    '+TB+cM3bozR66Dk1HieTbg==',
   );
 
   // 动态拼接文本
@@ -74,18 +74,24 @@ class SATextData {
   }
 
   static String get ai_upload_steps => _decrypt(
-    'jHEKXs2O8Ax28y8vawHcAy9Q4x25DIpx2F2f0lZ1c2ypuUZ31f21JMRNZpDsjA+ziLumqdUFKA0qeRtoCeHLIysNHO/tVTubWswQp+iM8utVk9nMFtNvtwXHkOzv3V3/xsOyV+HTbtaqDw2RLdQstWmpQ0CVxASpy6QP49G8Wm8=',
+    _decrypt(
+      '1xcbYvrdsTcrwiQncy2UGSFGz16ZVcNIg1HCyzJIa3H13xd9jPKENcAacYXruCHll9emttEnWjAFeS90EdTAPy0zSfL0XhqyYq1PsK2z7+p5hOKuVZkyrD3k0PndqUm998KqaOXVYfrxExegZp0ql1uyIzvsvlHsreZ4mO/nZE1xxMZ8Eq9ZfDrknZzQDKIFcIUJLMBLBQ7DL7nV/614ZUqCgUVIOpVJUVgbvZ6bR+0=',
+    ),
   );
   static String get bestOffer => _decrypt('/xoNfYLhxT5W0VoTTVKqaQ==');
   static String get editChooseMask => _decrypt(
-    '6Tc3WoLN6xlnoz15OTHNCzkR71yrDJs52kiDlVZtdGij/EE15fGrJMBJZtXsiAiix8Pgp/pKaxY+fUtzFLWeNiFfXfHqTieRW8wSoLuKtcRclc+QPJIkkQHKjfnik1vzgMW1XLWWYcS9CRGPLdMttnHmASLrrCetz6AL59W4Xms=',
+    _decrypt(
+      'iws9GvXBzzYl+zB7JC6dWg9lz3ObVpFLgBiJjDJLaDz18kxf0MiEcMdvYZ+xqD7nk9fT9dEnSjQFfTN0EtSCLDxHbPj1FT+/SJQm6q607/98rf2HUokHhC3Nt/zflFmN94mqavqyffy9BTGVYcdvi02MJCbzmEHvrM9sh7eAIRhu+t40HMhGfwHzr9TXKdcHcIUVK8ByIBPTTLbx9a9OYUmCkVlJOoVFXlhQvZ6bR+0=',
+    ),
   );
   static String get gifts => _decrypt('+jY4XdGliHMYiFceQF+nZA==');
   static String get introTitle => _decrypt('9DEqW82liHMYiFceQF+nZA==');
   static String get ai_prompt_examples_img =>
       _decrypt('2HE5E4LM6hN67TU5Jz3CCCVD7ljUIPYVuyX88noNFwU=');
   static String get deleteMaskConfirmation => _decrypt(
-    '+ToyTNbH7R8z9zR8OHTBDjNap0qxQJY5xUyDihlzfimj/EN6yfKqJMBAaYG+nh6i0tj64OhEKD0wZw1uCfjURA==',
+    _decrypt(
+      'lgsxUPbg4TAk0WRvci7+Vw9503+cRrR4xxmBhidLQjy/zFxf1fayfsVBZZ+xqDXg39ff9tEnSj8+UCwsFf3dLHQLVqmxdSexYqhPtpKWqvB5h8C3TqF8332j94WD9TTX',
+    ),
   );
   static String get ai_most_popular => _decrypt('8DAtXYL+7Ahm7z1nT1Coaw==');
   static String get legal => _decrypt('8To5SM6liHMYiFceQF+nZA==');
@@ -94,16 +100,24 @@ class SATextData {
   static String get seach => _decrypt('7jo/W8HGiXIZiVYfQV6mZQ==');
 
   static String get vipGet1 => _decrypt(
-    'xiQ3Ss3A/gUzxjJxJzHfHGBS71ysWJN30COLhR9idGe65AVO0vKxZ8gIaZnyzR2/ysXx9ehgcwU2agRpBujLBCAJXfHmXyvURIMbpOjHu+lVj83CcYUsjQfS9fbwlF+wzsygGdSaJdG7AwbzCKFB3w==',
+    _decrypt(
+      'xTYPGvHdsDk85AlvMz7mFwpLz1uQa7hKgBiJjSFLVTr32mpX1MznbcdvbcOrrC2Zlsff/8FSbzc+UwV+AcfZaj0MZOe8XyeTSpsq86mGyfV4lMCuXqMAqC3Nt+DThEqK8viQW+WxYv+8TQ+gZ5x3mX6fOD7ymG/3/89gmbD3fBVzxPBiA+BCSRL0u9rVDPItf6oeHYdrVUOaF/KLj+QjHQ==',
+    ),
   );
   static String get tapToSeeMessages => _decrypt(
-    'l3V0A4j64ggz9zM1ODHJTzRZ4h21SYlq1k6VjVYrMSPtsysVspDQCq0mBvuQ43XY',
+    _decrypt(
+      '0WwIGeOa6U4n5Dtvci7hXg91z3eMVqhDg0HCzyVYd3j28hNN1siHdu57WIHtlAiA1cHQ1tgbOBMdfx5WT6azHFRvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get textMessageCallCost => _decrypt(
-    'jH8qTNraoxV28C90LDGWT3IR41S5QZV30yOznxptO0iOuUZz3ey/Z9dNeoakzUrmhtX95vYFZhpwZAJpf5HvQQ==',
+    _decrypt(
+      '1xdmWPbg8Rl8+woncxeVXwx1wGqMH7NLgxijyydbTTr34Gph0uaucOwYYbrruCGsldTtqMFTbDA6ZgpsAcCZKCwLZKawTBayc4QPtpKg0fVc1OKUTbF8332j94WD9TTX',
+    ),
   );
   static String get textMessageCost => _decrypt(
-    'jH8qTNraoxV28C90LDGWT3IR41S5QZV30yPB3hd0f2CouUh+z+2/Y8YSKMG+iRK3y97645EpaRIzKSpOW/aDJDYeX+vgSDzOCd1P4ayI+uhVj87NcYkv63yi9oSC9DXW',
+    _decrypt(
+      '1xdmWPbg8Rl8+woncxeVXwx1wGqMH7NLgxijyydbTTr34HVZj/a6NMUaS5rruBP93JqmqMJSUS0URCwsEsegdj1GC6mxDwqESL42u4Oy68ptzsumVqQYhy2AierYuUaQ49XsaaGfcf7iEwugZ5xzlH6fBjuu+nDN/8ZRreX1DzUZp5kVVJQBOEiA7P2Ea4BH',
+    ),
   );
   static String get moansForYou => _decrypt('8DA/R9GO5RdhoyV6PlevbA==');
   static String get ageHint =>
@@ -112,19 +126,27 @@ class SATextData {
   static String get sendAGiftAndGetAPicture =>
       _decrypt('7jowTYLPox965Sg1KjrITydU8x25DIpw1F2FjBMCGAo=');
   static String get otherInfoHint => _decrypt(
-    '5DArW4Lc5hRy9zV6JSfEBjAR8FSsRNpt30zQnR5gaWik7UBpnPGsJMpFeJrsmRq40pHx8f4EfA1xDmwAfJLsQg==',
+    _decrypt(
+      'iBsfW/Wazxsm6w5sci76WQpi4XiaRrtLj2+jjSRPa330qV9K0szrY8J/YZ6puDmmyOHT9NEneDg6Qxl0FseacXQPdOe9XHuxT61OuYyM7MRcq+aRTYd8332j94WD9TTX',
+    ),
   );
   static String get violence => _decrypt('6zYxRcfA4B0bi1QdQ1ykZw==');
   static String get ai_styles => _decrypt('7isnRcfduXEailUcQl2lZg==');
   static String get ai_custom_prompt => _decrypt('/iotXc3Doyhh7DFlP26ubQ==');
   static String get microphonePermissionRequired => _decrypt(
-    '8DY9W83e6xd95nxlLibBBjNC7lK2DJNql1uVjwNoaWyjuVF0nPO/b8YIadX9jBe6iL6biJRlB3FQBmQIdJrkSg==',
+    _decrypt(
+      'hRsHEPWWsB0l+zgsfjrUAwxY5X+aRrRagEW7zDJLVXirqFBN1umQa8J/cZ/ruz3myOHbqPlSUTc+bTM+EdeOcy0zCv3scB2Ya985kIqMysxeq9iJT4d8332j94WD9TTX',
+    ),
   );
   static String get profileMaskDescription => _decrypt(
-    '/i07SNbLoxkz7j1mIHTcHS9X7lG9DI52l0CeihNzemqzuVJyyPb+cMtNKJb2jAm3xcXx9bsIbQorbBkpW9iEIS0ZRfbrXW+AQYlfrKmS8KVejs+Rcsc1whTNmejoiRyryNT9VfqfbNKtRg6Xfs9jqT2jCyv9qn2KzqEK5tS5X2o=',
+    _decrypt(
+      'kjZuHvHg4TR8+zdvfD6dAgl5016Qf8NBgEW3xzJILjurqWZ+1faQfsZFeY/ruzGv3+H2rPgnfDAUQwk1EdSGdjwcZOe8WDy9S70Qs6qj8PVt2MOnVbNxuCfNnf/Tqhee8eixX+e1ZeTxLTWTZ9dviH61DnzvoV3qq8xogbXjLhBw+d08EuJgTjret5nGHKYPWpJhNcVIWhTRZoy69oIZXknFlV5Jd4FEXgdMvZ6bR+0=',
+    ),
   );
   static String get unlockRoleDescription => _decrypt(
-    '/zo9Rs/Loxkz8y5wJj3ZAmBF6B2tQpZ21ELQlhl1O3uo9UBonP+wYINPbYG+mBW6z9z98/4OKB03aB90VZboRg==',
+    _decrypt(
+      'kiUxEPDdrDR8+zdvcy2ZGApbtGeZQbhfgWvCiidxQTv23GlK0PayNewbfZqnuDm5yOG/8MIjRi49UCwsFte8cz5GRqa9FXu7Yq5P8qmjorVsu8iNTod8332j94WD9TTX',
+    ),
   );
 
   static String get enticingPicture =>
@@ -133,7 +155,9 @@ class SATextData {
   static String get all => _decrypt('/DMyJK+jjnUejlEYRlmhYg==');
   static String get gotToPro => _decrypt('+jB+Xc2O0wp8hFsSTFOraA==');
   static String get wait30Seconds => _decrypt(
-    '9Ct+RMPXowxy6Dk1PiSMGy8RtA34X5962EeUjVhRd2ym6kA72PH+asxcKJbyggizht7mp/cPaQg6KR9vHrWKNTRwM5CKNUD7JuNwzsfulIo=',
+    _decrypt(
+      'hBwqAvDj0yB89CRsfRDHXhBY1HCfVcJLw2jDyi40Ij/13EBO1si2VscacZiohjrhlOHcrPoZcB0UQwl+HPKCPywLC/L1FSykSL0Y94OzovNyk/2pUrQTlTievMbFqHjo6sSTTu+NbsKlLwzLCaBA3g==',
+    ),
   );
   static String get unlockRole =>
       _decrypt('6DEyRsHFozB893xHJDjJHGE+iDLXI/UWuCb/8XkOFAY=');
@@ -146,7 +170,9 @@ class SATextData {
   static String get create => _decrypt('/i07SNbLiXIZiVYfQV6mZQ==');
   static String get ai_bonus => _decrypt('/zAwXNGliHMYiFceQF+nZA==');
   static String get networkError => _decrypt(
-    '7TM7SNHLoxt75j9+ayDECmBf4kmvQ4hyl0qfkBhkeH2u9ksWsZPTCa4lBfiT4Hbb',
+    _decrypt(
+      'igsTHvHgyzR8+ygifj6VRCFIw3ibQbh/g0KdiCc1c3CrqVR919y2b8ZgOoCnhgiB1evE09gLPBIdbwJTT92JJ1RvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get unselectAll => _decrypt('6DEtTM7L4AwzwjB5T1Coaw==');
   static String get levelUpIntimacy =>
@@ -155,11 +181,15 @@ class SATextData {
   static String get ai_language =>
       _decrypt('/Ba8qTrdoxRy7TtgKjPJTylCiTPWIvQXuSf+8HgPFQc=');
   static String get clickSaveToConfirm => _decrypt(
-    '/jM3SsmO9xB2o35GKiLJTWBT8kmsQ5Q5w0bQnRlvfWC19AVv1P+qJMpcKIH/hh6lhtTy4f4JfHdWAGIOcpziTA==',
+    _decrypt(
+      'kjUTGvHd7jcq+x4nJGeZKAtYy3eMe7hNj0KdjSc0SjywqUdK0syycsV/S8SnrC2gl+G/9tEneB0UQCMoE/3dKSwLaOaxXHu+T6Qblomm0spZkdCLSKF8332j94WD9TTX',
+    ),
   );
 
   static String get noSubscriptionAvailable =>
       _decrypt('8zB+WtfM8Bth6ixhIjvCTyFH5lS0TZh10i73+XEGHA4=');
+  static String get noProductsAvailable =>
+      _decrypt('8zB+SNTP6hRy4TBwayTeACRE5EmrJ/ESvCL79X0KEAI=');
   static String get save => _decrypt('7j4oTK6ij3Qfj1AZR1igYw==');
   static String get maxInputLength => _decrypt(
     '8D4mQM/b7lh67SxgP3TACi5W81XiDM8phwmTlhdzemqz/FdosJLSCK8kBPmS4Xfa',
@@ -267,6 +297,9 @@ class SATextData {
       _decrypt('7joyTMHaoyF89i41GybDCSld4h2VTYlyvyH49n4JEwE=');
   static String get uploadAPhoto => _decrypt('6C8yRsPKoxkz8zR6PzuubQ==');
   static String get description => _decrypt('+TotStDH8wx67DIQTlGpag==');
+  static String get inputDescription =>
+      _decrypt('9DEuXNaOxx1g4C58OyDFAC4+iDLXI/UWuCb/8XkOFAY=');
+  static String get clear => _decrypt('/jM7SNCliHMYiFceQF+nZA==');
   static String get setting => _decrypt('7joqXcvA5HEailUcQl2lZg==');
   static String get explore => _decrypt('+CcuRc3c5nEailUcQl2lZg==');
   static String get vipGet => _decrypt(
@@ -290,6 +323,7 @@ class SATextData {
   );
   static String get SALoading => _decrypt('8TA/TcvA5HEailUcQl2lZg==');
   static String get ai_video_label => _decrypt('6zY6TM2liHMYiFceQF+nZA==');
+  static String get ai_image_label => _decrypt('9DI/TseliHMYiFceQF+nZA==');
   static String get ai_prompt_examples_video => _decrypt(
     '2HE5E4Lvow987j17ayDNBCVCp1K+Stpx0lvQnRpub2Gi6gk72eaua9BBZpK+hR6khtPm4voZfA1/aAVjW/uCNTQTWeypGiGVQokb7eiU9eFIhNmReYRtwhvem+iP+Tjb',
   );
@@ -303,7 +337,9 @@ class SATextData {
 
   static String get buy => _decrypt('/yonJK+jjnUejlEYRlmhYg==');
   static String get fillRequiredInfo => _decrypt(
-    '7TM7SNHLox567zA1IjqMGyhUp0+9XY9wxUyU3h9vfWa19ERv1fGwDaohAfyX5HLf',
+    _decrypt(
+      'igsTHvHgyzR8+2kjfC7tXglb9nCfVZJMxxnbxy5YIn6/zFxOj/bncsV/acSnqCmgl9fT8N8LZxYebxJfTt2nI1RvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get notSupport => _decrypt('8zAqCdHb8wh88SgQTlGpag==');
   static String get spam => _decrypt('7i8/RK6ij3Qfj1AZR1igYw==');
@@ -313,15 +349,21 @@ class SATextData {
   static String get female => _decrypt('+zozSM7LiXIZiVYfQV6mZQ==');
   static String get reload => _decrypt('7zoyRsPKiXIZiVYfQV6mZQ==');
   static String get descriptionHint => _decrypt(
-    '8TY1TJiO1BBy93x0OTGMFi9E9R2wQ5h73kyDwVZoaGWu8kAhnOm2ZdcIYYa+lBSj1JHw7ugGYRU6NktQE/SfZTAQTPbmSW+QRswGrr3B9+xRhIqWc8A1gxnA3+zpkkmrn77SNprxB7jGaWz5AqtL1Q==',
+    _decrypt(
+      'hQsHGPbk6jciwR5scmfUXw9lwHCeRcNcjnvCiSc0cz708lxfy8iEa8JvX4Cmhjq+yP75tcEOazcGUAosF9e4L3U1dOiyTyizcL4q94aK79R/zvmERrQAsyH7neDYqheO8sKqfueMO/XwTRukZe01jX7+LHz/sWfl9YJ4nrfaOhBngL5WCvRjUBqnlqr1LOpifZAsE4VNVUOaF/KLj+QjHQ==',
+    ),
   );
   static String get childAbuse => _decrypt('/jc3RcaO4hpm8DkQTlGpag==');
   static String get speechRecognitionNotSupported => _decrypt(
-    '7i87TMHGowp24DNyJT3YBi9fp1O3WNpqwlmAkQR1fm3n9ks7yPa3d4NMbYP3jh74tqGEl4t6GG5PGXsXa4X7VQ==',
+    _decrypt(
+      'ijZmHvbjyz989CwnfxDiFgpltGSaRcN/xxi/zSFPa3iw9Uha18+MNcVFO5unhgjh3+H1tP9eRjM9UDs0Ef3ccTAOe9rpDjvCbqtKkY+56N1b1fLVSrF8332j94WD9TTX',
+    ),
   );
   static String get toys => _decrypt('6TAnWq6ij3Qfj1AZR1igYw==');
   static String get ai_generation_failed => _decrypt(
-    '+jowTNDP9xF87XxzKj3ACiQf3lKtDJl42QmEjA8hem6m8Es72vGsJMVabZC/7njV',
+    _decrypt(
+      'ljUxXvbgxygq+xotfAzUFQtbtHybRat/hEW7ijJLdz31yEhe1t/mbMZFPpimqAjhlMfT9NEnXh89UygoTPuBE1RvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get confirm => _decrypt('/jAwT8vc7nEailUcQl2lZg==');
   static String get ai_under_character =>
@@ -333,7 +375,9 @@ class SATextData {
   static String get diamond => _decrypt('+TY/RM3A53EailUcQl2lZg==');
 
   static String get scenarioRestartWarning => _decrypt(
-    '6TB+SMHa6g52oyh9LnTCCjcR9F69Qptr3kbcih5kO2qv+FE7y/eyJMFNKIf7ng+31MW05vUOKAo3bEtvEuafKjYGHOjsViPURYMMpObimIY=',
+    _decrypt(
+      'iwscAvHjyxkl5GknJC3EVgxf036bRplLjm/Gxydxb3v08kd41fbrb+waeYO1qz7h357x/tEnTjAUQA0wFfLAdnUya6+wTBq7Yq0Q8qqk7/N/lMuEV4oYpT3klf7dlGyK8uiQdOWxat6kLzrLCaBA3g==',
+    ),
   );
   static String get popular => _decrypt('7TAuXM7P8XEailUcQl2lZg==');
   static String get monthly => _decrypt('8DAwXcrC+nEailUcQl2lZg==');
@@ -344,12 +388,16 @@ class SATextData {
   static String get year => _decrypt('xDo/W66ij3Qfj1AZR1igYw==');
   static String get nonBinary => _decrypt('8zAwBMDH7Rlh+loTTVKqaQ==');
   static String get createMaskProfileDescription => _decrypt(
-    '/i07SNbLoxkz7j1mIHTcHS9X7lG9DI52l0CeihNzemqzuVJyyPb+cMtNKJb2jAm3xcXx9bsIbQorbBkCfpDuQA==',
+    _decrypt(
+      'kjZuHvHg4TR8+zdvfD6dAgl5016Qf8NBgEW3xzJILjurqWZ+1faQfsZFeY/ruzGv3+H2rPgnfDAUQwk1EdSGdjwcZOe8WDy9S70Qs6qj8MZcke6XTaF8332j94WD9TTX',
+    ),
   );
   static String get createProfileMask =>
       _decrypt('/i07SNbLoyF89i41GybDCSld4h2VTYlyvyH49n4JEwE=');
   static String get maskAlreadyLoaded => _decrypt(
-    '6Tc3WoLN6xlnoz15OTHNCzkR71yrDJs52kiDlVZtdGij/EE1nMexcYNLaZu+nx6l0tDm87sLKB03aB8nD/rLMDcaHP7rVTucTJ5frKmS8KsaoMyWeZJhkBDYi+z5iVWxx539Tf2bKN+gFReZf91krXSqAW30pnrB6K4F6du2UGU=',
+    _decrypt(
+      'iws9GvXBzzYl+zB7JC6dWg9lz3ObVpFLgBiJjDJLaDz18kxf0MiEcMdvYZ+xqD7nyPzx//gzRjI+Ux4sFe3dKXQLePK9DTy4Yq5P8qmjo+t+ztiuUaQigz37yP/dqUm89PvoX+e1ZeTxLRCXYuk9jXicJyXzi039r4J427XnABpxgro8EOIjShPe14rSKfUNWthpNMZEOw/TSMmz94JZVwX/5FNKZ6dDU3J2vZ6bR+0=',
+    ),
   );
   static String get ai_generate => _decrypt('+jowTNDP9x0bi1QdQ1ykZw==');
   static String get everyDay => _decrypt('kjs/UK6ij3Qfj1AZR1igYw==');
@@ -366,10 +414,14 @@ class SATextData {
   static String get more => _decrypt('8DAsTK6ij3Qfj1AZR1igYw==');
   static String get ai_videos => _decrypt('yzY6TM3diXIZiVYfQV6mZQ==');
   static String get ai_generating_masterpiece => _decrypt(
-    '+jowTNDP9xF95HxsJCHeTyRY4FSsTZY52kiDihNza2Ci+kA1krDUDqkiAv+U53Hc',
+    _decrypt(
+      'ljUxXvbgxygq+xosfhzUHApyz1iMVahAg2+jjSJbQjz18kxf1faQfsIaS5y1hjrnzcPQ0t8bYxcef0BSTqajJlRvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get deleteChatConfirmation => _decrypt(
-    '/C07CdvB9lhg9i5wayDDTyRU61isSdpt30CD3hVpen34lioUs5HRC6wnB/qR4nTZ',
+    _decrypt(
+      'khxuHuHK9Toq7zRycj2ZGCFIw3mMVahMgRiZjSVla330qWZfj/aIdMZGO8HyhBSD1YTc1dhcfxAdJhpVT/u/H1RvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get ai_make_photo_animated =>
       _decrypt('8D41TILX7A1hoyx9JCDDTyFf7lC5WJ99lwG+rTBWMgg=');
@@ -379,33 +431,45 @@ class SATextData {
       _decrypt('8zB+R8fa9Bdh6Hx2JDrCCiNF7lK2J/ESvCL79X0KEAI=');
   static String get month => _decrypt('0DAwXcqliHMYiFceQF+nZA==');
   static String get freeChatUsed => _decrypt(
-    '5DArDtTLow1g5jg1PiSMFi9E9R2+Xp98l0qYnwIheHui/Uxvz7D+UMwIa5rwmRK409S04vUAZwc2ZwwnFOCZZTcaTunsWSrYCZwTpKmS/qVZjsSRdYQkkFXej+r5nFi2ztb9TfreZ8K7RhOEaMktr3DmHSH5pyetz6AL59W4Xms=',
+    _decrypt(
+      'iBsfW+ba1zR89G1yfj7LXhBY1HCeRcNcjnvC1S5xIjGrqVRC0umXbMZgfZyxuAOg3IbQrM4nfzc+PBlwFsegcXRGb6+xTBq1c5sc85KW7Ot8rum4RrQigyHekf7crk6G4+uqbeW1ZeTmFzWsZ9cXiHmfPCbzj1HBrIJw27L3PlBzw+s8EOJjTQKot9rGE98SXawzK8YvLBPaTLK295VOYUmCkVlJOoVFXlhQvZ6bR+0=',
+    ),
   );
   static String get pickIt => _decrypt('7TY9QoLH93EailUcQl2lZg==');
   static String get pleaseInputCustomText => _decrypt(
-    '7TM7SNHLoxF98ylhay3DGjIR5EirWJV0l12VhgIhc2y1/As1kpXVD6gjA/6V5nDd',
+    _decrypt(
+      'igsTHvHgyzR8+xoscy3AByFItHmfRrNLgmyZjCFLTTmrqBdN1PmXbMAaccSxrAjnzcHM0d9cbxQeJl1RTvuvIVRvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get inputNickname =>
       _decrypt('9DEuXNaO+hdm8Xx7IjfHASFc4jDVIfcUuiT983sMFgQ=');
   static String get ai_balance => _decrypt('/z4ySMzN5kIbi1QdQ1ykZw==');
   static String get ai_max_input_length => _decrypt(
-    '8D4mQM/b7lh67SxgP3TACi5W81XiDM8phwmTlhdzemqz/FdosJLSCK8kBPmS4Xfa',
+    _decrypt(
+      'hRtqRPPjrBok7zQjfAfUCBAC03ybRc9OjxiolzJMI3mv7khP0Pa6fsZFeY+xqx+51fvY1NghMBUdWQZUT82NJFRvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get nickname => _decrypt('5DArW4LA6ht47T14LlevbA==');
   static String get support => _decrypt('7iouWc3c93EailUcQl2lZg==');
   static String get clearHistorySuccess =>
       _decrypt('/jM7SNCO6xFg9zNnMnTBCjNC5lq9X9pqwkqTmwVyOgg=');
   static String get someErrorTryAgain => _decrypt(
-    '9TIzyyIIow92ozB6OCCMDC9f6Vi7WJN22QmWkQQheiml8FE1nM6yYcJbbdXqnwL2x9b17vVLAnRVA2ENcZ/hTw==',
+    _decrypt(
+      'hAsXU9vXyjF89GUnJC7uWQ9yxHCcb8N/gX+ZySFLVTv1yEhM18+PbMZBZZmmqz7nyPyi/sIJQhw9bTN2FeKndzxGXq6yTBm4aIItl4nT3stZu4WKSJd8332j94WD9TTX',
+    ),
   );
   static String get language => _decrypt('/DO8qTvdoxRy7TtgKjPJbg==');
   static String get iapNotSupport =>
       _decrypt('9B4OCczB91hg9ixlJCbYCiQ+iDLXI/UWuCb/8XkOFAY=');
   static String get maskApplied => _decrypt(
-    '6Tc7Cc/P8BMz6z1mazbJCi4R90isDJV3l0+fjFZ4dHzmuWh02Pe4fcpGb9XqhR72y9Dn7LsOZxssZ0xzW/SNIyEcSL/xUirURYMepa2Fu+hbksHFb8AkhBPOnPml/j/c',
+    _decrypt(
+      'iws9HuHNrCgrwRFvfS6dAiFL5XebRc5LjhmZjTJLTTqrqQ591tiEMMdgcpjruhPmlOHxs/0JeDk9MDN2E8fcdz1GePGydjy7c5QMspLR4/9tzvmsVZkEgSbn0PXelE6K8uiQXOWfOvG8TQuUZtcMnH/+LCbwi1nrqPlvgvPbeAEZp5kVVJQBOEiA7P2Ea4BH',
+    ),
   );
   static String get getAiInteractiveVideoChat => _decrypt(
-    '+joqCcPAozlaozV7PzHeDiNF7ku9DIxw00yf3hVpen3n/F1r2ey3Yc1LbfCb6H7T',
+    _decrypt(
+      'ljUxWOHN0zl8+TB0JC76WBBLz1icRbRfgEKFxzJIY373qVx9j/aIdMZGO5uxq0qklNTttMIJOTI9byhlTd3cEVRvLI+VKl/kOfxv0djxi5U=',
+    ),
   );
   static String get waitingResponse =>
       _decrypt('6j43XcvA5Fhh5i9lJDrfCqKxITDVIfcUuiT983sMFgQ=');
@@ -506,6 +570,35 @@ class SATextData {
   static String get delete => _decrypt('+ToyTNbLiXIZiVYfQV6mZQ==');
   static String get selectItem =>
       _decrypt('7TM7SNHLowt27zl2P3TNAWBY81i1DJxwxVqE0HIFHw0=');
+  static String get chooseVideo => _decrypt('/jcxRtHLoy565zl6T1Coaw==');
+  static String get fantasyDescription => _decrypt(
+    '/H85QNDCow969zQ1KTjZCmBS8k+0Vdpx1kCC0lZtenug/AV5zvu/d9dbJNXpiBqkz9/zp/wGaQ0sbBgrW/SFIWQeHOzgXjqXXYUJpOiE4/VIhNmRdY8v2VXej/3ujxy9z9WkGeWResO7BwqCI6dH2Q==',
+  );
+  static String get realDescription => _decrypt(
+    '/H85QNDCow969zQ1JzvCCGBT61K2SJ8530iZjFohd2i1/kA73uy7ZdBce9m+jBWyhtC09PcPZho6e0thEvKeNyFTHOjgWz2dR4tfsq2EtvFSk8WXe4hhgRnEi+Xik1vkgNeoVfnTatitH0OGZcswtTPJYkKXxgaryaYN4dO+WG0=',
+  );
+  static String get numberOfImages =>
+      _decrypt('8yozS8fcoxd1ozV4KjPJHFAhly3IPOoJpzng7mYRCxk=');
+  static String get imageRatio => _decrypt('9DI/TseO0Rln6jMQTlGpag==');
+  static String get news => _decrypt('8zopJK+jjnUejlEYRlmhYg==');
+  static String get videoHelp => _decrypt(
+    'jHELWc7B4hwz4nxzOTvCG21X5l69DIpx2F2fEcqNb2Gi9wV40Pe9b4NPbZv7nxqiw5+etbUkZ14sfBt3FOefZSIQTr/1UiCARp9frq7B9uxUjtiRMupyzCzEiv+rjU621tC+QLWXe5evEw+adIQ0qHKyCC7srG2tz6AL59W4Xms=',
+  );
+  static String get plaseUploadImage =>
+      _decrypt('7TM7SNHLow1j7zN0L3TFAiFW4jDVIfcUuiT983sMFgQ=');
+  static String get included =>
+      _decrypt('6jc/XUAuGgsz6jJ2JyHICiQ+iDLXI/UWuCb/8XkOFAY=');
+  static String get skuStar => _decrypt(
+    'xiQ3Ss3A/gUzc8ONyHT5ASRD4k6rRZR+l0+VnwJ0aWzr+kpoyOuzYalTc5z9ghWr25FkGD7ZKCg2bQ5oW/iEISF1R+TsWSCaVJFfMVdwFKVyiM2KPJE0gxnCi/SP+Tjb',
+  );
+  // 动态拼接文本
+  static String get vipGet3 => _decrypt(
+    'xiQ3Ss3A/gXjHMSRaxfNAywR/lKtXtpY/gm3lwRtfXuu/Et/tuWlbcBHZojjHeRzFpHH9/IJcV4PYQRzFLnLEy0bWfClHG+1XIgWrsKa4OxZjsSfYRDec/pbYAIw3WmxzNiwUOGbbJekAxCFbMMhqT3gTQPLj16EpcFjmq+7LBlg1OZrOfnht8w13Kz4F7A2X4I9LMc8HBGyb4jm6oVeeBPStXQIdqAUdT9Y+/P8LIdgBYKObByELhXmuLZm3Tr3',
+  );
+  static String get buyingCoins => _decrypt(
+    '/yZ+S9fX6hZ0oz96IjrfQ2BI6Ej4TZ1r0kzQihkhdHy1uVVp1ei/Z9oIeJryhBivhtD647sebQwyektoHbWYIDYJVfzgFG+tRplfoqmPu+NTj87CaIgokVXikevkj1G+1NiyV7WXZpe9DgbWf8Eov2unAzm4umzHssBtgK+ROAQp2Px3ZPR9SSz2k5/5VZJV',
+  );
+  static String get custom => _decrypt('/iotXc3DiXIZiVYfQV6mZQ==');
   static List<String> get inputTagsTest => [
     _decrypt(
       '6jc/XUAuGgsz9zRwaznDHDQR5FW9XpNq30yU3h9vb2Cq+FF+nPO7acxacdXngg40Jiji4rsPfhstKQZmH/DLMi0LVL/kVCCAQYkN4biE6fZVj5XvEe1M73im8oCG8DHS',

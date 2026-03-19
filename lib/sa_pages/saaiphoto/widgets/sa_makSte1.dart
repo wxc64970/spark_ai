@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:image_comparator/image_comparator.dart';
 import 'package:spark_ai/saCommon/index.dart';
 import 'package:video_player/video_player.dart';
 
@@ -32,10 +34,12 @@ class _CjMakste1State extends State<SAMakste1> {
       'https://static.pppdgb7roqqonqzc.com/spark/df672f95229d9a05582cf929d47b2e4f1e07033b91961d05ac3ed0668783a9cd.jpeg';
   String videoUrl =
       'https://static.pppdgb7roqqonqzc.com/spark/b059f67331701eab9054e4f90020bd1504377a0e3a252f8abc6e1e6ca4da95fd.mp4';
+  StyleConfigItem? exampleImage;
 
   @override
   void initState() {
     super.initState();
+    _initData();
 
     FileDownloadService.instance
         .downloadFile(videoUrl, fileType: FileType.video)
@@ -53,6 +57,16 @@ class _CjMakste1State extends State<SAMakste1> {
         _initVideoPlayer();
       }
     }
+  }
+
+  void _initData() async {
+    SA.login.fetchUserInfo();
+    if (SA.login.exampleImage == null) {
+      await SA.login.getStyleConfig();
+    }
+    setState(() {
+      exampleImage = SA.login.exampleImage;
+    });
   }
 
   void _initVideoPlayer() {
@@ -90,14 +104,14 @@ class _CjMakste1State extends State<SAMakste1> {
     final imgW = 542.w;
     final imgH = 700.w;
 
-    bool hasRole = widget.role != null;
+    // bool hasRole = widget.role != null;
 
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
         Positioned.fill(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(0),
+            padding: EdgeInsets.only(left: 32.w, right: 32.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -121,7 +135,37 @@ class _CjMakste1State extends State<SAMakste1> {
                                     child: VideoPlayer(_controller!),
                                   )
                                 : imageErrorWidget()
-                          : SAImageWidget(url: imageUrl),
+                          // : SAImageWidget(url: imageUrl),
+                          : ImageComparator(
+                              height: imgH,
+                              width: imgW,
+                              image1: SAImageWidget(
+                                url: exampleImage!.icon ?? '',
+                              ),
+                              image2: SAImageWidget(
+                                url: exampleImage!.url ?? '',
+                              ),
+                              controlLineWidth: 4.w,
+                              controlLineColor: SAAppColors.primaryColor,
+                              controlThumb: Container(
+                                padding: EdgeInsets.all(10.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  color: SAAppColors.primaryColor.withValues(
+                                    alpha: 0.8,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.code,
+                                    color: Colors.black,
+                                    size: 60.sp,
+                                  ),
+                                ),
+                              ),
+                              controlHorizontalOffset: 0.5,
+                              controlVerticalOffset: 0.5,
+                            ),
                     ),
                   ),
                 ),
@@ -162,53 +206,103 @@ class _CjMakste1State extends State<SAMakste1> {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 112.w),
-              child: ButtonGradientWidget(
-                height: 88,
-                onTap: widget.onTapUpload,
-                gradientColors: hasRole
-                    ? const [Colors.white, Colors.white]
-                    : const [SAAppColors.primaryColor, SAAppColors.yellowColor],
-                child: Center(
-                  child: Text(
-                    SATextData.uploadAPhoto,
-                    style: TextStyle(
-                      fontFamily: "Montserrat",
-                      fontSize: 28.sp,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 112.w),
+            //   child: ButtonGradientWidget(
+            //     height: 88,
+            //     onTap: widget.onTapUpload,
+            //     gradientColors: hasRole
+            //         ? const [Colors.white, Colors.white]
+            //         : const [SAAppColors.primaryColor, SAAppColors.yellowColor],
+            //     child: Center(
+            //       child: Text(
+            //         SATextData.uploadAPhoto,
+            //         style: TextStyle(
+            //           fontFamily: "Montserrat",
+            //           fontSize: 28.sp,
+            //           color: Colors.black,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 40.w),
+              width: Get.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.r),
+                  topRight: Radius.circular(24.r),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0x1000001a),
+                    offset: const Offset(0, -2),
+                    blurRadius: 8,
+                    spreadRadius: 0,
+                  ),
+                ],
+                color: Color(0xffF7F7F7),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonWidget(
+                        width: 462.w,
+                        height: 88.w,
+                        onTap: widget.onTapUpload,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(134.r),
+                            color: Colors.black,
+                          ),
+                          child: Center(
+                            child: Text(
+                              SATextData.uploadAPhoto,
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: Colors.white,
+                                fontSize: 28.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
 
-            if (hasRole) ...[
-              SizedBox(height: 32.w),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 112.w),
-                child: ButtonGradientWidget(
-                  onTap: widget.onTapGenRole,
-                  height: 88,
-                  borderRadius: BorderRadius.circular(100.r),
-                  child: Center(
-                    child: Text(
-                      widget.hasHistory == true
-                          ? SATextData.ai_view_nude
-                          : SATextData.ai_under_character,
-                      style: TextStyle(
-                        fontFamily: "Montserrat",
-                        fontSize: 28.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-            SizedBox(height: 32.w),
+            // if (hasRole) ...[
+            //   SizedBox(height: 32.w),
+            //   Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 112.w),
+            //     child: ButtonGradientWidget(
+            //       onTap: widget.onTapGenRole,
+            //       height: 88,
+            //       borderRadius: BorderRadius.circular(100.r),
+            //       child: Center(
+            //         child: Text(
+            //           widget.hasHistory == true
+            //               ? SATextData.ai_view_nude
+            //               : SATextData.ai_under_character,
+            //           style: TextStyle(
+            //             fontFamily: "Montserrat",
+            //             fontSize: 28.sp,
+            //             color: Colors.black,
+            //             fontWeight: FontWeight.w600,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ],
+            // SizedBox(height: 32.w),
           ],
         ),
       ],
