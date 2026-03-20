@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:media_kit_video/media_kit_video.dart';
+import 'package:video_player/video_player.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 import '../index.dart';
@@ -174,14 +174,47 @@ class SASheetVideoWidget extends GetView<SachoosevideoController> {
                                 height: 448.w,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16.r),
-                                  child: Video(
-                                    controller:
-                                        controller.videoControllers[controller
-                                            .videoDetailIndex
-                                            .value],
-                                    controls: NoVideoControls,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child:
+                                      controller
+                                          .videoControllers[controller
+                                              .videoDetailIndex
+                                              .value]
+                                          .value
+                                          .isInitialized
+                                      ? FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: SizedBox(
+                                            width: controller
+                                                .videoControllers[controller
+                                                    .videoDetailIndex
+                                                    .value]
+                                                .value
+                                                .size
+                                                .width,
+                                            height: controller
+                                                .videoControllers[controller
+                                                    .videoDetailIndex
+                                                    .value]
+                                                .value
+                                                .size
+                                                .height,
+                                            child: VideoPlayer(
+                                              controller
+                                                  .videoControllers[controller
+                                                  .videoDetailIndex
+                                                  .value],
+                                            ),
+                                          ),
+                                        )
+                                      : SAImageWidget(
+                                          url: controller
+                                              .videoListData[controller
+                                                  .videoDetailIndex
+                                                  .value]
+                                              .icon,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                        ),
                                 ),
                               ),
                               Positioned.fill(

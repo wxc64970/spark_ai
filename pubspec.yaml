@@ -87,9 +87,6 @@ dependencies:
   shimmer_animation: ^2.2.2
   easy_debounce: ^2.0.3
   debounce_throttle: ^2.0.0
-  media_kit: ^1.2.6
-  media_kit_video: ^2.0.1
-  media_kit_libs_video: ^1.0.7
   image_comparator: ^1.0.2
   
 

@@ -73,7 +73,7 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                 if (index == 0) {
                   SAlogEvent('aiphoto_i2v_click');
                   // Get.toNamed(SARouteNames.aiGenerateImage);
-                  Get.toNamed(SARouteNames.textToImage);
+                  Get.toNamed(SARouteNames.chooseVideo);
                 } else if (index == 1) {
                   SAlogEvent('aiphoto_i2i_click');
                   Get.toNamed(
@@ -86,7 +86,7 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                   //   SARouteNames.aiImage,
                   //   arguments: SAAiViewType.video,
                   // );
-                  Get.toNamed(SARouteNames.chooseVideo);
+                  Get.toNamed(SARouteNames.textToImage);
                 }
               },
               child: Stack(

@@ -154,13 +154,12 @@ class _SAUndressWidgetState extends State<SAUndressWidget>
             ),
             SizedBox(height: 24.w),
             SizedBox(
-              height: 500.w,
+              height: 460.w,
               child: TabBarView(
                 controller: tabController,
                 children: [ImageToImageWidget(), ImageToVideoWidget()],
               ),
             ),
-            SizedBox(height: Get.mediaQuery.padding.bottom),
           ],
         ),
       ),
