@@ -92,7 +92,7 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
               child: Stack(
                 children: [
                   Container(
-                    height: 386.w,
+                    height: item.imageUrl!.contains('.mp4') ? 686.w : 386.w,
                     width: 686.w,
                     margin: EdgeInsets.only(bottom: 32.w),
                     clipBehavior: Clip.antiAlias,
@@ -101,16 +101,30 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                     ),
                     child: item.imageUrl!.contains('.mp4')
                         ? (_controller?.value.isInitialized ?? false)
-                              ? AspectRatio(
-                                  aspectRatio: _controller!.value.aspectRatio,
-                                  child: VideoPlayer(_controller!),
+                              ? ColoredBox(
+                                  color: Colors.black, // 👇 在这里设置视频背景色（推荐黑色/深灰）
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        // height: 686.w,
+                                        child: AspectRatio(
+                                          aspectRatio:
+                                              _controller!.value.aspectRatio,
+                                          child: VideoPlayer(_controller!),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 )
                               : imageErrorWidget()
                         : SAImageWidget(url: item.imageUrl!),
                   ),
                   index != 0
                       ? Container(
-                          height: 386.w,
+                          height: item.imageUrl!.contains('.mp4')
+                              ? 686.w
+                              : 386.w,
                           width: 686.w,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -137,7 +151,7 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
                       spacing: 10.w,
                       children: [
                         Expanded(
-                          child: index != 0
+                          child: index != 2
                               ? Column(
                                   spacing: 2.w,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,6 +206,7 @@ class _AiphotoWidgetState extends State<AiphotoWidget> {
               ),
             );
           }),
+          SizedBox(height: Get.mediaQuery.padding.bottom + 100.w),
         ],
       ),
     );

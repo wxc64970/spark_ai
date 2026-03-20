@@ -148,7 +148,11 @@ class SaaigeneratehistoryController extends GetxController
 
       final tabState = list[currentIndex.value];
       if (currentIndex.value == 1) {
+        isonRefreshVideo = false;
         queryStatusApi(30, 'images');
+      } else {
+        isonRefreshImage = false;
+        queryStatusApi(30, 'videos');
       }
       // 首次切换且未加载过数据 → 加载初始数据
       if (tabState.isEmpty && !isLoading[currentIndex.value].value) {
@@ -161,20 +165,24 @@ class SaaigeneratehistoryController extends GetxController
 
   Future<void> queryStatusApi(int maxRetryCount, type) async {
     if (type == 'images' && !isonRefreshImage) {
-      whileStarted(maxRetryCount, type);
       isonRefreshImage = true;
-    } else if (type == 'videos' && !isonRefreshVideo) {
       whileStarted(maxRetryCount, type);
+    } else if (type == 'videos' && !isonRefreshVideo) {
       isonRefreshVideo = true;
+      whileStarted(maxRetryCount, type);
     }
   }
 
   Future<void> whileStarted(int maxRetryCount, String type) async {
     int currentCount = 0;
     // 异步循环：效果=递归，无栈溢出
-    while (!isDispose && currentCount < maxRetryCount) {
+    while (!isDispose &&
+        currentCount < maxRetryCount &&
+        (type == 'images' ? isonRefreshImage : isonRefreshVideo)) {
       currentCount++;
-      debugPrint('第 $currentCount 次请求$type接口');
+      debugPrint(
+        '第 $currentCount 次请求$type接口, isonRefreshImage: $isonRefreshImage,isonRefreshVideo: $isonRefreshVideo',
+      );
       try {
         // 调用接口
         var res = await _fetchDatas(type);

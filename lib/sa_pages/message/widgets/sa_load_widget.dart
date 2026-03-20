@@ -15,6 +15,8 @@ class SALoadingWidget extends StatefulWidget {
 
 class _SALoadingWidgetState extends State<SALoadingWidget>
     with SingleTickerProviderStateMixin {
+  static final Map<String, double> _progressCache = {};
+
   var imageWidth = 200.0;
   var imageHeight = 240.0;
   // 动画控制器（核心：总时长 30 秒）
@@ -25,19 +27,32 @@ class _SALoadingWidgetState extends State<SALoadingWidget>
   @override
   void initState() {
     super.initState();
+    final messageId = widget.msg?.id;
+    final cachedValue = messageId != null ? _progressCache[messageId] : null;
+    final startValue = (cachedValue ?? 0.0).clamp(0.0, 0.99);
+
     // 1. 创建动画控制器：时长 30 秒
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 30), // 🔥 固定 30 秒
+      value: startValue,
     );
 
     // 2. 动画范围：0 → 0.99（对应 0% → 99%）
-    _animation = Tween<double>(begin: 0, end: 0.99).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.linear), // 线性匀速递增
-    );
+    _animation =
+        Tween<double>(begin: 0, end: 0.99).animate(
+          CurvedAnimation(parent: _controller, curve: Curves.linear), // 线性匀速递增
+        )..addListener(() {
+          final messageId = widget.msg?.id;
+          if (messageId != null) {
+            _progressCache[messageId] = _animation.value;
+          }
+        });
 
     // 3. 自动开始播放
-    _controller.forward();
+    if (_controller.value < 0.99) {
+      _controller.forward(from: _controller.value);
+    }
 
     // 4. 监听动画结束（到 99% 自动停止）
     _controller.addStatusListener((status) {
@@ -45,6 +60,22 @@ class _SALoadingWidgetState extends State<SALoadingWidget>
         _controller.stop(); // 到达 99% 停止
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant SALoadingWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final oldId = oldWidget.msg?.id;
+    final newId = widget.msg?.id;
+    if (newId != null && newId != oldId) {
+      final cachedValue = _progressCache[newId] ?? 0.0;
+      _controller.value = cachedValue.clamp(0.0, 0.99);
+      if (_controller.value < 0.99) {
+        _controller.forward(from: _controller.value);
+      } else {
+        _controller.stop();
+      }
+    }
   }
 
   @override

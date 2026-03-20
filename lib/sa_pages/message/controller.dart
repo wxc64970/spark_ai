@@ -354,8 +354,8 @@ class MessageController extends GetxController {
           print("✅ 全部数据合规，停止轮询");
           break; // 结束递归/轮询
         } else {
-          print("❌ 数据不全，2秒后重试");
-          await Future.delayed(const Duration(seconds: 3));
+          print("❌ 数据不全，6秒后重试");
+          await Future.delayed(const Duration(seconds: 6));
         }
       } catch (e) {
         // 接口报错：停止/重试
@@ -770,19 +770,25 @@ class MessageController extends GetxController {
     String? styleName,
     String? genType,
   }) async {
-    if (text != null) {
-      bool canSend = await canSendMsg(text);
-      if (!canSend) {
-        return;
+    SALoading.show();
+    try {
+      if (text != null) {
+        bool canSend = await canSendMsg(text);
+        if (!canSend) {
+          return;
+        }
+        addTemSendMsg(text);
       }
-      addTemSendMsg(text);
+      await sendMsgRequest(
+        path: SAApiUrl.sendMsg,
+        text: text,
+        styleName: styleName,
+        genType: genType,
+      );
+    } catch (e) {
+    } finally {
+      SALoading.close();
     }
-    await sendMsgRequest(
-      path: SAApiUrl.sendMsg,
-      text: text,
-      styleName: styleName,
-      genType: genType,
-    );
   }
 
   Future<bool> resetConv() async {

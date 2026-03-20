@@ -241,6 +241,7 @@ class _InputBarState extends State<SAInpBar> {
           styleName: ctr.state.selectedStyle.value,
           genType: ctr.state.genType.value,
         );
+        ctr.state.isUndress.value = false;
       } else {
         ctr.sendMsg(content);
       }
