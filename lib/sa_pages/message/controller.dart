@@ -347,7 +347,19 @@ class MessageController extends GetxController {
       try {
         // 调用接口
         var res = await Api.messageList(1, 10000, state.sessionId!) ?? [];
-        state.list.addAll(res);
+
+        // 将服务端最新消息融合到本地列表：存在则替换，不存在则追加
+        for (var msg in res) {
+          if (msg.id == null) {
+            continue;
+          }
+          final index = state.list.indexWhere((item) => item.id == msg.id);
+          if (index >= 0) {
+            state.list[index] = msg;
+          } else {
+            state.list.add(msg);
+          }
+        }
 
         final isSuccess = checkMessageList(res);
         if (isSuccess) {
