@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:media_kit_video/media_kit_video.dart';
+import 'package:video_player/video_player.dart';
 import 'package:spark_ai/saCommon/index.dart';
 
 import '../index.dart';
@@ -35,11 +35,31 @@ class BuildVideoWidget extends GetView<SachoosevideoController> {
                         height: 914.w,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(32.r),
-                          child: Video(
-                            controller: controller.videoControllers[0],
-                            controls: NoVideoControls,
-                            fit: BoxFit.cover,
-                          ),
+                          child:
+                              controller.videoControllers[0].value.isInitialized
+                              ? FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: SizedBox(
+                                    width: controller
+                                        .videoControllers[0]
+                                        .value
+                                        .size
+                                        .width,
+                                    height: controller
+                                        .videoControllers[0]
+                                        .value
+                                        .size
+                                        .height,
+                                    child: VideoPlayer(
+                                      controller.videoControllers[0],
+                                    ),
+                                  ),
+                                )
+                              : SAImageWidget(
+                                  url: controller.videoListData[0].icon,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
                         ),
                       ),
                       Positioned.fill(
@@ -153,11 +173,20 @@ class BuildVideoWidget extends GetView<SachoosevideoController> {
                               height: 448.w,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(32.r),
-                                child: Video(
-                                  controller: videoItem,
-                                  controls: NoVideoControls,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: videoItem.value.isInitialized
+                                    ? FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: SizedBox(
+                                          width: videoItem.value.size.width,
+                                          height: videoItem.value.size.height,
+                                          child: VideoPlayer(videoItem),
+                                        ),
+                                      )
+                                    : SAImageWidget(
+                                        url: item.icon,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                               ),
                             ),
                             Positioned.fill(

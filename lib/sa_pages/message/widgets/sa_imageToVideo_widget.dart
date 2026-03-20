@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
-import 'package:spark_ai/saCommon/index.dart' hide Media;
+import 'package:video_player/video_player.dart';
+import 'package:spark_ai/saCommon/index.dart';
 import 'package:spark_ai/sa_pages/message/index.dart';
 
 class ImageToVideoWidget extends StatefulWidget {
@@ -15,10 +14,16 @@ class ImageToVideoWidget extends StatefulWidget {
 
 class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
   final MessageController ctr = Get.find<MessageController>();
+
+  // 统一缓存逻辑，避免多次进入时重复请求视频流
+  static final RxList<VideoPlayerController> _cachedVideoControllers =
+      <VideoPlayerController>[].obs;
+  static bool _hasCachedControllers = false;
+
   var price = SA.login.priceConfig?.i2v;
   List<StyleConfigItem> videoListData = [];
-  final List<Player> _players = [];
-  final List<VideoController> videoControllers = <VideoController>[];
+  final RxList<VideoPlayerController> videoControllers =
+      <VideoPlayerController>[].obs;
   late SimpleThrottler throttler = SimpleThrottler();
   @override
   void initState() {
@@ -36,52 +41,81 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
       price = SA.login.priceConfig?.i2v ?? 0;
     }
     videoListData = SA.login.imageToVideo.map((e) => e!).toList();
+
+    // 缓存存在时直接复用
+    if (_hasCachedControllers && _cachedVideoControllers.isNotEmpty) {
+      videoControllers.assignAll(_cachedVideoControllers);
+      playAllPlayers();
+      setState(() {});
+      SALoading.close();
+      return;
+    }
+
     await _initAllPlayers();
     setState(() {});
     SALoading.close();
   }
 
   Future<void> _initAllPlayers() async {
-    for (StyleConfigItem item in videoListData) {
-      // 优化配置：硬件解码 + 最小缓存
-      final player = Player(
-        configuration: const PlayerConfiguration(
-          bufferSize: 1024 * 256, // 最小缓存
-        ),
-      );
-
-      final controller = VideoController(player);
-
-      // 加载视频 + 自动播放 + 循环
-      player.setPlaylistMode(PlaylistMode.loop);
-      await player.setVolume(0); // 🔥 全部静音（关键！）
-      await player.open(Media(item.url!), play: true);
-
-      _players.add(player);
-      setState(() {
-        videoControllers.add(controller);
-      });
+    if (_hasCachedControllers && _cachedVideoControllers.isNotEmpty) {
+      videoControllers.assignAll(_cachedVideoControllers);
+      return;
     }
+
+    for (StyleConfigItem item in videoListData) {
+      if (item.url == null || item.url!.isEmpty) {
+        continue;
+      }
+      final controller = VideoPlayerController.network(item.url!);
+      await controller.initialize();
+      controller.setLooping(true);
+      controller.setVolume(0);
+      controller.play();
+      videoControllers.add(controller);
+    }
+
+    // 直接让全量视频播放，满足“所有视频同时循环播放”
+    playAllPlayers();
+
+    _cachedVideoControllers.clear();
+    _cachedVideoControllers.addAll(videoControllers);
+    _hasCachedControllers = true;
   }
 
   // 暂停所有视频
   void pauseAllPlayers() {
-    for (var player in _players) {
-      player.pause();
+    for (var controller in videoControllers) {
+      if (controller.value.isInitialized) {
+        controller.pause();
+      }
     }
   }
 
-  // 播放所有视频
+  // 播放所有视频（全视频同时循环）
   void playAllPlayers() {
-    for (var player in _players) {
-      player.play();
+    for (var controller in videoControllers) {
+      if (controller.value.isInitialized) {
+        controller.play();
+      }
+    }
+  }
+
+  void playSingleVideo(int targetIndex) {
+    if (targetIndex >= 0 && targetIndex < videoControllers.length) {
+      if (videoControllers[targetIndex].value.isInitialized) {
+        videoControllers[targetIndex].play();
+      }
     }
   }
 
   @override
   void dispose() {
-    for (final player in _players) {
-      player.dispose();
+    // 如果已经缓存等待复用，则不要释放播放器实例
+    if (!_hasCachedControllers) {
+      for (final controller in videoControllers) {
+        controller.dispose();
+      }
+      videoControllers.clear();
     }
     throttler.dispose();
     super.dispose();
@@ -171,6 +205,9 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
         setState(() {
           ctr.state.selectedStyle.value = item.name!;
         });
+
+        playSingleVideo(index);
+
         ctr.sendMsgUndress(
           styleName: ctr.state.selectedStyle.value,
           genType: ctr.state.genType.value,
@@ -182,12 +219,21 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
           Positioned.fill(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
-              child: videoControllers.length < videoListData.length
-                  ? SizedBox.shrink()
-                  : Video(
-                      controller: videoControllers[index],
-                      controls: NoVideoControls,
+              child:
+                  index >= videoControllers.length ||
+                      !videoControllers[index].value.isInitialized
+                  ? SAImageWidget(
+                      url: item?.icon,
+                      width: double.infinity,
+                      height: double.infinity,
+                    )
+                  : FittedBox(
                       fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: videoControllers[index].value.size.width,
+                        height: videoControllers[index].value.size.height,
+                        child: VideoPlayer(videoControllers[index]),
+                      ),
                     ),
             ),
           ),

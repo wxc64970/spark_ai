@@ -328,6 +328,7 @@ class MsgInputButtons extends StatelessWidget {
                           }
                           ctr.state.isUndress.value = value;
                           SA.login.fetchUserInfo();
+                          FocusManager.instance.primaryFocus?.unfocus();
                         },
                         thumbColor: ctr.state.isUndress.value
                             ? Colors.black
