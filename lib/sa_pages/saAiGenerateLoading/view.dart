@@ -19,7 +19,7 @@ class _SaaigenerateloadingPageState extends State<SaaigenerateloadingPage>
     with RouteAware {
   static const int _maxRetries = 40;
   static const Duration _retryInterval = Duration(seconds: 3);
-  static const Duration _timeoutDuration = Duration(minutes: 2);
+  static const Duration _timeoutDuration = Duration(minutes: 5);
 
   double _progress = 0.0;
   Timer? _timeoutTimer;

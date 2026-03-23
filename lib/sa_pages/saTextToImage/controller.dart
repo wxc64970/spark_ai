@@ -76,10 +76,6 @@ class SatexttoimageController extends GetxController {
       stepIndex--;
       state.numberOfImages = incrementSteps[stepIndex];
     }
-    SAlogEvent(
-      't2i_generate_click',
-      parameters: {'number': state.numberOfImages},
-    );
     switch (state.numberOfImages) {
       case 1:
         state.coins = "10";
@@ -157,6 +153,7 @@ class SatexttoimageController extends GetxController {
       final result = await Api.avatarAiGenerateStar(params);
       SALoading.close();
       if (result != null) {
+        SA.login.fetchUserInfo();
         Get.toNamed(SARouteNames.aiGenerateLoading, arguments: result);
       } else {
         SAToast.show(SATextData.failedGenerate);
