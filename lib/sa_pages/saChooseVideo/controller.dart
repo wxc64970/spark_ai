@@ -30,7 +30,10 @@ class SachoosevideoController extends GetxController {
   }
 
   void onTapUpload() async {
-    SAlogEvent('i2v_template_page_upload_click');
+    SAlogEvent(
+      'i2v_template_page_upload_click',
+      parameters: {"id": videoListData[videoDetailIndex.value].name ?? ''},
+    );
     SALoading.show();
     var file = await SAImageUtils.pickImageFromGallery();
     SALoading.close();
@@ -65,7 +68,10 @@ class SachoosevideoController extends GetxController {
       buySku();
       return;
     }
-    SAlogEvent('i2v_template_page_generate_click');
+    SAlogEvent(
+      'i2v_template_page_generate_click',
+      parameters: {"id": videoListData[videoDetailIndex.value].name ?? ''},
+    );
     // 上传图片，开始任务
     try {
       var uploadRes = await ImageAPI.uploadImgToVideoV2(
@@ -124,7 +130,7 @@ class SachoosevideoController extends GetxController {
       if (item.url == null || item.url!.isEmpty) {
         continue;
       }
-      final controller = VideoPlayerController.network(item.url!);
+      final controller = VideoPlayerController.networkUrl(Uri.parse(item.url!));
       await controller.initialize();
       controller.setLooping(true);
       controller.setVolume(0);

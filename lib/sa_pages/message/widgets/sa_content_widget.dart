@@ -194,7 +194,11 @@ class SAContentWidget extends GetView<MessageController> {
                       ),
                     ),
                     Obx(() {
-                      return controller.state.isUndress.value
+                      return controller.state.isUndress.value &&
+                              (controller.state.selectedStyle.value !=
+                                      'VideoCustom' &&
+                                  controller.state.selectedStyle.value !=
+                                      'ImageCustom')
                           ? const SAUndressWidget()
                           : SizedBox(
                               height: Get.mediaQuery.padding.bottom + 28.w,

@@ -20,6 +20,7 @@ class MessagePage extends GetView<MessageController> {
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
             controller.state.isUndress.value = false;
+            controller.state.selectedStyle.value = '';
           },
           child: Scaffold(body: _buildView()),
         );

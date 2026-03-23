@@ -18,8 +18,9 @@ class SAInpBar extends StatefulWidget {
 class _InputBarState extends State<SAInpBar> {
   late TextEditingController textEditingController;
   bool isSend = false;
-  final FocusNode focusNode = FocusNode();
   final MessageController ctr = Get.find<MessageController>();
+
+  FocusNode get focusNode => ctr.inputFocusNode;
 
   @override
   void initState() {
@@ -30,9 +31,9 @@ class _InputBarState extends State<SAInpBar> {
 
   @override
   void dispose() {
-    super.dispose();
     textEditingController.removeListener(_onInputChange);
-    focusNode.dispose();
+    textEditingController.dispose();
+    super.dispose();
   }
 
   void firstClickChatInputBox() async {
@@ -202,6 +203,14 @@ class _InputBarState extends State<SAInpBar> {
 
   Widget _buildTextField() {
     return TextField(
+      onTap: () {
+        if (ctr.state.selectedStyle.value == 'VideoCustom' ||
+            ctr.state.selectedStyle.value == 'ImageCustom') {
+        } else {
+          ctr.state.isUndress.value = false;
+          ctr.state.selectedStyle.value = '';
+        }
+      },
       textInputAction: TextInputAction.send,
       onEditingComplete: onSend,
       minLines: 1,
@@ -242,6 +251,7 @@ class _InputBarState extends State<SAInpBar> {
           genType: ctr.state.genType.value,
         );
         ctr.state.isUndress.value = false;
+        ctr.state.selectedStyle.value = '';
       } else {
         ctr.sendMsg(content);
       }
@@ -275,16 +285,76 @@ class _InputBarState extends State<SAInpBar> {
       },
       child: Container(
         padding: const EdgeInsets.only(top: 4),
-        width: 20,
+        // width: 20,
         height: 32,
         child: Center(
-          child: Text(
-            '*',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28.sp,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            spacing: 8.w,
+            children: [
+              Text(
+                '*',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Obx(() {
+                return ctr.state.selectedStyle.value == 'VideoCustom' ||
+                        ctr.state.selectedStyle.value == 'ImageCustom'
+                    ? GestureDetector(
+                        onTap: () {
+                          ctr.state.selectedStyle.value = '';
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 6.w,
+                            horizontal: 12.w,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24.r),
+                            color: Color(0xff808080),
+                          ),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Row(
+                                spacing: 6.w,
+                                children: [
+                                  Icon(
+                                    ctr.state.selectedStyle.value ==
+                                            'VideoCustom'
+                                        ? Icons.videocam
+                                        : Icons.image,
+                                    color: Colors.white,
+                                    size: 24.sp,
+                                  ),
+                                  Text(
+                                    '${SATextData.custom}',
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                right: -18.w,
+                                top: -20.w,
+                                child: Icon(
+                                  Icons.highlight_off,
+                                  color: Colors.white,
+                                  size: 30.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink();
+              }),
+            ],
           ),
         ),
       ),
@@ -328,6 +398,7 @@ class MsgInputButtons extends StatelessWidget {
                           }
                           ctr.state.isUndress.value = value;
                           SA.login.fetchUserInfo();
+                          ctr.state.selectedStyle.value = '';
                           FocusManager.instance.primaryFocus?.unfocus();
                         },
                         thumbColor: ctr.state.isUndress.value

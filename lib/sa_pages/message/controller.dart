@@ -12,9 +12,12 @@ class MessageController extends GetxController {
 
   final state = MessageState();
 
+  // 供输入组件外部请求键盘唤起
+  final FocusNode inputFocusNode = FocusNode();
+
   late AutoScrollController autoController;
   String get languageCode => SA.login.sessionLang.value?.value ?? 'en';
-  int maxRetryCount = 20;
+  int maxRetryCount = 30;
   bool isDispose = false;
 
   /// 在 widget 内存中分配后立即调用。
@@ -175,14 +178,14 @@ class MessageController extends GetxController {
   /// 续写
   Future<void> continueWriting() async {
     final msg = state.list.last;
-    bool canSend = await canSendMsg(msg.answer ?? '');
+    bool canSend = await canSendMsg(text: msg.answer ?? '');
     if (!canSend) {
       return;
     }
     await sendMsgRequest(path: SAApiUrl.continueWrite, isLoading: true);
   }
 
-  Future<bool> canSendMsg(String text) async {
+  Future<bool> canSendMsg({required String text, String? genType}) async {
     if (state.isRecieving) {
       SAToast.show(SATextData.waitForResponse);
       return false;
@@ -201,6 +204,18 @@ class MessageController extends GetxController {
     final roleId = state.role.id;
     if (roleId == null) {
       return false;
+    }
+    if (genType != null) {
+      var star = SA.login.starCount.value;
+      var imageCount = SA.login.priceConfig!.i2i ?? 0;
+      var videoCount = SA.login.priceConfig!.i2v ?? 0;
+      if ((genType == 'I2I' && imageCount > star) ||
+          (genType == 'I2V' && videoCount > star)) {
+        rechage(isUndress: true);
+        return false;
+      } else {
+        return true;
+      }
     }
     if (!SA.login.vipStatus.value) {
       if (state.role.gems == true) {
@@ -238,6 +253,7 @@ class MessageController extends GetxController {
     String? msgId,
     String? styleName,
     String? genType,
+    bool? isUndress,
   }) async {
     try {
       final charId = state.role.id;
@@ -277,11 +293,11 @@ class MessageController extends GetxController {
 
       final msg = res?.data;
       if (res?.code == 20003) {
-        rechage();
+        rechage(isUndress: isUndress);
         return;
       }
       if (msg != null) {
-        await progressReceived(msg);
+        await progressReceived(msg, isUndress);
       } else {
         progressSSEError();
       }
@@ -305,7 +321,7 @@ class MessageController extends GetxController {
     state.list.add(msg);
   }
 
-  Future<void> progressReceived(SAMessageModel msg) async {
+  Future<void> progressReceived(SAMessageModel msg, bool? isUndress) async {
     if (msg.conversationId != state.sessionId) {
       return;
     }
@@ -323,13 +339,15 @@ class MessageController extends GetxController {
         msg.question == state.list.last.question) {
       state.list.removeLast();
     }
-
-    final index = state.list.indexOf(msg);
-    if (index != -1) {
-      state.list[index] = msg;
-    } else {
-      state.list.add(msg);
+    if (isUndress == null) {
+      final index = state.list.indexOf(msg);
+      if (index != -1) {
+        state.list[index] = msg;
+      } else {
+        state.list.add(msg);
+      }
     }
+
     _checkChatLevel(msg);
 
     await SA.login.fetchUserInfo();
@@ -366,8 +384,8 @@ class MessageController extends GetxController {
           print("✅ 全部数据合规，停止轮询");
           break; // 结束递归/轮询
         } else {
-          print("❌ 数据不全，6秒后重试");
-          await Future.delayed(const Duration(seconds: 6));
+          print("❌ 数据不全，10秒后重试");
+          await Future.delayed(const Duration(seconds: 10));
         }
       } catch (e) {
         // 接口报错：停止/重试
@@ -483,8 +501,12 @@ class MessageController extends GetxController {
     }
   }
 
-  Future<void> rechage() async {
+  Future<void> rechage({bool? isUndress}) async {
     await SAToast.show(SATextData.notEnough);
+    if (isUndress == true) {
+      SASheetBottom.show(ConsumeFrom.undr);
+      return;
+    }
     // v1.3.0 - 调整为跳订阅页
     Get.toNamed(SARouteNames.vip, arguments: VipFrom.send);
   }
@@ -636,7 +658,7 @@ class MessageController extends GetxController {
       return;
     }
 
-    bool canSend = await canSendMsg(last.answer ?? '');
+    bool canSend = await canSendMsg(text: last.answer ?? '');
     if (!canSend) {
       return;
     }
@@ -652,7 +674,7 @@ class MessageController extends GetxController {
 
   /// 编辑消息
   Future<void> editMsg(String content, SAMessageModel msg) async {
-    bool canSend = await canSendMsg(msg.answer ?? '');
+    bool canSend = await canSendMsg(text: msg.answer ?? '');
     if (!canSend) {
       return;
     }
@@ -767,7 +789,7 @@ class MessageController extends GetxController {
   }
 
   Future<void> sendMsg(String text) async {
-    bool canSend = await canSendMsg(text);
+    bool canSend = await canSendMsg(text: text);
     if (!canSend) {
       return;
     }
@@ -785,7 +807,7 @@ class MessageController extends GetxController {
     SALoading.show();
     try {
       if (text != null) {
-        bool canSend = await canSendMsg(text);
+        bool canSend = await canSendMsg(text: text, genType: genType);
         if (!canSend) {
           return;
         }
@@ -796,6 +818,7 @@ class MessageController extends GetxController {
         text: text,
         styleName: styleName,
         genType: genType,
+        isUndress: true,
       );
     } catch (e) {
     } finally {
@@ -875,6 +898,7 @@ class MessageController extends GetxController {
   @override
   void onClose() {
     isDispose = true;
+    inputFocusNode.dispose();
     super.onClose();
   }
 

@@ -458,7 +458,10 @@ class SAPayUtils {
           _consFrom == ConsumeFrom.creaimg ||
           _consFrom == ConsumeFrom.creavideo ||
           _consFrom == ConsumeFrom.img2v) {
-        SAlogEvent('buycoin_sku_success');
+        SAlogEvent(
+          'buycoin_sku_success',
+          parameters: {"sku": _currentSkuData!.productDetails!.price},
+        );
       }
       final name = 'suc_${path}_${id}_$from';
       log.d('[iap] report: $name');

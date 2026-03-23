@@ -125,7 +125,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
   void onTapGenDebounce() async {
     if (isLoading) return;
     // SAlogEvent('c_un_generate');
-    SAlogEvent('i2i_upload_click');
+    SAlogEvent('i2i_generate_click');
     SALoading.show();
     await SA.login.fetchUserInfo();
     SALoading.close();

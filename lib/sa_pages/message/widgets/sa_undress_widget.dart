@@ -140,7 +140,9 @@ class _SAUndressWidgetState extends State<SAUndressWidget>
                     ),
                     Obx(
                       () => Text(
-                        SA.login.starCount.toString(),
+                        ctr.state.genType.value == 'I2I'
+                            ? SA.login.priceConfig!.i2i.toString()
+                            : SA.login.priceConfig!.i2v.toString(),
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w500,

@@ -128,7 +128,12 @@ class BuildVideoWidget extends GetView<SachoosevideoController> {
                       Positioned.fill(
                         child: GestureDetector(
                           onTap: () {
-                            SAlogEvent('i2v_template_click');
+                            SAlogEvent(
+                              'i2v_template_click',
+                              parameters: {
+                                "id": controller.videoListData[0].name ?? '',
+                              },
+                            );
                             controller.playSingleVideo(0);
                             controller.videoDetailIndex.value = 0;
                             Get.bottomSheet(
@@ -228,7 +233,10 @@ class BuildVideoWidget extends GetView<SachoosevideoController> {
                             Positioned.fill(
                               child: GestureDetector(
                                 onTap: () {
-                                  SAlogEvent('i2v_template_click');
+                                  SAlogEvent(
+                                    'i2v_template_click',
+                                    parameters: {"id": item.name ?? ''},
+                                  );
                                   controller.playSingleVideo(index + 1);
                                   controller.videoDetailIndex.value = index + 1;
                                   Get.bottomSheet(

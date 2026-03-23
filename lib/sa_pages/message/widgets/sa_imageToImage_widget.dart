@@ -65,7 +65,10 @@ class _ImageToImageWidgetState extends State<ImageToImageWidget> {
     return Obx(
       () => GestureDetector(
         onTap: () {
-          ctr.state.selectedStyle.value = '';
+          ctr.state.selectedStyle.value = 'ImageCustom';
+          // 让输入框获得焦点并唤起键盘
+          ctr.inputFocusNode.requestFocus();
+          ctr.update();
         },
         child: Container(
           width: 164.w,
@@ -77,7 +80,7 @@ class _ImageToImageWidgetState extends State<ImageToImageWidget> {
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               width: 2.w,
-              color: ctr.state.selectedStyle.value.isEmpty
+              color: ctr.state.selectedStyle.value == 'ImageCustom'
                   ? SAAppColors.pinkColor
                   : Colors.transparent,
             ),
@@ -127,6 +130,7 @@ class _ImageToImageWidgetState extends State<ImageToImageWidget> {
           genType: ctr.state.genType.value,
         );
         ctr.state.isUndress.value = false;
+        ctr.state.selectedStyle.value = '';
       },
       child: Stack(
         children: [

@@ -76,7 +76,7 @@ class BuildDescriptionWidget extends GetView<SatexttoimageController> {
                 maxLength: SaeditmaskController.maxOtherInfoLength,
                 maxLines: 5,
                 minLines: 5,
-                cursorColor: Colors.white,
+                cursorColor: Colors.black,
                 inputFormatters: [_NoLeadingSpaceFormatter()],
                 decoration: _buildInputDecoration(),
                 style: _buildTextStyle(),
