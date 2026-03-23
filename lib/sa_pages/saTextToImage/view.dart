@@ -16,9 +16,14 @@ class SatexttoimagePage extends GetView<SatexttoimageController> {
   Widget build(BuildContext context) {
     return GetBuilder<SatexttoimageController>(
       builder: (_) {
-        return Scaffold(
-          backgroundColor: const Color(0xFFF7F7F7),
-          body: _buildView(),
+        return GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: const Color(0xFFF7F7F7),
+            body: _buildView(),
+          ),
         );
       },
     );

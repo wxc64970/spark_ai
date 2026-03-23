@@ -148,7 +148,9 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
     return Obx(
       () => GestureDetector(
         onTap: () {
-          ctr.state.selectedStyle.value = '';
+          ctr.state.selectedStyle.value = 'VideoCustom';
+          // 让输入框获得焦点并唤起键盘
+          ctr.inputFocusNode.requestFocus();
         },
         child: Container(
           width: 164.w,
@@ -160,7 +162,7 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               width: 2.w,
-              color: ctr.state.selectedStyle.value.isEmpty
+              color: ctr.state.selectedStyle.value == 'VideoCustom'
                   ? SAAppColors.pinkColor
                   : Colors.transparent,
             ),
@@ -213,6 +215,7 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
           genType: ctr.state.genType.value,
         );
         ctr.state.isUndress.value = false;
+        ctr.state.selectedStyle.value = '';
       },
       child: Stack(
         children: [

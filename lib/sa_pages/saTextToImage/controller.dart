@@ -42,6 +42,7 @@ class SatexttoimageController extends GetxController {
     SAlogEvent('t2i_aiwtite_click');
     try {
       var res = await getAIWriteData();
+      SA.login.fetchUserInfo();
       if (res != null) {
         descriptionController.text = res;
       } else {
@@ -102,7 +103,6 @@ class SatexttoimageController extends GetxController {
   }
 
   void selectImageStyle(String styleName) {
-    SAlogEvent('t2i_generate_click', parameters: {'sytle': styleName});
     state.styleName = styleName;
     state.styleImage = SA.login.textToImage
         .firstWhere((element) => element?.name == styleName)
@@ -117,6 +117,7 @@ class SatexttoimageController extends GetxController {
   }
 
   void createImage() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     SALoading.show();
 
     await SA.login.fetchUserInfo();
@@ -128,6 +129,10 @@ class SatexttoimageController extends GetxController {
       SASheetBottom.show(ConsumeFrom.aiphoto);
       return;
     }
+    SAlogEvent(
+      't2i_generate_click',
+      parameters: {'sytle': state.styleName, 'number': state.numberOfImages},
+    );
 
     // 组装完整的API参数
     Map<String, dynamic> params = {

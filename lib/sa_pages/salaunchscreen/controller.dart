@@ -16,7 +16,8 @@ class SalaunchscreenController extends GetxController {
   bool isAdLoaded = false;
 
   _initData() {
-    EasyRefresh.defaultHeaderBuilder = () => const MaterialHeader(color: SAAppColors.primaryColor);
+    EasyRefresh.defaultHeaderBuilder = () =>
+        const MaterialHeader(color: SAAppColors.primaryColor);
     EasyRefresh.defaultFooterBuilder = () => const ClassicFooter(
       showText: false,
       showMessage: false,
@@ -120,6 +121,9 @@ class SalaunchscreenController extends GetxController {
 
     // 无论广告是否加载成功，都跳转到主页
     log.d('广告加载完成 (成功: $isAdLoaded)，跳转到主页');
+    if (SA.login.priceConfig == null) {
+      await SA.login.getPriceConfigs();
+    }
     Get.offAllNamed(SARouteNames.application);
   }
 
