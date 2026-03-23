@@ -19,6 +19,8 @@ class MessageController extends GetxController {
   String get languageCode => SA.login.sessionLang.value?.value ?? 'en';
   int maxRetryCount = 30;
   bool isDispose = false;
+  bool isQueryingStatus = false; // 轮询查询状态标志，防止重复轮询
+  bool shouldStopQuerying = false; // 轮询查询中断标志，用于中断轮询
 
   /// 在 widget 内存中分配后立即调用。
   @override
@@ -103,6 +105,15 @@ class MessageController extends GetxController {
 
     print(state.list.length);
     update();
+
+    // 首次加载时检查是否需要轮询查询（i2i/i2v 消息是否完整）
+    final isSuccess = checkMessageList(records);
+    if (!isSuccess && !isQueryingStatus) {
+      debugPrint('📊 首次加载发现不完整消息，启动轮询查询');
+      // 清除中断标志，确保新轮询不被干扰
+      shouldStopQuerying = false;
+      queryStatusApi();
+    }
   }
 
   void _addDefaaultTips() {
@@ -326,7 +337,6 @@ class MessageController extends GetxController {
       return;
     }
 
-    queryStatusApi();
     if (msg.textLock == MsgLockLevel.private.value) {
       msg.typewriterAnimated = SA.login.vipStatus.value;
     } else {
@@ -339,7 +349,7 @@ class MessageController extends GetxController {
         msg.question == state.list.last.question) {
       state.list.removeLast();
     }
-    if (isUndress == null) {
+    if (isUndress == null && !isQueryingStatus) {
       final index = state.list.indexOf(msg);
       if (index != -1) {
         state.list[index] = msg;
@@ -353,50 +363,99 @@ class MessageController extends GetxController {
     await SA.login.fetchUserInfo();
 
     state.tmpSendMsg = null;
+
+    // 发送 undress 消息后处理轮询
+    if (isUndress != null) {
+      if (isQueryingStatus) {
+        // 轮询中又发送 i2i/i2v，中断旧轮询
+        debugPrint('🔄 轮询中收到新 i2i/i2v 消息，中断旧轮询');
+        shouldStopQuerying = true;
+
+        // 等待旧轮询真正退出（最多等待 30 秒）
+        int waitCount = 0;
+        while (isQueryingStatus && !isDispose && waitCount < 300) {
+          await Future.delayed(const Duration(milliseconds: 100));
+          waitCount++;
+        }
+        debugPrint('⏸️ 旧轮询已停止，准备启动新轮询');
+      }
+
+      // 启动新轮询（此时 isQueryingStatus 应该已经为 false）
+      if (!isQueryingStatus) {
+        debugPrint('👕 发送新消息，启动新轮询查询');
+        queryStatusApi();
+      }
+    }
   }
 
   Future<void> queryStatusApi() async {
-    int currentCount = 0;
-
-    // 异步循环：效果=递归，无栈溢出
-    while (!isDispose && currentCount < maxRetryCount) {
-      currentCount++;
-      debugPrint('第 $currentCount 次请求接口');
-      try {
-        // 调用接口
-        var res = await Api.messageList(1, 10000, state.sessionId!) ?? [];
-
-        // 将服务端最新消息融合到本地列表：存在则替换，不存在则追加
-        for (var msg in res) {
-          if (msg.id == null) {
-            continue;
-          }
-          final index = state.list.indexWhere((item) => item.id == msg.id);
-          if (index >= 0) {
-            state.list[index] = msg;
-          } else {
-            state.list.add(msg);
-          }
-        }
-
-        final isSuccess = checkMessageList(res);
-        if (isSuccess) {
-          print("✅ 全部数据合规，停止轮询");
-          break; // 结束递归/轮询
-        } else {
-          print("❌ 数据不全，10秒后重试");
-          await Future.delayed(const Duration(seconds: 10));
-        }
-      } catch (e) {
-        // 接口报错：停止/重试
-        debugPrint('接口请求失败：$e');
-        break;
-      }
+    // 如果已经在轮询中，直接返回（防止重复启动）
+    if (isQueryingStatus) {
+      debugPrint('⚠️ 轮询查询已在进行中，跳过重复启动');
+      return;
     }
 
-    // 超过最大次数，自动停止
-    if (currentCount >= maxRetryCount) {
-      debugPrint('🔴 达到最大请求次数，自动停止');
+    isQueryingStatus = true;
+    shouldStopQuerying = false; // 清除中断标志
+    int currentCount = 0;
+
+    try {
+      // 异步循环：效果=递归，无栈溢出
+      while (!isDispose && currentCount < maxRetryCount) {
+        // 检查是否需要中断（新轮询覆盖旧轮询）
+        if (shouldStopQuerying) {
+          debugPrint('🛑 检测到中断信号，停止当前轮询');
+          break;
+        }
+
+        currentCount++;
+        debugPrint('第 $currentCount 次请求接口');
+        try {
+          // 调用接口
+          var res = await Api.messageList(1, 10000, state.sessionId!) ?? [];
+
+          // 将服务端最新消息融合到本地列表：存在则替换，不存在则追加
+          for (var msg in res) {
+            if (msg.id == null) {
+              continue;
+            }
+            final index = state.list.indexWhere((item) => item.id == msg.id);
+            if (index >= 0) {
+              state.list[index] = msg;
+            } else {
+              state.list.add(msg);
+            }
+          }
+
+          final isSuccess = checkMessageList(res);
+          if (isSuccess) {
+            print("✅ 全部数据合规，停止轮询");
+            break; // 结束递归/轮询
+          } else {
+            print("❌ 数据不全，10秒后重试");
+            // 每 1 秒检查一次中断信号，共等待 10 秒
+            for (int i = 0; i < 10; i++) {
+              if (shouldStopQuerying) {
+                debugPrint('🛑 延迟中检测到中断信号，立即停止');
+                break;
+              }
+              await Future.delayed(const Duration(seconds: 1));
+            }
+          }
+        } catch (e) {
+          // 接口报错：停止/重试
+          debugPrint('接口请求失败：$e');
+          break;
+        }
+      }
+
+      // 超过最大次数，自动停止
+      if (currentCount >= maxRetryCount) {
+        debugPrint('🔴 达到最大请求次数，自动停止');
+      }
+    } finally {
+      isQueryingStatus = false; // 轮询结束，清除标志位
+      shouldStopQuerying = false; // 清除中断标志
     }
   }
 
