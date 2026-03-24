@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:spark_ai/saCommon/index.dart';
+import 'package:spark_ai/sa_pages/saAiGenerateHistory/controller.dart';
 
 import 'index.dart';
 
@@ -465,9 +466,13 @@ class MessageController extends GetxController {
   bool checkMessageList(List<SAMessageModel> res) {
     // 只要有任意一个元素不合规 → 返回false；全部合规 → 返回true
     return !res.any(
-      (msg) =>
-          (msg.source == MessageSource.i2i && msg.imgUrl == null) ||
-          (msg.source == MessageSource.i2v && msg.videoUrl == null),
+      (SAMessageModel msg) =>
+          (msg.source == MessageSource.i2i &&
+              msg.imgUrl == null &&
+              msg.generatedStatus == GenStatus.unfinish.apiValue) ||
+          (msg.source == MessageSource.i2v &&
+              msg.videoUrl == null &&
+              msg.generatedStatus == GenStatus.unfinish.apiValue),
     );
     // for (var i = 0; i < res.length; i++) {
     //   final msg = res[i];
