@@ -136,9 +136,13 @@ class ImageAPI {
       const path = SAApiUrl.upImageForAiImageV2;
 
       var response = await api.uploadFile(path, data: formData, options: ops);
-      final json = response.data['data'];
-      final data = SAImgUpModle.fromJson(json);
-      return data;
+      final result = SABaseModel.fromJson(response.data, null);
+      if (result.code == 200) {
+        final data = SAImgUpModle.fromJson(result.data);
+        return data;
+      } else {
+        return null;
+      }
     } catch (e) {
       return null;
     }
@@ -540,9 +544,13 @@ class ImageAPI {
       const path = SAApiUrl.upImageForAiVideoStar;
 
       final response = await api.uploadFile(path, data: formData, options: ops);
-      final json = response.data['data'];
-      final data = SAImgUpModle.fromJson(json);
-      return data;
+      final result = SABaseModel.fromJson(response.data, null);
+      if (result.code == 200) {
+        final data = SAImgUpModle.fromJson(result.data);
+        return data;
+      } else {
+        return null;
+      }
     } catch (e) {
       return null;
     }
