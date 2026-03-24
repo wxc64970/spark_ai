@@ -551,7 +551,7 @@ class SaaigeneratehistoryController extends GetxController
         SAToast.toastDebounce(SATextData.selectItem);
         return;
       }
-
+      SALoading.show();
       var res = await ImageAPI.deleteAiPhotoHistory(selectedIDs);
       if (res) {
         selectedIDs.clear();
@@ -564,6 +564,7 @@ class SaaigeneratehistoryController extends GetxController
       }
     } finally {
       _isDeleting = false;
+      SALoading.close();
     }
   }
 

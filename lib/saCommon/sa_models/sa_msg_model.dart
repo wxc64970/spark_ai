@@ -69,6 +69,7 @@ class SAMessageModel {
   bool isRead = false;
   bool showTranslate = false;
   bool typewriterAnimated = false;
+  String? generatedStatus;
 
   MessageSource _source = MessageSource.text; // 用私有变量来存储 source 的值
 
@@ -125,6 +126,7 @@ class SAMessageModel {
     this.giftId,
     this.giftImg,
     this.src,
+    this.generatedStatus,
   });
 
   factory SAMessageModel.fromRawJson(String str) =>
@@ -169,6 +171,7 @@ class SAMessageModel {
     giftId: json["gift_id"],
     giftImg: json["gift_img"],
     src: json["azaobf"],
+    generatedStatus: json["generated_status"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -206,6 +209,7 @@ class SAMessageModel {
     "gift_id": giftId,
     "gift_img": giftImg,
     "azaobf": src,
+    "generated_status": generatedStatus,
   };
 
   @override
