@@ -58,7 +58,7 @@ class SachoosevideoController extends GetxController {
   void buySku() async {
     // final from = isVideo ? ConsumeFrom.img2v : ConsumeFrom.aiphoto;
     // Get.toNamed(SARouteNames.countSku, arguments: from);
-    SASheetBottom.show(ConsumeFrom.img2v);
+    SASheetBottom.show(ConsumeFrom.star);
   }
 
   void genVideo() async {

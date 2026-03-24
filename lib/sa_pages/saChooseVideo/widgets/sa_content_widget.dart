@@ -50,7 +50,7 @@ class SAContentWidget extends GetView<SachoosevideoController> {
                       spacing: 24.w,
                       children: [
                         InkWell(
-                          onTap: () => controller.hanldeSku(ConsumeFrom.img2v),
+                          onTap: () => controller.hanldeSku(ConsumeFrom.star),
                           child: Container(
                             padding: EdgeInsets.symmetric(
                               vertical: 6.w,

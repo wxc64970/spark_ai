@@ -313,6 +313,8 @@ class SAPayUtils {
           : null;
       var createVideo = _consFrom == ConsumeFrom.img2v ? true : null;
 
+      var star = _consFrom == ConsumeFrom.star ? true : null;
+
       var result = await Api.verifyIosOrder(
         receipt: receipt,
         skuId: productID,
@@ -321,6 +323,7 @@ class SAPayUtils {
         orderId: _orderData?.id ?? 0,
         createImg: createImg,
         createVideo: createVideo,
+        star: star,
       );
       return result;
     } catch (e) {
@@ -369,6 +372,7 @@ class SAPayUtils {
         ? true
         : null;
     var createVideo = _consFrom == ConsumeFrom.img2v ? true : null;
+    var star = _consFrom == ConsumeFrom.star ? true : null;
     if (Platform.isIOS) {
       try {
         final order = await Api.makeIosOrder(
@@ -376,6 +380,7 @@ class SAPayUtils {
           skuId: productDetails.id,
           createImg: createImg,
           createVideo: createVideo,
+          star: star,
         );
         if (order == null || order.id == null) {
           throw Exception('Creat order error');
