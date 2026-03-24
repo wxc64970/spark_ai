@@ -159,16 +159,19 @@ class SaaigeneratehistoryController extends GetxController
         onRefresh(currentIndex.value);
       }
     });
-    await queryStatusApi(30, 'videos');
+    await onRefresh(0);
+    Future.delayed(const Duration(seconds: 5), () {
+      queryStatusApi(30, 'videos');
+    });
   }
 
   Future<void> queryStatusApi(int maxRetryCount, type) async {
     if (type == 'images' && !isonRefreshImage) {
       isonRefreshImage = true;
-      await whileStarted(maxRetryCount, type);
+      whileStarted(maxRetryCount, type);
     } else if (type == 'videos' && !isonRefreshVideo) {
       isonRefreshVideo = true;
-      await whileStarted(maxRetryCount, type);
+      whileStarted(maxRetryCount, type);
     }
   }
 
