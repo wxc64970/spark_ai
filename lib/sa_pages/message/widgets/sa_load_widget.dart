@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:spark_ai/saCommon/index.dart';
+import 'package:spark_ai/sa_pages/index.dart';
 
 import 'sa_t_item.dart';
 
@@ -127,37 +128,47 @@ class _SALoadingWidgetState extends State<SALoadingWidget>
                     filter: ImageFilter.blur(sigmaX: 24.w, sigmaY: 24.w),
                     child: Container(
                       color: const Color(0xff000000).withValues(alpha: 0.2),
-                      child: Column(
-                        spacing: 24.w,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 88.w,
-                            height: 88.w,
-                            child: LoadingAnimationWidget.hexagonDots(
-                              color: Colors.white,
-                              size: 88.w,
-                            ),
-                          ),
-                          AnimatedBuilder(
-                            animation: _animation,
-                            builder: (context, child) {
-                              // 计算当前百分比（取整数：0~99）
-                              final int currentPercent =
-                                  (_animation.value * 100).toInt();
-
-                              return Text(
-                                '$currentPercent%',
-                                style: TextStyle(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
+                      child:
+                          widget.msg!.generatedStatus ==
+                              GenStatus.failed.apiValue
+                          ? Center(
+                              child: Icon(
+                                Icons.error,
+                                size: 48.w,
+                                color: Colors.red,
+                              ),
+                            )
+                          : Column(
+                              spacing: 24.w,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 88.w,
+                                  height: 88.w,
+                                  child: LoadingAnimationWidget.hexagonDots(
+                                    color: Colors.white,
+                                    size: 88.w,
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                                AnimatedBuilder(
+                                  animation: _animation,
+                                  builder: (context, child) {
+                                    // 计算当前百分比（取整数：0~99）
+                                    final int currentPercent =
+                                        (_animation.value * 100).toInt();
+
+                                    return Text(
+                                      '$currentPercent%',
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                 ),
