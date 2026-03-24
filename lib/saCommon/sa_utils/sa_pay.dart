@@ -458,11 +458,7 @@ class SAPayUtils {
       path = 'gems';
       from = _consFrom?.name ?? '';
       SAlogEvent('suc_gems');
-      if (_consFrom == ConsumeFrom.aiphoto ||
-          _consFrom == ConsumeFrom.undr ||
-          _consFrom == ConsumeFrom.creaimg ||
-          _consFrom == ConsumeFrom.creavideo ||
-          _consFrom == ConsumeFrom.img2v) {
+      if (_consFrom == ConsumeFrom.star) {
         SAlogEvent(
           'buycoin_sku_success',
           parameters: {"sku": _currentSkuData!.productDetails!.price},
@@ -475,7 +471,8 @@ class SAPayUtils {
           _consFrom != ConsumeFrom.creaimg &&
           _consFrom != ConsumeFrom.creavideo &&
           _consFrom != ConsumeFrom.aiphoto &&
-          _consFrom != ConsumeFrom.img2v) {
+          _consFrom != ConsumeFrom.img2v &&
+          _consFrom != ConsumeFrom.star) {
         _showRechargeSuccess(id);
       }
       // iapEvent.value = (IAPEvent.goldSucc, id, _eventCounter.value);
