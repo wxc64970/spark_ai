@@ -364,6 +364,12 @@ class SaaigeneratehistoryController extends GetxController
     }
   }
 
+  /// 选单个item状态
+  void singleSelection(int id) {
+    selectedIDs.clear();
+    selectedIDs.add(id);
+  }
+
   /// 检查是否选中
   bool isSelected(int id) {
     return selectedIDs.contains(id);

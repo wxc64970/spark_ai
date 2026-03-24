@@ -206,6 +206,11 @@ class SaAiGenerateHistoryTabbar extends GetView<SaaigeneratehistoryController> {
         if (item.genStatus == GenStatus.unfinish.apiValue) {
           return;
         }
+        if (item.genStatus == GenStatus.failed.apiValue) {
+          controller.singleSelection(item.id!);
+          controller.deleteHistory();
+          return;
+        }
         if (controller.isEdit.value) {
           // 编辑模式下切换选中状态
           if (item.id != null) {
@@ -282,6 +287,42 @@ class SaAiGenerateHistoryTabbar extends GetView<SaaigeneratehistoryController> {
                   fit: BoxFit.contain,
                 ),
               ),
+              if (item.genStatus == GenStatus.failed.apiValue)
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 24.w, sigmaY: 24.w),
+                      child: Container(
+                        color: const Color(0xff000000).withValues(alpha: 0.2),
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: SizedBox(
+                                width: 88.w,
+                                height: 88.w,
+                                child: Icon(
+                                  Icons.error,
+                                  size: 48.w,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 16.w,
+                              bottom: 16.w,
+                              child: Icon(
+                                Icons.delete,
+                                size: 32.w,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         );
