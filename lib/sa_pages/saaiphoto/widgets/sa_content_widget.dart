@@ -29,7 +29,7 @@ class SaContentWidget extends GetView<SaaiphotoController> {
                       InkWell(
                         onTap: () {
                           SAlogEvent('aiphoto_coin_click');
-                          controller.hanldeSku(ConsumeFrom.aiphoto);
+                          controller.hanldeSku(ConsumeFrom.star);
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(

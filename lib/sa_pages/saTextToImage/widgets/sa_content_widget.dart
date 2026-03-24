@@ -109,7 +109,7 @@ class SAContextWidget extends GetView<SatexttoimageController> {
                               children: [
                                 InkWell(
                                   onTap: () =>
-                                      SASheetBottom.show(ConsumeFrom.aiphoto),
+                                      SASheetBottom.show(ConsumeFrom.star),
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
                                       vertical: 6.w,

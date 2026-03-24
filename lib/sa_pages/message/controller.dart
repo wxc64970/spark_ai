@@ -349,7 +349,7 @@ class MessageController extends GetxController {
         msg.question == state.list.last.question) {
       state.list.removeLast();
     }
-    if (isUndress == null && !isQueryingStatus) {
+    if (isUndress == null) {
       final index = state.list.indexOf(msg);
       if (index != -1) {
         state.list[index] = msg;
@@ -413,6 +413,9 @@ class MessageController extends GetxController {
         try {
           // 调用接口
           var res = await Api.messageList(1, 10000, state.sessionId!) ?? [];
+
+          // 删除本地列表里无 id 的占位数据
+          state.list.removeWhere((item) => item.id == null);
 
           // 将服务端最新消息融合到本地列表：存在则替换，不存在则追加
           for (var msg in res) {
@@ -563,7 +566,7 @@ class MessageController extends GetxController {
   Future<void> rechage({bool? isUndress}) async {
     await SAToast.show(SATextData.notEnough);
     if (isUndress == true) {
-      SASheetBottom.show(ConsumeFrom.undr);
+      SASheetBottom.show(ConsumeFrom.star);
       return;
     }
     // v1.3.0 - 调整为跳订阅页

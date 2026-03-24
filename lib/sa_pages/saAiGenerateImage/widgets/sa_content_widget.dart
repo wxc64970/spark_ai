@@ -55,7 +55,7 @@ class SAContentWidget extends GetView<SaaigenerateimageController> {
                             children: [
                               InkWell(
                                 onTap: () =>
-                                    controller.hanldeSku(ConsumeFrom.aiphoto),
+                                    controller.hanldeSku(ConsumeFrom.star),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
                                     vertical: 6.w,

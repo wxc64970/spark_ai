@@ -158,7 +158,7 @@ class _SAMakWidgetState extends State<SAMakWidget> {
 
     // final from = isVideo ? ConsumeFrom.img2v : ConsumeFrom.aiphoto;
     // Get.toNamed(SARouteNames.countSku, arguments: from);
-    SASheetBottom.show(ConsumeFrom.aiphoto);
+    SASheetBottom.show(ConsumeFrom.star);
   }
 
   void genImage() {

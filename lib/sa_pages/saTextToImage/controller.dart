@@ -35,7 +35,7 @@ class SatexttoimageController extends GetxController {
     // 检查免费次数和钻石
     if (SA.login.starCount.value < 2) {
       SALoading.close();
-      SASheetBottom.show(ConsumeFrom.aiphoto);
+      SASheetBottom.show(ConsumeFrom.star);
       return;
     }
 
@@ -122,7 +122,7 @@ class SatexttoimageController extends GetxController {
     if (SA.login.starCount.value < int.parse(state.coins)) {
       SALoading.close();
       // Get.toNamed(SARouteNames.countSku, arguments: ConsumeFrom.aiphoto);
-      SASheetBottom.show(ConsumeFrom.aiphoto);
+      SASheetBottom.show(ConsumeFrom.star);
       return;
     }
     SAlogEvent(

@@ -118,6 +118,7 @@ enum ConsumeFrom {
   mask,
   generateimage,
   imageAIwrite,
+  star,
 }
 
 enum RewardType { dislike, accept, like, unknown }

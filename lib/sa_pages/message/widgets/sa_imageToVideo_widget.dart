@@ -201,7 +201,7 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
         int price = SA.login.priceConfig!.i2v!;
 
         if (userCoins < price) {
-          SASheetBottom.show(ConsumeFrom.creaimg);
+          SASheetBottom.show(ConsumeFrom.star);
           return;
         }
         setState(() {

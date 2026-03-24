@@ -48,7 +48,7 @@ class SaaiimagePage extends GetView<SaaiimageController> {
                         InkWell(
                           onTap: () {
                             // SAlogEvent('aiphoto_photobalance_click');
-                            controller.hanldeSku(ConsumeFrom.aiphoto);
+                            controller.hanldeSku(ConsumeFrom.star);
                           },
                           child: Container(
                             padding: EdgeInsets.symmetric(

@@ -119,7 +119,7 @@ class _ImageToImageWidgetState extends State<ImageToImageWidget> {
         int price = SA.login.priceConfig!.i2i!;
 
         if (userCoins < price) {
-          SASheetBottom.show(ConsumeFrom.creaimg);
+          SASheetBottom.show(ConsumeFrom.star);
           return;
         }
         setState(() {

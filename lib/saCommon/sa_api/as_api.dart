@@ -224,6 +224,7 @@ class Api {
     required String orderType,
     bool? createImg,
     bool? createVideo,
+    bool? star,
   }) async {
     try {
       if (userId == null || (userId?.isEmpty ?? true)) return null;
@@ -241,6 +242,9 @@ class Api {
       }
       if (createVideo != null) {
         body['create_video'] = createVideo;
+      }
+      if (star != null) {
+        body['star'] = star;
       }
 
       var res = await api.request(
@@ -267,6 +271,7 @@ class Api {
     bool? dres,
     bool? createImg,
     bool? createVideo,
+    bool? star,
   }) async {
     try {
       if (userId == null || (userId?.isEmpty ?? true)) {
@@ -296,6 +301,9 @@ class Api {
       }
       if (createVideo != null) {
         params['create_video'] = createVideo;
+      }
+      if (star != null) {
+        params['star'] = star;
       }
       var res = await api.request(
         SAApiUrl.verifyIosReceipt,
