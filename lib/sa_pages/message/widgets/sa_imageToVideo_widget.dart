@@ -15,11 +15,6 @@ class ImageToVideoWidget extends StatefulWidget {
 class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
   final MessageController ctr = Get.find<MessageController>();
 
-  // 统一缓存逻辑，避免多次进入时重复请求视频流
-  static final RxList<VideoPlayerController> _cachedVideoControllers =
-      <VideoPlayerController>[].obs;
-  static bool _hasCachedControllers = false;
-
   var price = SA.login.priceConfig?.i2v;
   List<StyleConfigItem> videoListData = [];
   final RxList<VideoPlayerController> videoControllers =
@@ -33,56 +28,42 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
 
   void _initData() async {
     SALoading.show();
-    if (SA.login.textToImage.isEmpty) {
-      await SA.login.getStyleConfig();
-    }
-    if (price == null) {
-      await SA.login.getPriceConfigs();
-      price = SA.login.priceConfig?.i2v ?? 0;
-    }
-    videoListData = SA.login.imageToVideo.map((e) => e!).toList();
-
-    // 缓存存在时直接复用
-    if (_hasCachedControllers && _cachedVideoControllers.isNotEmpty) {
-      videoControllers.assignAll(_cachedVideoControllers);
-      playAllPlayers();
-      setState(() {});
-      SALoading.close();
-      return;
-    }
-
-    await _initAllPlayers();
-    setState(() {});
-    SALoading.close();
-  }
-
-  Future<void> _initAllPlayers() async {
-    if (_hasCachedControllers && _cachedVideoControllers.isNotEmpty) {
-      videoControllers.assignAll(_cachedVideoControllers);
-      return;
-    }
-
-    for (StyleConfigItem item in videoListData) {
-      if (item.url == null || item.url!.isEmpty) {
-        continue;
+    try {
+      if (SA.login.textToImage.isEmpty) {
+        await SA.login.getStyleConfig();
       }
-      final controller = VideoPlayerController.network(item.url!);
-      await controller.initialize();
-      controller.setLooping(true);
-      controller.setVolume(0);
-      controller.play();
-      videoControllers.add(controller);
+      if (price == null) {
+        await SA.login.getPriceConfigs();
+        price = SA.login.priceConfig?.i2v ?? 0;
+      }
+      videoListData = SA.login.imageToVideo.map((e) => e!).toList();
+
+      // 从全局视频服务获取缓存的视频控制器
+      final videoService = VideoInitService.instance;
+      if (videoService.isInitialized.value) {
+        videoControllers.assignAll(videoService.getVideoControllers());
+        debugPrint('✅ 从全局服务获取 ${videoControllers.length} 个视频控制器');
+      } else {
+        debugPrint('⏳ 等待视频初始化完成...');
+        await Future.delayed(const Duration(seconds: 1));
+        if (videoService.isInitialized.value) {
+          videoControllers.assignAll(videoService.getVideoControllers());
+          debugPrint('✅ 视频初始化完成，获取 ${videoControllers.length} 个控制器');
+        } else {
+          debugPrint('⚠️ 视频初始化未完成，可能网络延迟');
+        }
+      }
+
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint('❌ 初始化失败：$e');
+    } finally {
+      SALoading.close();
     }
-
-    // 直接让全量视频播放，满足“所有视频同时循环播放”
-    playAllPlayers();
-
-    _cachedVideoControllers.clear();
-    _cachedVideoControllers.addAll(videoControllers);
-    _hasCachedControllers = true;
   }
 
-  // 暂停所有视频
   void pauseAllPlayers() {
     for (var controller in videoControllers) {
       if (controller.value.isInitialized) {
@@ -110,13 +91,8 @@ class _ImageToVideoWidgetState extends State<ImageToVideoWidget> {
 
   @override
   void dispose() {
-    // 如果已经缓存等待复用，则不要释放播放器实例
-    if (!_hasCachedControllers) {
-      for (final controller in videoControllers) {
-        controller.dispose();
-      }
-      videoControllers.clear();
-    }
+    // 视频由全局服务管理，这里只清空本地引用
+    videoControllers.clear();
     throttler.dispose();
     super.dispose();
   }

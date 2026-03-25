@@ -132,6 +132,21 @@ class SADependencyInjection {
   /// 这些服务在首次使用时才会创建
   static void _initLazyServices() {
     Get.lazyPut<SAAudioPlayerService>(() => SAAudioPlayerService());
+
+    // 视频初始化服务（后台异步加载，不阻碍主线程）
+    Get.putAsync<VideoInitService>(
+      () async {
+        final service = VideoInitService();
+        // 在后台启动初始化，不等待
+        service.initVideoService().then((_) {
+          debugPrint('✅ 视频初始化完成');
+        }).catchError((e) {
+          debugPrint('❌ 视频初始化失败：$e');
+        });
+        return service;
+      },
+      permanent: true,
+    );
   }
 
   /// 重置所有依赖（主要用于测试）
