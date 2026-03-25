@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:spark_ai/saCommon/index.dart';
@@ -8,11 +9,6 @@ class SachoosevideoController extends GetxController {
   SachoosevideoController();
 
   final state = SachoosevideoState();
-
-  // 缓存方案：首加载后保留播放器实例，防止多次进入重新拉取网络流
-  static final RxList<VideoPlayerController> _cachedVideoControllers =
-      <VideoPlayerController>[].obs;
-  static bool _hasCachedControllers = false;
 
   List<StyleConfigItem> videoListData = [];
   final RxList<VideoPlayerController> videoControllers =
@@ -93,55 +89,39 @@ class SachoosevideoController extends GetxController {
 
   void _initData() async {
     SALoading.show();
-    if (SA.login.textToImage.isEmpty) {
-      await SA.login.getStyleConfig();
-    }
-    if (price == null) {
-      await SA.login.getPriceConfigs();
-      price = SA.login.priceConfig?.i2v ?? 0;
-    }
-
-    videoListData = SA.login.imageToVideo.map((e) => e!).toList();
-
-    // 如果已经缓存，直接复用，避免网络/解码等待
-    if (SachoosevideoController._hasCachedControllers &&
-        SachoosevideoController._cachedVideoControllers.isNotEmpty) {
-      videoControllers.assignAll(
-        SachoosevideoController._cachedVideoControllers,
-      );
-      SALoading.close();
-      return;
-    }
-
-    await _initAllPlayers();
-    SALoading.close();
-  }
-
-  Future<void> _initAllPlayers() async {
-    if (SachoosevideoController._hasCachedControllers &&
-        SachoosevideoController._cachedVideoControllers.isNotEmpty) {
-      videoControllers.assignAll(
-        SachoosevideoController._cachedVideoControllers,
-      );
-      return;
-    }
-
-    for (StyleConfigItem item in videoListData) {
-      if (item.url == null || item.url!.isEmpty) {
-        continue;
+    try {
+      if (SA.login.textToImage.isEmpty) {
+        await SA.login.getStyleConfig();
       }
-      final controller = VideoPlayerController.networkUrl(Uri.parse(item.url!));
-      await controller.initialize();
-      controller.setLooping(true);
-      controller.setVolume(0);
-      controller.play();
-      videoControllers.add(controller);
-    }
+      if (price == null) {
+        await SA.login.getPriceConfigs();
+        price = SA.login.priceConfig?.i2v ?? 0;
+      }
 
-    // 缓存当前控制器，下一次进入页面直接复用
-    SachoosevideoController._cachedVideoControllers.clear();
-    SachoosevideoController._cachedVideoControllers.addAll(videoControllers);
-    SachoosevideoController._hasCachedControllers = true;
+      videoListData = SA.login.imageToVideo.map((e) => e!).toList();
+
+      // 从全局视频服务获取缓存的视频控制器
+      final videoService = VideoInitService.instance;
+      if (videoService.isInitialized.value) {
+        // 视频已初始化，直接获取缓存控制器
+        videoControllers.assignAll(videoService.getVideoControllers());
+        debugPrint('✅ 从全局服务获取 ${videoControllers.length} 个视频控制器');
+      } else {
+        // 视频还未初始化（极少见），等待初始化完成
+        debugPrint('⏳ 等待视频初始化完成...');
+        await Future.delayed(const Duration(seconds: 1));
+        if (videoService.isInitialized.value) {
+          videoControllers.assignAll(videoService.getVideoControllers());
+          debugPrint('✅ 视频初始化完成，获取 ${videoControllers.length} 个控制器');
+        } else {
+          debugPrint('⚠️ 视频初始化未完成，可能网络延迟');
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ 初始化失败：$e');
+    } finally {
+      SALoading.close();
+    }
   }
 
   // 暂停所有视频
@@ -188,15 +168,8 @@ class SachoosevideoController extends GetxController {
   /// 在 [onDelete] 方法之前调用。
   @override
   void onClose() {
-    // cache 模式下只暂停，确保进入时仍可直接复用；非 cache 情况下彻底释放
-    if (_hasCachedControllers) {
-      pauseAllPlayers();
-    } else {
-      for (var controller in videoControllers) {
-        controller.dispose();
-      }
-      videoControllers.clear();
-    }
+    // 视频由全局服务管理，这里只清空本地引用
+    videoControllers.clear();
     throttler.dispose();
     super.onClose();
   }
@@ -204,14 +177,8 @@ class SachoosevideoController extends GetxController {
   /// dispose 释放内存
   @override
   void dispose() {
-    if (_hasCachedControllers) {
-      pauseAllPlayers();
-    } else {
-      for (var controller in videoControllers) {
-        controller.dispose();
-      }
-      videoControllers.clear();
-    }
+    // 视频由全局服务管理，这里只清空本地引用
+    videoControllers.clear();
     throttler.dispose();
     super.dispose();
   }
