@@ -200,6 +200,9 @@ class ImageAPI {
         queryParameters: {'taskId': taskId},
       );
       var baseResponse = SABaseModel.fromJson(res.data, null);
+      if (baseResponse.code != 200) {
+        return null;
+      }
       final json = baseResponse.data;
 
       if (json == null) {
